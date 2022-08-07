@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Image {
+  id           Int      @id @default(autoincrement())
+  key          String   @unique
+  filename     String
+  content_type String?
+  metadata     String?
+  byte_size    Int
+  checksum     String
+  created_at   DateTime @default(now())
+}
+
+model Game {
+  id             Int        @id @default(autoincrement())
+  title          String?
+  in_collection  Boolean?   @default(false)
+  completed      Boolean?   @default(false)
+  edition        String?
+  release_date   DateTime?  @db.Date
+  completed_date DateTime?  @db.Date
+  buy_date       DateTime?  @db.Date
+  buy_price      Float?
+  developer_id   Int?
+  developer      Developer? @relation(fields: [developer_id], references: [id])
+  rating         Int?
+  comment        String?
+  platform_id    Int?
+  platform       Platform?  @relation(fields: [platform_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+}
+
+model Platform {
+  id           Int      @id @default(autoincrement())
+  name         String?
+  manufacturer String?
+  games        Game[]
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model Developer {
+  id         Int      @id @default(autoincrement())
+  name       String?
+  country    String?
+  games      Game[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
