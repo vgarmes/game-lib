@@ -6,8 +6,8 @@ This is a port to React/Nextjs of the [original project](https://github.com/vgar
 
 ## Tech stack
 
-Language: Typescript
-Framework: React/Nextjs
-Backend: tRPC
-Database: PostgreSQL
-Database ORM: Prisma
+- Typescript + React
+- NextJS: React framework
+- Prisma: Database ORM
+- PostgreSQL: Database engine
+- tRPC: End-to-end typesafe API
