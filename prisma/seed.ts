@@ -1,5 +1,5 @@
 import { prisma } from '../src/server/prisma';
-import games from '../data/games.json';
+/* import games from '../data/games.json';
 import platforms from '../data/platforms.json';
 import blobs from '../data/active_storage_blobs.json';
 import attachments from '../data/active_storage_attachments.json';
@@ -70,7 +70,7 @@ const seedImages = async () => {
   return prisma.cover.createMany({
     data: covers,
   });
-};
+}; */
 
 const main = async () => {
   //uncomment all to run seed script
