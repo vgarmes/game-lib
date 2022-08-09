@@ -73,9 +73,10 @@ const seedImages = async () => {
 };
 
 const main = async () => {
+  //uncomment all to run seed script
   //seedPlatforms();
   //seedGames();
-  seedImages();
+  //seedImages();
 };
 
 main()
