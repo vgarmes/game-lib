@@ -38,3 +38,4 @@ next-env.d.ts
 
 # old database dumps
 data
+prisma/seed.ts
