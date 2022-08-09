@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
-import { DefaultLayout } from '../../components/DefaultLayout';
+import { DefaultLayout } from '../components/DefaultLayout';
 import { AppType } from 'next/dist/shared/lib/utils';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from '../server/routers/_app';
