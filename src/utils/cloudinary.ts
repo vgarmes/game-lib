@@ -6,9 +6,9 @@ export const CLOUDINARY_CONFIG = {
 };
 
 function generateSignature() {
-  const timestamp = Math.round(new Date().getTime() / 1000).toString();
+  const timestamp = Math.round(new Date().getTime() / 1000);
   const params = new URLSearchParams({
-    timestamp,
+    timestamp: timestamp.toString(),
     ...CLOUDINARY_CONFIG,
   });
 
@@ -23,7 +23,8 @@ function generateSignature() {
     hash: hash
       .update(serializedParams + process.env.CLOUDINARY_SECRET)
       .digest('hex'),
-    timestamp: timestamp.toString(),
+    timestamp,
+    expires: timestamp + 3600,
   };
 }
 
