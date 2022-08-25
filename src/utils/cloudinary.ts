@@ -4,6 +4,22 @@ export const CLOUDINARY_CONFIG = {
   folder: 'test',
 };
 
+export interface CloudinaryImage {
+  asset_id: string;
+  public_id: string;
+  format: string;
+  version: number;
+  resource_type: string;
+  type: string;
+  created_at: string;
+  bytes: number;
+  width: number;
+  height: number;
+  folder: string;
+  url: string;
+  secure_url: string;
+}
+
 export function generateSignature() {
   const timestamp = Math.round(new Date().getTime() / 1000);
   const params = new URLSearchParams({

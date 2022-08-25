@@ -8,16 +8,17 @@ datasource db {
 }
 
 model Cover {
-  id          Int      @id @default(autoincrement())
-  key         String   @unique
-  filename    String
-  contentType String?
-  metadata    String?
-  byteSize    Int
-  checksum    String
-  gameId      Int      @unique
-  game        Game     @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  publicId  String   @unique
+  secureUrl String   @unique
+  filename  String
+  format    String
+  byteSize  Int
+  checksum  String // etag
+  gameId    Int      @unique
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Game {

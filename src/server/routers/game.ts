@@ -15,7 +15,7 @@ export const gameRouter = createRouter().query('all', {
     return prisma?.game.findMany({
       skip,
       take,
-      include: { cover: { select: { key: true, contentType: true } } },
+      include: { cover: { select: { secureUrl: true } } },
       orderBy: { completedDate: 'asc' },
     });
   },
