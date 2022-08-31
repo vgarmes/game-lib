@@ -66,7 +66,8 @@ const seedPlatforms = async () => {
 };
 
 const migrateImages = async () => {
-  const covers: Omit<Cover, 'createdAt' | 'updatedAt' | 'metadata'>[] = [];
+  const covers: Omit<Cover, 'id' | 'createdAt' | 'updatedAt' | 'metadata'>[] =
+    [];
 
   const MAX_ITER = 10;
   // const iterations = Array.from(Array(MAX_ITER).keys());
@@ -97,7 +98,6 @@ const migrateImages = async () => {
       );
 
     covers.push({
-      id: attachment.id,
       publicId: resource.public_id,
       secureUrl: resource.secure_url,
       filename: blob.filename,
@@ -115,11 +115,10 @@ const migrateImages = async () => {
 
 const main = async () => {
   config();
+  //seedPlatforms();
+  //seedGames();
 
   migrateImages();
-  /* seedPlatforms();
-  seedGames();
-  seedImages(); */
 };
 
 main()
