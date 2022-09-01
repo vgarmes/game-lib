@@ -1,4 +1,5 @@
 import { Game } from '@prisma/client';
+import Image from 'next/image';
 import { inferQueryOutput } from '../utils/trpc';
 
 interface props {
@@ -13,7 +14,19 @@ const GameList = ({ games }: props) => {
       {games.map((game) => (
         <div key={game.id}>
           <h1>{game.title}</h1>
-          <img alt={game.title || undefined} src={game.cover?.secureUrl} />
+
+          {game.cover && (
+            <div
+              style={{ position: 'relative', width: '200px', height: '200px' }}
+            >
+              <Image
+                alt={`${game.title} cover`}
+                src={game.cover.secureUrl}
+                layout="fill"
+                objectFit="contain"
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>
