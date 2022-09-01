@@ -36,6 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# old database dumps
+# database dumps
 data
-prisma/seed.ts
+dump

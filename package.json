@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start -p 3003",
     "lint": "next lint",
     "migrate": "ts-node scripts/migrate.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"

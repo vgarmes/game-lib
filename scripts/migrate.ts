@@ -76,7 +76,9 @@ const migrateImages = async () => {
   }
 
   resources.forEach((resource) => {
-    const blob = blobs.find((blob) => blob.key === resource.public_id);
+    const blob = blobs.find(
+      (blob) => resource.public_id === `games/${blob.key}`
+    );
     if (!blob)
       return console.log(`resource ${resource.public_id}: blob not found`);
 
