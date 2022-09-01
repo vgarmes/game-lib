@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-// Code use to migrate from old database
 import { config } from 'dotenv';
 import { prisma } from '../src/server/prisma';
 import games from '../data/games.json';
@@ -10,6 +8,17 @@ import attachments from '../data/active_storage_attachments.json';
 import { Cover } from '@prisma/client';
 import { CloudinaryImage } from '../src/utils/cloudinary';
 import { getImages } from './cloudinary';
+
+/* 
+Code used to migrate from old database into the local dev database.
+
+To restore the production database, first dump the local database:
+pg_dump -U <username> -h <host> -p <port> -W -F t <db_name> > <output_filename>
+
+Then restore the data to the production database, with the --data-only flag
+(schema in production should already be in place before running this)
+pg_restore -U <username> -h <host> -p <port> -W -F t -d <db_name> --data-only --table=<table> <input_filename>
+*/
 
 const seedGames = async () => {
   const cleanData = games.map(
