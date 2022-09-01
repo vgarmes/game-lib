@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Code use to migrate from old database
 import { config } from 'dotenv';
 import { prisma } from '../src/server/prisma';
@@ -6,21 +8,8 @@ import platforms from '../data/platforms.json';
 import blobs from '../data/active_storage_blobs.json';
 import attachments from '../data/active_storage_attachments.json';
 import { Cover } from '@prisma/client';
-import axios from 'axios';
 import { CloudinaryImage } from '../src/utils/cloudinary';
-
-interface CloudinaryResponse {
-  resources: CloudinaryImage[];
-  next_cursor?: string;
-}
-
-const getImages = async (nextCursor?: string) => {
-  const url = `https://${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_SECRET}@api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/resources/image`;
-  const response = await axios.get<CloudinaryResponse>(url, {
-    params: { next_cursor: nextCursor },
-  });
-  return response.data;
-};
+import { getImages } from './cloudinary';
 
 const seedGames = async () => {
   const cleanData = games.map(

@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 
 export const CLOUDINARY_CONFIG = {
-  folder: 'test',
+  folder: 'games',
 };
 
 export interface CloudinaryImage {
