@@ -16,7 +16,10 @@ export const gameRouter = createRouter().query('all', {
       skip,
       take,
       include: { cover: { select: { secureUrl: true } } },
-      orderBy: { completedDate: 'asc' },
+      orderBy: { completedDate: 'desc' },
+      where: {
+        completed: true,
+      },
     });
   },
 });

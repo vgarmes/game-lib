@@ -10,23 +10,25 @@ const GameList = ({ games }: props) => {
     return <div>loading...</div>;
   }
   return (
-    <div>
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => (
-        <div key={game.id}>
-          <h1>{game.title}</h1>
-
+        <div key={game.id} className="flex w-40 flex-col items-center">
           {game.cover && (
-            <div
-              style={{ position: 'relative', width: '200px', height: '200px' }}
-            >
+            <div className="relative h-28 w-28">
               <Image
                 alt={`${game.title} cover`}
                 src={game.cover.secureUrl}
                 layout="fill"
                 objectFit="contain"
+                objectPosition={'50% 50%'}
               />
             </div>
           )}
+          <div className="p-3">
+            <h1 className="text-center text-sm font-bold tracking-tight text-white">
+              {game.title}
+            </h1>
+          </div>
         </div>
       ))}
     </div>

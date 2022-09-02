@@ -14,9 +14,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <section>
+        <h1 className="mt-6 pb-6 text-center text-4xl font-extrabold tracking-tight text-white">
+          Last completed games
+        </h1>
         <GameList games={games} />
-      </main>
+      </section>
 
       <footer></footer>
     </div>
