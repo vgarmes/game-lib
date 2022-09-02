@@ -22,7 +22,6 @@ const GameList = ({ games }: props) => {
               <Image
                 alt={`${game.title} cover`}
                 src={game.cover.secureUrl}
-                placeholder="blur"
                 layout="fill"
                 objectFit="contain"
               />
