@@ -1,9 +1,11 @@
 import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import { FormEvent, useRef } from 'react';
 import { CLOUDINARY_CONFIG } from '../../utils/cloudinary';
 import { trpc } from '../../utils/trpc';
 
 const NewGame: NextPage = () => {
+  const { data: session } = useSession();
   const { data: signature } = trpc.useQuery(['uploadSignature']);
   const fileRef = useRef<HTMLInputElement>(null);
   const handleChange = (files: FileList | null) => {
@@ -30,6 +32,10 @@ const NewGame: NextPage = () => {
       console.log(response);
     } catch (error) {}
   };
+
+  if (!session) {
+    return <div className="text-white">not authorized</div>;
+  }
 
   return (
     <div>

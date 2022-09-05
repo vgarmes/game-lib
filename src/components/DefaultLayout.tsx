@@ -8,11 +8,12 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <>
       <Head>
-        <title>Prisma Starter</title>
+        <title>Game library</title>
+        <meta name="description" content="Victor game library" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="mx-auto min-h-screen max-w-7xl px-4">{children}</main>
+      <div className="mx-auto min-h-screen max-w-7xl px-4">{children}</div>
 
       {process.env.NODE_ENV !== 'production' && (
         <ReactQueryDevtools initialIsOpen={false} />
