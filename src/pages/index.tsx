@@ -16,9 +16,6 @@ const Home: NextPage = () => {
       </Head>
 
       <section>
-        <p>
-          {session ? `Logged in as ${session?.user?.name}` : 'Not logged in'}
-        </p>
         <h1 className="mt-6 pb-6 text-center text-4xl font-extrabold tracking-tight text-white">
           Last completed games
         </h1>
