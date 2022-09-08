@@ -1,13 +1,10 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import { FormEvent, useRef } from 'react';
 import { getServerSession } from '../../server/common/get-server-session';
 import { CLOUDINARY_CONFIG } from '../../utils/cloudinary';
 import { trpc } from '../../utils/trpc';
 
 const NewGame: NextPage = () => {
-  const { data: session, status } = useSession();
-  console.log(session, status);
   const { data: signature } = trpc.useQuery(['uploadSignature']);
   const fileRef = useRef<HTMLInputElement>(null);
   const handleChange = (files: FileList | null) => {
@@ -35,10 +32,6 @@ const NewGame: NextPage = () => {
     } catch (error) {}
   };
 
-  if (!session) {
-    return <div className="text-white">not authorized</div>;
-  }
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -57,9 +50,9 @@ const NewGame: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context);
+  const session = await getServerSession(context.req, context.res);
 
-  if (!session) {
+  if (!session || session.user.role !== 'ADMIN') {
     return {
       redirect: {
         destination: '/',
