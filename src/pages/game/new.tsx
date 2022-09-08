@@ -1,11 +1,13 @@
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { FormEvent, useRef } from 'react';
+import { getServerSession } from '../../server/common/get-server-session';
 import { CLOUDINARY_CONFIG } from '../../utils/cloudinary';
 import { trpc } from '../../utils/trpc';
 
 const NewGame: NextPage = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  console.log(session, status);
   const { data: signature } = trpc.useQuery(['uploadSignature']);
   const fileRef = useRef<HTMLInputElement>(null);
   const handleChange = (files: FileList | null) => {
@@ -53,5 +55,22 @@ const NewGame: NextPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
 
 export default NewGame;

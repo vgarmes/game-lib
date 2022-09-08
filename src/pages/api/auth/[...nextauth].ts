@@ -38,13 +38,25 @@ export const nextAuthOptions: NextAuthOptions = {
 
         return {
           id: user.id,
-          name: user.username,
+          username: user.username,
           email: user.email,
           role: user.role,
         };
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user; // this is what is returned from authorize callback
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = token.user;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(nextAuthOptions);
