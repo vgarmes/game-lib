@@ -3,6 +3,7 @@ import superjson from 'superjson';
 import { generateSignature } from '../../utils/cloudinary';
 import { gameRouter } from './game';
 import { userRouter } from './user';
+import { imageRouter } from './image';
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -11,12 +12,8 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
-  .query('uploadSignature', {
-    async resolve() {
-      return generateSignature();
-    },
-  })
   .merge('game.', gameRouter)
-  .merge('user.', userRouter);
+  .merge('user.', userRouter)
+  .merge('image.', imageRouter);
 
 export type AppRouter = typeof appRouter;
