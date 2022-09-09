@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
 import { CLOUDINARY_CONFIG } from '../utils/cloudinary';
 import { trpc } from '../utils/trpc';
 
@@ -7,11 +8,14 @@ const ImageUpload = () => {
     ['image.uploadSignature'],
     { enabled: false }
   );
+  const [preview, setPreview] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (files: FileList | null) => {
     if (files === null) return;
-    console.log(files);
+
+    setPreview(URL.createObjectURL(files[0]));
+    console.log('created blob for', files[0]);
   };
 
   const handleSubmit = async () => {
@@ -47,6 +51,21 @@ const ImageUpload = () => {
         onChange={(e) => handleChange(e.target.files)}
         ref={fileRef}
       />
+      {preview && (
+        <div className="relative h-24 w-24">
+          <Image
+            src={preview}
+            alt="image to upload"
+            onLoad={() => {
+              console.log('revoke ', preview);
+              URL.revokeObjectURL(preview);
+            }}
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+      )}
+
       <button type="button" onClick={handleSubmit}>
         Upload
       </button>
