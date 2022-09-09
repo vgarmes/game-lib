@@ -9,7 +9,7 @@ export function createRouter() {
 
 export function createProtectedRouter(role?: Role) {
   return trpc.router<Context>().middleware(async ({ ctx, next }) => {
-    if (!ctx.session) {
+    if (!ctx.session || (role && ctx.session.user.role !== role)) {
       throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
     /* if (!ctx.session || (role && ctx.session.user.role !== role)) {
