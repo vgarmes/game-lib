@@ -7,10 +7,6 @@ import blobs from '../data/active_storage_blobs.json';
 import attachments from '../data/active_storage_attachments.json';
 import images from '../data/cloudinary_images.json';
 import { Cover } from '@prisma/client';
-import { CloudinaryImage } from '../src/utils/cloudinary';
-import { getImages } from './cloudinary';
-import fs from 'fs';
-import path from 'path';
 
 /* 
 Code used to migrate from old database into the local dev database to generate a dump file with the new schema
@@ -64,41 +60,6 @@ const seedPlatforms = async () => {
       ({ created_at, updated_at, ...keepAttrs }) => keepAttrs
     ),
   });
-};
-
-export const getAllImages = async (save?: boolean) => {
-  const MAX_ITER = 10;
-  const resources: CloudinaryImage[] = [];
-
-  console.log('Getting images data from Cloudinary...');
-  const data = await getImages();
-  let nextCursor = data.next_cursor;
-  resources.push(...data.resources);
-
-  let iter = 0;
-  while (iter < MAX_ITER && nextCursor) {
-    console.log('Iteration ', iter);
-    const data = await getImages(nextCursor);
-    resources.push(...data.resources);
-    nextCursor = data.next_cursor;
-    iter++;
-  }
-
-  console.log('Done!');
-
-  if (save) {
-    const filePath = path.join(process.cwd(), 'data', 'cloudinary_images.json');
-
-    fs.writeFile(filePath, JSON.stringify(resources), (error) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(`Data saved successfully to ${filePath}`);
-      }
-    });
-  }
-
-  return resources;
 };
 
 const migrateImages = async () => {
