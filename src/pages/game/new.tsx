@@ -2,10 +2,16 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { FormEvent, useRef } from 'react';
 import ImageUpload from '../../components/ImageUpload';
 import { getServerSession } from '../../server/common/get-server-session';
+import { newGameSchema } from '../../server/routers/game/schema';
 import { CLOUDINARY_CONFIG } from '../../utils/cloudinary';
+import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
 
 const NewGame: NextPage = () => {
+  const methods = useZodForm({
+    schema: newGameSchema,
+  });
+
   return (
     <div>
       <form>

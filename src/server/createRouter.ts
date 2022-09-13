@@ -12,10 +12,7 @@ export function createProtectedRouter(role?: Role) {
     if (!ctx.session || (role && ctx.session.user.role !== role)) {
       throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
-    /* if (!ctx.session || (role && ctx.session.user.role !== role)) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    } */
-    // infers that `session` is non-nullable to downstream procedures
+
     return next({ ctx: { ...ctx, session: ctx.session } });
   });
 }
