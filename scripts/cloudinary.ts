@@ -52,7 +52,7 @@ const getAllImages = async () => {
   writeImagesToFile(resources, filePath);
 };
 
-export default getAllImages();
+getAllImages();
 
 // remove all context syntax
 // https://cloudinary.com/documentation/image_upload_api_reference#removing_all_context_syntax

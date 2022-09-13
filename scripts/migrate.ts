@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { config } from 'dotenv';
-import { prisma } from '../src/server/prisma';
+import { PrismaClient } from '@prisma/client';
 import games from '../data/games.json';
 import platforms from '../data/platforms.json';
 import blobs from '../data/active_storage_blobs.json';
@@ -9,7 +9,9 @@ import images from '../data/cloudinary_images.json';
 import { Cover } from '@prisma/client';
 
 /* 
-Code used to migrate from old database into the local dev database to generate a dump file with the new schema
+Code used to migrate from old database into the local dev database in order to generate a dump file with the new schema.
+
+It can also be used to seed the dev database.
 
 To restore the production database, first dump the local database:
 pg_dump -U <username> -h <host> -p <port> -W -F t <db_name> > <output_filename>
@@ -19,7 +21,9 @@ Then restore the data to the production database, with the --data-only flag
 pg_restore -U <username> -h <host> -p <port> -W -F t -d <db_name> --data-only --table=<table> <input_filename>
 */
 
-const seedGames = async () => {
+const prisma = new PrismaClient();
+
+const migrateGames = async () => {
   const cleanData = games.map(
     ({
       id,
@@ -54,7 +58,7 @@ const seedGames = async () => {
   });
 };
 
-const seedPlatforms = async () => {
+const migratePlatforms = async () => {
   return prisma.platform.createMany({
     data: platforms.map(
       ({ created_at, updated_at, ...keepAttrs }) => keepAttrs
@@ -63,8 +67,7 @@ const seedPlatforms = async () => {
 };
 
 const migrateImages = async () => {
-  const covers: Omit<Cover, 'id' | 'createdAt' | 'updatedAt' | 'metadata'>[] =
-    [];
+  const covers: Omit<Cover, 'id' | 'createdAt' | 'updatedAt'>[] = [];
 
   images.forEach((image) => {
     const blob = blobs.find((blob) => image.public_id === `games/${blob.key}`);
@@ -93,9 +96,8 @@ const migrateImages = async () => {
 
 const main = async () => {
   config();
-  seedPlatforms();
-  seedGames();
-  migrateImages();
+  migratePlatforms();
+  migrateGames().then(() => migrateImages());
 };
 
 main()
