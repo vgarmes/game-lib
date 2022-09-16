@@ -6,7 +6,7 @@ export const newGameSchema = z.object({
   completed: z.boolean().nullable(),
   edition: z.string().nullable(),
   releaseDate: z.date().nullable(),
-  completedData: z.date().nullable(),
+  completedDate: z.date().nullable(),
   buyDate: z.date().nullable(),
   buyPrice: z.number().nullable(),
   developerId: z.number().nullable(),
