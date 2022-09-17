@@ -4,6 +4,7 @@ import { generateSignature } from '../../utils/cloudinary';
 import { gameRouter } from './game';
 import { userRouter } from './user';
 import { imageRouter } from './image';
+import { platformRouter } from './platform';
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -13,6 +14,7 @@ export const appRouter = createRouter()
     },
   })
   .merge('game.', gameRouter)
+  .merge('platform.', platformRouter)
   .merge('user.', userRouter)
   .merge('image.', imageRouter);
 
