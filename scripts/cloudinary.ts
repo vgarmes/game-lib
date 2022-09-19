@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CloudinaryImage } from '../src/utils/cloudinary';
+import { CloudinaryImage } from '../src/types/cloudinary';
 import fs from 'fs';
 import path from 'path';
 

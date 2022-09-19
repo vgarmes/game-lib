@@ -1,24 +1,9 @@
 import { createHash } from 'crypto';
+import { CloudinaryUploadResponse } from '../types/cloudinary';
 
 export const CLOUDINARY_CONFIG = {
   folder: 'games',
 };
-
-export interface CloudinaryImage {
-  asset_id: string;
-  public_id: string;
-  format: string;
-  version: number;
-  resource_type: string;
-  type: string;
-  created_at: string;
-  bytes: number;
-  width: number;
-  height: number;
-  folder: string;
-  url: string;
-  secure_url: string;
-}
 
 export function generateSignature() {
   const timestamp = Math.round(new Date().getTime() / 1000);
@@ -41,4 +26,21 @@ export function generateSignature() {
     timestamp,
     expires: timestamp + 3600,
   };
+}
+
+export async function uploadImage(
+  body: FormData
+): Promise<CloudinaryUploadResponse | undefined> {
+  try {
+    const response = await fetch(
+      'https://api.cloudinary.com/v1_1/' +
+        process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME! +
+        '/image/upload',
+      { method: 'POST', body }
+    );
+    return response.json();
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 }
