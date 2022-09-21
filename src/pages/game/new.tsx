@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Input from '../../components/common/Input';
@@ -12,6 +12,8 @@ import { newGameSchema } from '../../server/routers/game/schema';
 import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
 import { CloudinaryUploadResponse } from '../../types/cloudinary';
+import { TypeOf, z } from 'zod';
+import { setValueAsDate, setValueAsNumber } from '../../utils/zod';
 
 const defaultValues = {
   title: '',
@@ -50,15 +52,22 @@ const NewGame: NextPage = () => {
     defaultValues,
   });
 
+  const onChangeDate = (
+    e: ChangeEvent<HTMLInputElement>,
+    key: keyof z.infer<typeof newGameSchema>
+  ) => {
+    const value = e.target.value;
+    if (!value) {
+      return setValue(key, null);
+    }
+    const date = new Date(value);
+    return setValue(key, date);
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold">New game</h2>
-      <form
-        onSubmit={handleSubmit((values) =>
-          //createGame.mutate(values)
-          console.log(values)
-        )}
-      >
+      <form onSubmit={handleSubmit((values) => createGame.mutate(values))}>
         <ImageUpload onSubmit={setCover} />
         <RatingInput
           defaultRating={null}
@@ -87,17 +96,33 @@ const NewGame: NextPage = () => {
           <Input
             label="Completed date"
             type="date"
-            {...register('completedDate')}
+            {...register('completedDate', {
+              setValueAs: (v) => setValueAsDate(v, defaultValues.completedDate),
+            })}
           />
           <Input
             label="Release date"
             type="date"
-            {...register('releaseDate')}
+            {...register('releaseDate', {
+              setValueAs: (v) => setValueAsDate(v, defaultValues.releaseDate),
+            })}
           />
         </div>
         <div className="flex w-full items-center gap-5 pb-5">
-          <Input label="Buy date" type="date" {...register('buyDate')} />
-          <Input label="Price" type="number" {...register('buyPrice')} />
+          <Input
+            label="Buy date"
+            type="date"
+            {...register('buyDate', {
+              setValueAs: (v) => setValueAsDate(v, defaultValues.buyDate),
+            })}
+          />
+          <Input
+            label="Price"
+            type="number"
+            {...register('buyPrice', {
+              setValueAs: (v) => setValueAsNumber(v, defaultValues.buyPrice),
+            })}
+          />
         </div>
 
         <TextArea
@@ -113,18 +138,14 @@ const NewGame: NextPage = () => {
             value: platform.id,
             label: platform.name,
           }))}
-          onChange={(e) => {
-            const value = e.target.value;
-            if (!value) {
-              setValue('platformId', defaultValues.platformId);
-            } else {
-              setValue('platformId', parseInt(value));
-            }
-          }}
+          {...register('platformId', {
+            setValueAs: (v) => parseInt(v) || defaultValues.platformId,
+          })}
         />
         <button type="button" onClick={() => console.log(getValues())}>
-          submit
+          log form state
         </button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
