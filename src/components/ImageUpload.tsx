@@ -4,6 +4,7 @@ import { CLOUDINARY_CONFIG, uploadImage } from '../utils/cloudinary';
 import FileInput from './common/FileInput';
 import { CloudinaryUploadResponse } from '../types/cloudinary';
 import { Signature } from '../types';
+import Button from './common/Button';
 
 const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   src,
@@ -47,7 +48,7 @@ const ImageUpload: React.FC<{
   };
 
   const handleSubmit = async () => {
-    if (!fileRef.current?.files) return;
+    if (!fileRef.current?.files || fileRef.current.files.length === 0) return;
     setIsLoading(true);
     setError('');
 
@@ -83,9 +84,14 @@ const ImageUpload: React.FC<{
         ref={fileRef}
       />
       <div className="flex items-center">
-        <button type="button" onClick={handleSubmit} disabled={!preview}>
+        <Button
+          type="button"
+          onClick={handleSubmit}
+          disabled={!preview}
+          variant="outline"
+        >
           Upload
-        </button>
+        </Button>
         {isLoading && <p>Loading...</p>}
         {error && <p>{error}</p>}
       </div>
