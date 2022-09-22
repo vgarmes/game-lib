@@ -5,6 +5,7 @@ import FileInput from './common/FileInput';
 import { CloudinaryUploadResponse } from '../types/cloudinary';
 import { Signature } from '../types';
 import Button from './common/Button';
+import { trpc } from '../utils/trpc';
 
 const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   src,
@@ -35,12 +36,14 @@ const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
 };
 
 const ImageUpload: React.FC<{
-  onSubmit?: (response: CloudinaryUploadResponse) => void;
+  onSubmit?: (coverId: number) => void;
 }> = ({ onSubmit }) => {
   const [preview, setPreview] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const createCover = trpc.useMutation('cover.create');
 
   const handleChange = (files: FileList | null) => {
     if (files === null) return;
@@ -65,7 +68,27 @@ const ImageUpload: React.FC<{
       fd.append('folder', CLOUDINARY_CONFIG.folder);
 
       const image = await uploadImage(fd);
-      onSubmit && image && onSubmit(image);
+      if (image) {
+        const {
+          public_id: publicId,
+          secure_url: secureUrl,
+          original_filename: filename,
+          format,
+          bytes: byteSize,
+          etag: checksum,
+        } = image;
+
+        const cover = await createCover.mutateAsync({
+          publicId,
+          secureUrl,
+          filename,
+          format,
+          byteSize,
+          checksum,
+        });
+
+        onSubmit && onSubmit(cover.id);
+      }
     } catch (error) {
       setError(`An error ocurred: ${error}`);
     }
@@ -92,8 +115,8 @@ const ImageUpload: React.FC<{
         >
           Upload
         </Button>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
+        {isLoading && <p className="pl-3">Loading...</p>}
+        {error && <p className="pl-3">{error}</p>}
       </div>
     </div>
   );

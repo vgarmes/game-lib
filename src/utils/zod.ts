@@ -1,11 +1,8 @@
-export const setValueAsNumber = (
-  value: string,
-  defaultValue: number | null
-) => {
+export const setValueAsNumber = (value: string, defaultValue?: number) => {
   return parseInt(value) || defaultValue;
 };
 
-export const setValueAsDate = (value: string, defaultValue: number | null) => {
+export const setValueAsDate = (value: string, defaultValue?: number) => {
   if (!value) {
     return defaultValue;
   }

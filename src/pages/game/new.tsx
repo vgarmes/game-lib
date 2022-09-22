@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Input from '../../components/common/Input';
@@ -11,33 +11,33 @@ import { getServerSession } from '../../server/common/get-server-session';
 import { newGameSchema } from '../../server/routers/game/schema';
 import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
-import { CloudinaryUploadResponse } from '../../types/cloudinary';
-import { TypeOf, z } from 'zod';
+import { z } from 'zod';
 import { setValueAsDate, setValueAsNumber } from '../../utils/zod';
 
 const defaultValues = {
   title: '',
   inCollection: false,
   completed: false,
-  edition: null,
-  releaseDate: null,
-  completedDate: null,
-  buyDate: null,
-  buyPrice: null,
-  developerId: null,
-  rating: null,
-  comment: null,
-  platformId: null,
+  edition: undefined,
+  releaseDate: undefined,
+  completedDate: undefined,
+  buyDate: undefined,
+  buyPrice: undefined,
+  developerId: undefined,
+  rating: undefined,
+  comment: undefined,
+  platformId: undefined,
+  coverId: undefined,
 };
 
 const NewGame: NextPage = () => {
   const router = useRouter();
-  const [cover, setCover] = useState<CloudinaryUploadResponse>();
   const { data: platforms } = trpc.useQuery(['platform.get-all'], {
     staleTime: Infinity,
   });
   const createGame = trpc.useMutation('game.create', {
     onSuccess() {
+      console.log('success!');
       router.push('/');
     },
   });
@@ -58,7 +58,7 @@ const NewGame: NextPage = () => {
   ) => {
     const value = e.target.value;
     if (!value) {
-      return setValue(key, null);
+      return setValue(key, defaultValues[key]);
     }
     const date = new Date(value);
     return setValue(key, date);
@@ -68,9 +68,9 @@ const NewGame: NextPage = () => {
     <div>
       <h2 className="text-2xl font-bold">New game</h2>
       <form onSubmit={handleSubmit((values) => createGame.mutate(values))}>
-        <ImageUpload onSubmit={setCover} />
+        <ImageUpload onSubmit={(id) => setValue('coverId', id)} />
         <RatingInput
-          defaultRating={null}
+          defaultRating={defaultValues.rating}
           setRatingValue={(n) => setValue('rating', n)}
           {...register('rating')}
         />

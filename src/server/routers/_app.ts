@@ -3,6 +3,7 @@ import superjson from 'superjson';
 import { gameRouter } from './game';
 import { userRouter } from './user';
 import { platformRouter } from './platform';
+import { coverRouter } from './cover';
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -13,6 +14,7 @@ export const appRouter = createRouter()
   })
   .merge('game.', gameRouter)
   .merge('platform.', platformRouter)
-  .merge('user.', userRouter);
+  .merge('user.', userRouter)
+  .merge('cover.', coverRouter);
 
 export type AppRouter = typeof appRouter;
