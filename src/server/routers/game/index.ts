@@ -7,7 +7,10 @@ const protectedGameRouter = createProtectedRouter('ADMIN').mutation('create', {
   async resolve({ input, ctx }) {
     const { coverId, ...rest } = input;
     return ctx.prisma.game.create({
-      data: { ...rest, cover: { connect: { id: coverId } } },
+      data: {
+        ...rest,
+        cover: { connect: { id: coverId } },
+      },
     });
   },
 });

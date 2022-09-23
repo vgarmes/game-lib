@@ -1,7 +1,7 @@
 import { CloudinaryUploadResponse } from '../types/cloudinary';
 
 export const CLOUDINARY_CONFIG = {
-  folder: 'games',
+  folder: process.env.NODE_ENV === 'development' ? 'dev' : 'games',
 };
 
 export async function uploadImage(
