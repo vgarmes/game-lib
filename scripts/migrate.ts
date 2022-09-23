@@ -13,11 +13,11 @@ Code used to migrate from old database into the local dev database in order to g
 It can also be used to seed the dev database.
 
 To restore the production database, first dump the local database:
-pg_dump -U <username> -h <host> -p <port> -W -F t <db_name> > <output_filename>
+pg_dump -U <username> -h <host> -p <port> -W -F t --no-owner --no-privileges <db_name> > <output_filename>
 
 Then restore the data to the production database, with the --data-only flag
 (schema in production should already be in place before running this)
-pg_restore -U <username> -h <host> -p <port> -W -F t -d <db_name> --data-only --table=<table> <input_filename>
+pg_restore -U <username> -h <host> -p <port> -W -d <db_name> --clean <input_filename>
 */
 
 const prisma = new PrismaClient();
@@ -93,9 +93,6 @@ const migrateGames = async () => {
             cover: {
               create: coverData,
             },
-          },
-          include: {
-            cover: true,
           },
         });
       }
