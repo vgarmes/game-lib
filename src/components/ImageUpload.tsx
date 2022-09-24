@@ -75,6 +75,8 @@ const ImageUpload: React.FC<{
           original_filename: filename,
           format,
           bytes: byteSize,
+          width,
+          height,
           etag: checksum,
         } = image;
 
@@ -84,6 +86,8 @@ const ImageUpload: React.FC<{
           filename,
           format,
           byteSize,
+          width,
+          height,
           checksum,
         });
 

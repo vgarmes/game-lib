@@ -8,12 +8,20 @@ const protectedCoverRouter = createProtectedRouter('ADMIN').mutation('create', {
     filename: z.string(),
     format: z.string(),
     byteSize: z.number(),
+    width: z.number(),
+    height: z.number(),
     checksum: z.string(),
     gameId: z.number().optional(),
   }),
   async resolve({ input, ctx }) {
+    const { gameId, ...rest } = input;
     return ctx.prisma.cover.create({
-      data: input,
+      data: {
+        ...rest,
+        game: {
+          connect: { id: gameId },
+        },
+      },
     });
   },
 });
