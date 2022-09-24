@@ -14,7 +14,9 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <div className="mx-auto min-h-screen max-w-7xl px-4">{children}</div>
+      <div className="mx-auto min-h-screen max-w-7xl px-4 pb-10">
+        {children}
+      </div>
 
       {process.env.NODE_ENV !== 'production' && (
         <ReactQueryDevtools initialIsOpen={false} />

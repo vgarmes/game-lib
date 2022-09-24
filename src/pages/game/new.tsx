@@ -13,6 +13,7 @@ import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
 import { z } from 'zod';
 import { setValueAsDate, setValueAsNumber } from '../../utils/zod';
+import Button from '../../components/common/Button';
 
 const defaultValues = {
   title: '',
@@ -66,8 +67,11 @@ const NewGame: NextPage = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">New game</h2>
-      <form onSubmit={handleSubmit((values) => createGame.mutate(values))}>
+      <h2 className="pb-6 text-3xl font-bold">New game</h2>
+      <form
+        onSubmit={handleSubmit((values) => createGame.mutate(values))}
+        className="flex min-w-[200px] flex-col gap-5 md:items-start"
+      >
         <ImageUpload onSubmit={(id) => setValue('coverId', id)} />
         <RatingInput
           defaultRating={defaultValues.rating}
@@ -79,20 +83,18 @@ const NewGame: NextPage = () => {
           error={errors.title?.message}
           {...register('title')}
           placeholder="Title"
-          className="pb-5"
         />
         <Input
           label="Edition"
           error={errors.edition?.message}
           {...register('edition')}
           placeholder="Edition"
-          className="pb-5"
         />
-        <div className="flex items-center gap-5 pb-5">
+        <div className="flex items-center gap-5">
           <Toggle label="In collection" {...register('inCollection')} />
           <Toggle label="Completed" {...register('completed')} />
         </div>
-        <div className="flex w-full items-center gap-5 pb-5">
+        <div className="flex w-full items-center gap-3">
           <Input
             label="Completed date"
             type="date"
@@ -108,7 +110,7 @@ const NewGame: NextPage = () => {
             })}
           />
         </div>
-        <div className="flex w-full items-center gap-5 pb-5">
+        <div className="flex w-full items-center gap-5">
           <Input
             label="Buy date"
             type="date"
@@ -129,7 +131,6 @@ const NewGame: NextPage = () => {
           label="Comment"
           placeholder="Write a comment..."
           {...register('comment')}
-          className="pb-5"
         />
         <Select
           label="Platform"
@@ -142,10 +143,8 @@ const NewGame: NextPage = () => {
             setValueAs: (v) => parseInt(v) || defaultValues.platformId,
           })}
         />
-        <button type="button" onClick={() => console.log(getValues())}>
-          log form state
-        </button>
-        <button type="submit">Submit</button>
+
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   );

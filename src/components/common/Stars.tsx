@@ -93,6 +93,14 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
       setRating(newRating);
       setRatingValue && setRatingValue(newRating);
     };
+
+    let ratingText: string = '';
+    if (hoveredStar || hoveredStar === 0) {
+      ratingText = RATINGS[hoveredStar];
+    } else if (rating || rating === 0) {
+      ratingText = RATINGS[rating];
+    }
+
     return (
       <div className="flex items-center">
         <input ref={ref} type="number" className="sr-only" {...rest} />
@@ -103,9 +111,11 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
           onHoverStar={setHoveredStar}
           onMouseLeave={() => setHoveredStar(null)}
         />
-        <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-          4.95 out of 5
-        </p>
+        {ratingText && (
+          <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+            {ratingText}
+          </p>
+        )}
       </div>
     );
   }

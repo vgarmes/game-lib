@@ -5,7 +5,7 @@ import GameList from '../components/GameList';
 import { trpc } from '../utils/trpc';
 
 const Home: NextPage = () => {
-  const { data: games } = trpc.useQuery(['game.all', { skip: 0, take: 10 }]);
+  const { data: games } = trpc.useQuery(['game.all', { skip: 0, take: 20 }]);
   const { data: session } = useSession();
   return (
     <div>

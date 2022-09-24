@@ -6,9 +6,9 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const Select = React.forwardRef<HTMLSelectElement, Props>(
-  ({ label, options, placeholder, ...rest }, ref) => {
+  ({ label, options, placeholder, className, ...rest }, ref) => {
     return (
-      <div>
+      <div className={className}>
         <label>
           <span className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-400">
             {label}

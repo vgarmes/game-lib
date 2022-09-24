@@ -43,7 +43,9 @@ const ImageUpload: React.FC<{
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const createCover = trpc.useMutation('cover.create');
+  const createCover = trpc.useMutation('cover.create', {
+    onError: (error) => console.log(error),
+  });
 
   const handleChange = (files: FileList | null) => {
     if (files === null) return;
@@ -68,31 +70,34 @@ const ImageUpload: React.FC<{
       fd.append('folder', CLOUDINARY_CONFIG.folder);
 
       const image = await uploadImage(fd);
-      if (image) {
-        const {
-          public_id: publicId,
-          secure_url: secureUrl,
-          original_filename: filename,
-          format,
-          bytes: byteSize,
-          width,
-          height,
-          etag: checksum,
-        } = image;
 
-        const cover = await createCover.mutateAsync({
-          publicId,
-          secureUrl,
-          filename,
-          format,
-          byteSize,
-          width,
-          height,
-          checksum,
-        });
-
-        onSubmit && onSubmit(cover.id);
+      if (!image) {
+        throw new Error('Image upload failed');
       }
+
+      const {
+        public_id: publicId,
+        secure_url: secureUrl,
+        original_filename: filename,
+        format,
+        bytes: byteSize,
+        width,
+        height,
+        etag: checksum,
+      } = image;
+
+      const cover = await createCover.mutateAsync({
+        publicId,
+        secureUrl,
+        filename,
+        format,
+        byteSize,
+        width,
+        height,
+        checksum,
+      });
+
+      onSubmit && onSubmit(cover.id);
     } catch (error) {
       setError(`An error ocurred: ${error}`);
     }
@@ -105,12 +110,12 @@ const ImageUpload: React.FC<{
         <PreviewImage src={preview} />
       </div>
 
-      <FileInput
-        accept="image/*"
-        onChange={(e) => handleChange(e.target.files)}
-        ref={fileRef}
-      />
-      <div className="flex items-center">
+      <div className="flex items-end gap-6 pt-5">
+        <FileInput
+          accept="image/*"
+          onChange={(e) => handleChange(e.target.files)}
+          ref={fileRef}
+        />
         <Button
           type="button"
           onClick={handleSubmit}
