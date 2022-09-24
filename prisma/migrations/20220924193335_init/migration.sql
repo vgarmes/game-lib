@@ -80,9 +80,6 @@ CREATE UNIQUE INDEX "Cover_publicId_key" ON "Cover"("publicId");
 CREATE UNIQUE INDEX "Cover_secureUrl_key" ON "Cover"("secureUrl");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Cover_checksum_key" ON "Cover"("checksum");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Cover_gameId_key" ON "Cover"("gameId");
 
 -- CreateIndex

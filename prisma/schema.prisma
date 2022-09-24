@@ -16,7 +16,7 @@ model Cover {
   width     Int
   height    Int
   byteSize  Int
-  checksum  String   @unique // etag
+  checksum  String // etag
   gameId    Int?     @unique
   game      Game?    @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
