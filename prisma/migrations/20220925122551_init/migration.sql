@@ -23,7 +23,7 @@ CREATE TABLE "Cover" (
 CREATE TABLE "Game" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "inCollection" BOOLEAN DEFAULT false,
+    "inCollection" BOOLEAN DEFAULT true,
     "completed" BOOLEAN DEFAULT false,
     "edition" TEXT,
     "releaseDate" DATE,
@@ -74,13 +74,19 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Cover_publicId_key" ON "Cover"("publicId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Cover_secureUrl_key" ON "Cover"("secureUrl");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Cover_gameId_key" ON "Cover"("gameId");
+
+-- CreateIndex
+CREATE INDEX "Cover_gameId_idx" ON "Cover"("gameId");
+
+-- CreateIndex
+CREATE INDEX "Game_platformId_title_idx" ON "Game"("platformId", "title");
+
+-- CreateIndex
+CREATE INDEX "Game_developerId_title_idx" ON "Game"("developerId", "title");
+
+-- CreateIndex
+CREATE INDEX "Game_completed_completedDate_idx" ON "Game"("completed", "completedDate" DESC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Platform_name_key" ON "Platform"("name");
@@ -101,4 +107,4 @@ ALTER TABLE "Cover" ADD CONSTRAINT "Cover_gameId_fkey" FOREIGN KEY ("gameId") RE
 ALTER TABLE "Game" ADD CONSTRAINT "Game_developerId_fkey" FOREIGN KEY ("developerId") REFERENCES "Developer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Game" ADD CONSTRAINT "Game_platformId_fkey" FOREIGN KEY ("platformId") REFERENCES "Platform"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "Game" ADD CONSTRAINT "Game_platformId_fkey" FOREIGN KEY ("platformId") REFERENCES "Platform"("id") ON DELETE SET NULL ON UPDATE CASCADE;
