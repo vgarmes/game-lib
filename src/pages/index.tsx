@@ -1,12 +1,10 @@
-import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import GameList from '../components/GameList';
-import { trpc } from '../utils/trpc';
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { prisma } from '../server/prisma';
 
-const Home: NextPage = () => {
-  const { data: games } = trpc.useQuery(['game.all', { skip: 0, take: 20 }]);
-  const { data: session } = useSession();
+const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data: games } = props;
   return (
     <div>
       <Head>
@@ -19,12 +17,33 @@ const Home: NextPage = () => {
         <h1 className="mt-6 pb-6 text-center text-4xl font-extrabold tracking-tight text-white">
           Last completed games
         </h1>
-        <GameList games={games} />
+        {games && <GameList games={games} />}
       </section>
 
       <footer></footer>
     </div>
   );
 };
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const games = await prisma.game.findMany({
+    where: {
+      completed: true,
+    },
+    include: { cover: { select: { secureUrl: true } } },
+    orderBy: { completedDate: 'desc' },
+    take: 20,
+  });
+
+  return {
+    props: {
+      data: games.map(({ id, title, cover }) => ({
+        id,
+        title,
+        coverUrl: cover?.secureUrl,
+      })),
+    },
+  };
+}
 
 export default Home;

@@ -1,23 +1,25 @@
-import { Game } from '@prisma/client';
 import Image from 'next/image';
 import { inferQueryOutput } from '../utils/trpc';
 
+type Game = {
+  id: number;
+  title: string;
+  coverUrl: string | undefined;
+};
+
 interface props {
-  games?: inferQueryOutput<'game.all'>;
+  games: Game[];
 }
 const GameList = ({ games }: props) => {
-  if (!games) {
-    return <div>loading...</div>;
-  }
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => (
         <div key={game.id} className="flex w-40 flex-col items-center">
-          {game.cover && (
+          {game.coverUrl && (
             <div className="relative h-28 w-28">
               <Image
                 alt={`${game.title} cover`}
-                src={game.cover.secureUrl}
+                src={game.coverUrl}
                 layout="fill"
                 objectFit="contain"
                 objectPosition={'50% 50%'}

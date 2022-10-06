@@ -71,26 +71,5 @@ export default withTRPC<AppRouter>({
       // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
     };
   },
-  ssr: true,
-
-  responseMeta(opts) {
-    const ctx = opts.ctx as SSRContext;
-
-    if (ctx.status) {
-      // If HTTP status set, propagate that
-      return {
-        status: ctx.status,
-      };
-    }
-
-    const error = opts.clientErrors[0];
-    if (error) {
-      // Propagate http first error from API calls
-      return {
-        status: error.data?.httpStatus ?? 500,
-      };
-    }
-
-    return {};
-  },
+  ssr: false,
 })(MyApp);
