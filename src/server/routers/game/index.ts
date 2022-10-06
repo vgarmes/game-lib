@@ -6,12 +6,14 @@ const protectedGameRouter = createProtectedRouter('ADMIN').mutation('create', {
   input: newGameSchema,
   async resolve({ input, ctx }) {
     const { coverId, ...rest } = input;
-    return ctx.prisma.game.create({
+    await ctx.prisma.game.create({
       data: {
         ...rest,
-        cover: { connect: { id: coverId } },
+        cover: coverId ? { connect: { id: coverId } } : undefined,
       },
     });
+    await ctx.res.revalidate('/');
+    return { sucess: true };
   },
 });
 

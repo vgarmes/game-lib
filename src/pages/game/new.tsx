@@ -1,5 +1,9 @@
 import { ChangeEvent } from 'react';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next';
 import { useRouter } from 'next/router';
 import Input from '../../components/common/Input';
 import Select from '../../components/common/Select';
@@ -14,6 +18,8 @@ import { trpc } from '../../utils/trpc';
 import { z } from 'zod';
 import { setValueAsDate, setValueAsNumber } from '../../utils/zod';
 import Button from '../../components/common/Button';
+import { prisma } from '../../server/prisma';
+import { Session } from 'next-auth';
 
 const defaultValues = {
   title: '',
@@ -31,11 +37,11 @@ const defaultValues = {
   coverId: undefined,
 };
 
-const NewGame: NextPage = () => {
+const NewGame = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
   const router = useRouter();
-  const { data: platforms } = trpc.useQuery(['platform.get-all'], {
-    staleTime: Infinity,
-  });
+  const { data: platforms } = props;
   const createGame = trpc.useMutation('game.create', {
     onSuccess() {
       console.log('success!');
@@ -150,7 +156,12 @@ const NewGame: NextPage = () => {
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+interface SSProps {
+  data: Array<{ id: number; name: string }>;
+}
+export const getServerSideProps: GetServerSideProps<SSProps> = async (
+  context: GetServerSidePropsContext
+) => {
   const session = await getServerSession(context.req, context.res);
 
   if (!session || session.user.role !== 'ADMIN') {
@@ -162,9 +173,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
+  const data = await prisma.platform.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
   return {
-    props: { session },
+    props: { session, data },
   };
-}
+};
 
 export default NewGame;

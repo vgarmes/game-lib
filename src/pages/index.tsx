@@ -40,7 +40,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       data: games.map(({ id, title, cover }) => ({
         id,
         title,
-        coverUrl: cover?.secureUrl,
+        coverUrl: cover ? cover.secureUrl : null,
       })),
     },
   };

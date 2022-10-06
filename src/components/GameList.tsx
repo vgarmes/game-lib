@@ -4,7 +4,7 @@ import { inferQueryOutput } from '../utils/trpc';
 type Game = {
   id: number;
   title: string;
-  coverUrl: string | undefined;
+  coverUrl: string | null;
 };
 
 interface props {
