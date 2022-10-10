@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { createProtectedRouter, createRouter } from '../../createRouter';
-import { newGameSchema } from './schema';
+import schema from './schema';
 
 const protectedGameRouter = createProtectedRouter('ADMIN').mutation('create', {
-  input: newGameSchema,
+  input: schema,
   async resolve({ input, ctx }) {
     const { coverId, ...rest } = input;
     await ctx.prisma.game.create({
@@ -35,6 +35,18 @@ export const gameRouter = createRouter()
         orderBy: { completedDate: 'desc' },
         where: {
           completed: true,
+        },
+      });
+    },
+  })
+  .query('by-id', {
+    input: z.object({
+      id: z.number(),
+    }),
+    async resolve({ input, ctx }) {
+      return ctx.prisma.game.findFirst({
+        where: {
+          id: input.id,
         },
       });
     },

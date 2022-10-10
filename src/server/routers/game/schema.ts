@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const newGameSchema = z.object({
+const gameSchema = z.object({
   title: z.string(),
   inCollection: z.boolean().optional(),
   completed: z.boolean().optional(),
@@ -15,3 +15,5 @@ export const newGameSchema = z.object({
   platformId: z.number().optional(),
   coverId: z.number().optional(),
 });
+
+export default gameSchema;
