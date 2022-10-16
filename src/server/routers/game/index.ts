@@ -2,20 +2,33 @@ import { z } from 'zod';
 import { createProtectedRouter, createRouter } from '../../createRouter';
 import schema from './schema';
 
-const protectedGameRouter = createProtectedRouter('ADMIN').mutation('create', {
-  input: schema,
-  async resolve({ input, ctx }) {
-    const { coverId, ...rest } = input;
-    await ctx.prisma.game.create({
-      data: {
-        ...rest,
-        cover: coverId ? { connect: { id: coverId } } : undefined,
-      },
-    });
-    await ctx.res.revalidate('/');
-    return { sucess: true };
-  },
-});
+const protectedGameRouter = createProtectedRouter('ADMIN')
+  .mutation('create', {
+    input: schema,
+    async resolve({ input, ctx }) {
+      const { coverId, ...rest } = input;
+      await ctx.prisma.game.create({
+        data: {
+          ...rest,
+          cover: coverId ? { connect: { id: coverId } } : undefined,
+        },
+      });
+      await ctx.res.revalidate('/');
+      return { sucess: true };
+    },
+  })
+  .mutation('update', {
+    input: schema.extend({ id: z.number() }),
+    async resolve({ input, ctx }) {
+      const { id, ...data } = input;
+      await ctx.prisma.game.update({
+        where: {
+          id,
+        },
+        data,
+      });
+    },
+  });
 
 export const gameRouter = createRouter()
   .query('all', {
@@ -48,6 +61,7 @@ export const gameRouter = createRouter()
         where: {
           id: input.id,
         },
+        include: { cover: { select: { secureUrl: true } } },
       });
     },
   })

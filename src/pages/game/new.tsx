@@ -6,7 +6,6 @@ import {
 import { useRouter } from 'next/router';
 import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
-import { prisma } from '../../server/prisma';
 import GameForm from '../../components/GameForm';
 
 const NewGame = (
@@ -24,15 +23,12 @@ const NewGame = (
   return (
     <div>
       <h2 className="pb-6 text-3xl font-bold">New game</h2>
-      <GameForm onSubmit={createGame.mutate} platforms={platforms} />
+      <GameForm onSubmit={createGame.mutate} />
     </div>
   );
 };
 
-interface SSProps {
-  data: Array<{ id: number; name: string }>;
-}
-export const getServerSideProps: GetServerSideProps<SSProps> = async (
+export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerSession(context.req, context.res);
@@ -46,15 +42,8 @@ export const getServerSideProps: GetServerSideProps<SSProps> = async (
     };
   }
 
-  const data = await prisma.platform.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-  });
-
   return {
-    props: { session, data },
+    props: { session },
   };
 };
 

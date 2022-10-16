@@ -1,11 +1,14 @@
 import { inferQueryOutput } from '../utils/trpc';
 
-const GameDetails = (props: inferQueryOutput<'game.by-id'>) => {
-  if (!props) {
-    return null;
-  }
+interface Props {
+  game: inferQueryOutput<'game.by-id'>;
+}
 
-  const { title } = props;
+const GameDetails: React.FC<Props> = ({ game }) => {
+  if (!game) return null;
+
+  const { title } = game;
+
   return (
     <div>
       <p>{title}</p>

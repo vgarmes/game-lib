@@ -9,6 +9,8 @@ import { setValueAsDate, setValueAsNumber } from '../utils/zod';
 import TextArea from './common/TextArea';
 import Select from './common/Select';
 import Button from './common/Button';
+import { Game } from '@prisma/client';
+import { trpc } from '../utils/trpc';
 
 type Schema = z.infer<typeof schema>;
 
@@ -30,11 +32,11 @@ const defaultValues = {
 
 interface Props {
   onSubmit: (values: Schema) => void;
-  initialValues?: Schema;
-  platforms: Array<{ id: number; name: string }>;
+  initialValues?: Game;
 }
 
-const GameForm: React.FC<Props> = ({ initialValues, onSubmit, platforms }) => {
+const GameForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+  const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
     formState: { errors },
