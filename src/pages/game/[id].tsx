@@ -8,16 +8,18 @@ import { trpc } from '../../utils/trpc';
 
 const EditGame = () => {
   const router = useRouter();
-  const { slug } = router.query; // slug will be undefined during first renders
-  const stringId = slug?.[0];
+  const { id } = router.query; // slug will be undefined during first renders
 
-  const id = stringId ? parseInt(stringId) : 0;
-  const isValidId = !!stringId && !isNaN(parseInt(stringId));
+  const isValidId = !!id && !isNaN(parseInt(id as string));
+  const numId = id ? parseInt(id as string) : 0;
   const isEdit = false; //temporary
 
-  const { data: game, isLoading } = trpc.useQuery(['game.by-id', { id }], {
-    enabled: isValidId,
-  });
+  const { data: game, isLoading } = trpc.useQuery(
+    ['game.by-id', { id: numId }],
+    {
+      enabled: isValidId,
+    }
+  );
 
   const updateGame = trpc.useMutation('game.update', {
     onSuccess() {
@@ -26,7 +28,7 @@ const EditGame = () => {
     },
   });
 
-  if (isLoading || !slug) {
+  if (isLoading || !id) {
     return <p>Loading...</p>;
   }
 
@@ -38,7 +40,7 @@ const EditGame = () => {
     return (
       <GameForm
         initialValues={game}
-        onSubmit={(values) => updateGame.mutate({ id, ...values })}
+        onSubmit={(values) => updateGame.mutate({ id: numId, ...values })}
       />
     );
   }
