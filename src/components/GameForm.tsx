@@ -12,13 +12,29 @@ import Button from './common/Button';
 
 type Schema = z.infer<typeof schema>;
 
+const defaultValues = {
+  title: '',
+  inCollection: false,
+  completed: false,
+  edition: undefined,
+  releaseDate: undefined,
+  completedDate: undefined,
+  buyDate: undefined,
+  buyPrice: undefined,
+  developerId: undefined,
+  rating: undefined,
+  comment: undefined,
+  platformId: undefined,
+  coverId: undefined,
+};
+
 interface Props {
   onSubmit: (values: Schema) => void;
-  defaultValues: Schema;
+  initialValues?: Schema;
   platforms: Array<{ id: number; name: string }>;
 }
 
-const GameForm: React.FC<Props> = ({ defaultValues, onSubmit, platforms }) => {
+const GameForm: React.FC<Props> = ({ initialValues, onSubmit, platforms }) => {
   const {
     register,
     formState: { errors },
