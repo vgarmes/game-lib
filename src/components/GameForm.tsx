@@ -11,10 +11,12 @@ import Select from './common/Select';
 import Button from './common/Button';
 import { Game } from '@prisma/client';
 import { trpc } from '../utils/trpc';
+import { toISODateString } from '../utils';
+import { Controller } from 'react-hook-form';
 
 type Schema = z.infer<typeof schema>;
 
-const defaultValues = {
+const DEFAULT_VALUES = {
   title: '',
   inCollection: false,
   completed: false,
@@ -32,10 +34,13 @@ const defaultValues = {
 
 interface Props {
   onSubmit: (values: Schema) => void;
-  initialValues?: Game;
+  defaultValues?: Schema;
 }
 
-const GameForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+const GameForm: React.FC<Props> = ({
+  defaultValues = DEFAULT_VALUES,
+  onSubmit,
+}) => {
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
@@ -43,10 +48,12 @@ const GameForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     setValue,
     handleSubmit,
     getValues,
+    control,
   } = useZodForm({
     schema: schema,
     defaultValues,
   });
+
   return (
     <form
       onSubmit={handleSubmit((values) => onSubmit(values))}
@@ -75,29 +82,52 @@ const GameForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
         <Toggle label="Completed" {...register('completed')} />
       </div>
       <div className="flex w-full items-center gap-3">
-        <Input
-          label="Completed date"
-          type="date"
-          {...register('completedDate', {
-            setValueAs: (v) => setValueAsDate(v, defaultValues.completedDate),
-          })}
+        <Controller
+          control={control}
+          name="completedDate"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Input
+              ref={ref}
+              label="Completed date"
+              type="date"
+              onChange={(e) => onChange(new Date(e.target.value))}
+              onBlur={onBlur}
+              value={value ? toISODateString(value) : undefined}
+            />
+          )}
         />
-        <Input
-          label="Release date"
-          type="date"
-          {...register('releaseDate', {
-            setValueAs: (v) => setValueAsDate(v, defaultValues.releaseDate),
-          })}
+
+        <Controller
+          control={control}
+          name="releaseDate"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Input
+              ref={ref}
+              label="Release date"
+              type="date"
+              onChange={(e) => onChange(new Date(e.target.value))}
+              onBlur={onBlur}
+              value={value ? toISODateString(value) : undefined}
+            />
+          )}
         />
       </div>
       <div className="flex w-full items-center gap-5">
-        <Input
-          label="Buy date"
-          type="date"
-          {...register('buyDate', {
-            setValueAs: (v) => setValueAsDate(v, defaultValues.buyDate),
-          })}
+        <Controller
+          control={control}
+          name="buyDate"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Input
+              ref={ref}
+              label="Buy date"
+              type="date"
+              onChange={(e) => onChange(new Date(e.target.value))}
+              onBlur={onBlur}
+              value={value ? toISODateString(value) : undefined}
+            />
+          )}
         />
+
         <Input
           label="Price"
           type="number"
@@ -112,17 +142,29 @@ const GameForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
         placeholder="Write a comment..."
         {...register('comment')}
       />
-      <Select
-        label="Platform"
-        placeholder="Choose a platform"
-        options={platforms?.map((platform) => ({
-          value: platform.id,
-          label: platform.name,
-        }))}
-        {...register('platformId', {
-          setValueAs: (v) => parseInt(v) || defaultValues.platformId,
-        })}
+      <Controller
+        control={control}
+        name="platformId"
+        render={({ field: { onChange, onBlur, value, ref } }) => (
+          <Select
+            label="Platform"
+            placeholder="Choose a platform"
+            options={platforms?.map((platform) => ({
+              value: platform.id,
+              label: platform.name,
+            }))}
+            value={value?.toString()}
+            onChange={(e) =>
+              onChange(parseInt(e.target.value) || defaultValues.platformId)
+            }
+            onBlur={onBlur}
+          />
+        )}
       />
+
+      <button type="button" onClick={() => console.log(getValues())}>
+        print values
+      </button>
 
       <Button type="submit">Submit</Button>
     </form>

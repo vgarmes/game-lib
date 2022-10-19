@@ -37,8 +37,9 @@ const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
 
 const ImageUpload: React.FC<{
   onSubmit?: (coverId: number) => void;
-}> = ({ onSubmit }) => {
-  const [preview, setPreview] = useState('');
+  defaultImageSrc?: string;
+}> = ({ onSubmit, defaultImageSrc }) => {
+  const [preview, setPreview] = useState(defaultImageSrc);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
