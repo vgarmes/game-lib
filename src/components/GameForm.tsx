@@ -35,10 +35,12 @@ const DEFAULT_VALUES = {
 interface Props {
   onSubmit: (values: Schema) => void;
   defaultValues?: Schema;
+  defaultCoverUrl?: string;
 }
 
 const GameForm: React.FC<Props> = ({
   defaultValues = DEFAULT_VALUES,
+  defaultCoverUrl,
   onSubmit,
 }) => {
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
@@ -47,7 +49,6 @@ const GameForm: React.FC<Props> = ({
     formState: { errors },
     setValue,
     handleSubmit,
-    getValues,
     control,
   } = useZodForm({
     schema: schema,
@@ -59,7 +60,10 @@ const GameForm: React.FC<Props> = ({
       onSubmit={handleSubmit((values) => onSubmit(values))}
       className="flex min-w-[200px] flex-col gap-5 md:items-start"
     >
-      <ImageUpload onSubmit={(id) => setValue('coverId', id)} />
+      <ImageUpload
+        defaultImageSrc={defaultCoverUrl}
+        onSubmit={(id) => setValue('coverId', id)}
+      />
       <RatingInput
         defaultRating={defaultValues.rating}
         setRatingValue={(n) => setValue('rating', n)}
@@ -161,10 +165,6 @@ const GameForm: React.FC<Props> = ({
           />
         )}
       />
-
-      <button type="button" onClick={() => console.log(getValues())}>
-        print values
-      </button>
 
       <Button type="submit">Submit</Button>
     </form>

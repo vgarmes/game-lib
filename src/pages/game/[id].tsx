@@ -47,6 +47,7 @@ const EditGame = () => {
       {isEditing ? (
         <GameForm
           defaultValues={initialValues}
+          defaultCoverUrl={initialValues.cover?.secureUrl}
           onSubmit={(values) => updateGame.mutate({ id: numId, ...values })}
         />
       ) : (
