@@ -20,12 +20,15 @@ const protectedGameRouter = createProtectedRouter('ADMIN')
   .mutation('update', {
     input: schema.extend({ id: z.number() }),
     async resolve({ input, ctx }) {
-      const { id, ...data } = input;
+      const { id, coverId, ...rest } = input;
       await ctx.prisma.game.update({
         where: {
           id,
         },
-        data,
+        data: {
+          ...rest,
+          cover: coverId ? { connect: { id: coverId } } : undefined,
+        },
       });
     },
   });
