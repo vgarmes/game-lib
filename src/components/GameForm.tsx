@@ -46,7 +46,7 @@ const GameForm: React.FC<Props> = ({
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     handleSubmit,
     control,
@@ -166,7 +166,9 @@ const GameForm: React.FC<Props> = ({
         )}
       />
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        Submit
+      </Button>
     </form>
   );
 };
