@@ -5,11 +5,9 @@ import ImageUpload from './ImageUpload';
 import RatingInput from './common/Stars';
 import Input from './common/Input';
 import Toggle from './common/Toggle';
-import { setValueAsDate, setValueAsNumber } from '../utils/zod';
 import TextArea from './common/TextArea';
 import Select from './common/Select';
 import Button from './common/Button';
-import { Game } from '@prisma/client';
 import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
 import { Controller } from 'react-hook-form';
@@ -17,7 +15,7 @@ import { Controller } from 'react-hook-form';
 type Schema = z.infer<typeof schema>;
 
 const DEFAULT_VALUES = {
-  title: '',
+  title: undefined,
   inCollection: false,
   completed: false,
   edition: undefined,
@@ -30,6 +28,10 @@ const DEFAULT_VALUES = {
   comment: undefined,
   platformId: undefined,
   coverId: undefined,
+};
+
+const setValueAsNumber = (value: string, defaultValue?: number | null) => {
+  return parseInt(value) || defaultValue;
 };
 
 interface Props {
@@ -50,6 +52,7 @@ const GameForm: React.FC<Props> = ({
     setValue,
     handleSubmit,
     control,
+    getValues,
   } = useZodForm({
     schema: schema,
     defaultValues,
@@ -64,10 +67,12 @@ const GameForm: React.FC<Props> = ({
         defaultImageSrc={defaultCoverUrl}
         onSubmit={(id) => setValue('coverId', id)}
       />
-      <RatingInput
-        defaultRating={defaultValues.rating}
-        setRatingValue={(n) => setValue('rating', n)}
-        {...register('rating')}
+      <Controller
+        control={control}
+        name="rating"
+        render={({ field: { onChange, onBlur, value, ref } }) => (
+          <RatingInput value={value} onChange={onChange} />
+        )}
       />
       <Input
         label="Title"

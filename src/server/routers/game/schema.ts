@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const gameSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1),
   inCollection: z.boolean().nullable(),
   completed: z.boolean().nullable(),
   edition: z.string().optional().nullable(),

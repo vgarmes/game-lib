@@ -73,39 +73,29 @@ export const Stars: React.FC<StarsProps> = ({
   );
 };
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  setRatingValue?: (n: number) => void;
-  defaultRating?: number | null;
+interface Props {
+  onChange?: (n: number) => void;
+  value?: number | null;
 }
 
 const StarsInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ setRatingValue, defaultRating, ...rest }, ref) => {
-    const [initialRating, setInitialRating] = useState(defaultRating);
-    const [rating, setRating] = useState(defaultRating);
-    if (initialRating !== defaultRating) {
-      // in case defaultRating has changed
-      setInitialRating(defaultRating);
-      setRating(defaultRating);
-    }
-
+  ({ onChange, value, ...rest }, ref) => {
     const [hoveredStar, setHoveredStar] = useState<number | null>(null);
     const onClickHandler = (newRating: number) => {
-      setRating(newRating);
-      setRatingValue && setRatingValue(newRating);
+      onChange && onChange(newRating);
     };
 
     let ratingText: string = '';
     if (hoveredStar || hoveredStar === 0) {
       ratingText = RATINGS[hoveredStar];
-    } else if (rating || rating === 0) {
-      ratingText = RATINGS[rating];
+    } else if (value || value === 0) {
+      ratingText = RATINGS[value];
     }
 
     return (
       <div className="flex items-center">
-        <input ref={ref} type="number" className="sr-only" {...rest} />
         <Stars
-          activeStar={rating ? rating - 1 : null}
+          activeStar={value ? value - 1 : null}
           onClickStar={(index) => onClickHandler(index + 1)}
           hoverStar={hoveredStar}
           onHoverStar={setHoveredStar}
