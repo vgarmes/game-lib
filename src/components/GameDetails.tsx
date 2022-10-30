@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { inferQueryOutput } from '../utils/trpc';
+import Badge from './common/Badge';
 import Button from './common/Button';
 import Table from './common/Table';
 
@@ -21,10 +22,20 @@ const GameDetails: React.FC<Props> = ({ game, onClickEdit }) => {
     completed,
   } = game;
 
+  const completedText = completed
+    ? `Yes (${completedDate?.toLocaleDateString()})`
+    : 'No';
   return (
     <div>
-      <h2 className=" pb-6 text-3xl font-bold">{title}</h2>
-      <div className="flex w-full max-w-xl flex-col items-center justify-center gap-3 pb-6 sm:flex-row sm:items-start sm:justify-start">
+      <div className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-center">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <div className="flex shrink-0 gap-3">
+          {completed && <Badge text="completed" color="blue" />}
+          {inCollection && <Badge text="in collection" color="green" />}
+        </div>
+      </div>
+
+      <div className="flex w-full max-w-xl flex-col items-center justify-center gap-6 pb-6 sm:flex-row sm:items-start sm:justify-start">
         <div className="relative h-48 w-48">
           <Image
             alt={`${title} cover`}
@@ -41,7 +52,11 @@ const GameDetails: React.FC<Props> = ({ game, onClickEdit }) => {
             { title: 'Edition', content: edition },
             {
               title: 'Completed',
-              content: completedDate?.toLocaleDateString() || 'No',
+              content: completedText,
+            },
+            {
+              title: 'In collection',
+              content: inCollection ? 'Yes' : 'No',
             },
           ]}
         />
