@@ -1,12 +1,8 @@
-import { Game } from '@prisma/client';
-import { GetServerSidePropsContext } from 'next';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Button from '../../components/common/Button';
 import GameDetails from '../../components/GameDetails';
 import GameForm from '../../components/GameForm';
-import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
 
 const EditGame = () => {
@@ -51,11 +47,7 @@ const EditGame = () => {
           onSubmit={(values) => updateGame.mutate({ id: numId, ...values })}
         />
       ) : (
-        <GameDetails game={game} />
-      )}
-
-      {session && !isEditing && (
-        <Button onClick={() => setIsEditing(true)}>Edit</Button>
+        <GameDetails game={game} onClickEdit={() => setIsEditing(true)} />
       )}
     </div>
   );

@@ -52,7 +52,6 @@ const GameForm: React.FC<Props> = ({
     setValue,
     handleSubmit,
     control,
-    getValues,
   } = useZodForm({
     schema: schema,
     defaultValues,

@@ -64,7 +64,10 @@ export const gameRouter = createRouter()
         where: {
           id: input.id,
         },
-        include: { cover: { select: { secureUrl: true } } },
+        include: {
+          cover: { select: { secureUrl: true } },
+          platform: { select: { name: true } },
+        },
       });
     },
   })
