@@ -34,8 +34,8 @@ const NavLinks = () => {
         <a className="font-bold tracking-tight">GAMELIB</a>
       </Link>
       <div className="hidden md:ml-10 md:flex">
-        <NavLink title="Games" href="/games" />
-        <NavLink title="Platforms" href="/platforms" />
+        <NavLink title="Games" href="/game" />
+        <NavLink title="Platforms" href="/platform" />
       </div>
     </div>
   );
