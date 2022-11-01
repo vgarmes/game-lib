@@ -1,28 +1,20 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import Form from '../../components/platform/Form';
 import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
-import GameForm from '../../components/GameForm';
 
-const NewGame = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const NewPlatform = () => {
   const router = useRouter();
-  const createGame = trpc.useMutation('game.create', {
+  const createPlatform = trpc.useMutation('platform.create', {
     onSuccess() {
-      console.log('success!');
-      router.push('/');
+      router.push('/platform');
     },
   });
-
   return (
     <div>
-      <h2 className="pb-6 text-3xl font-bold">New game</h2>
-      <GameForm onSubmit={createGame.mutate} />
+      <h2 className="pb-6 text-3xl font-bold">New platform</h2>
+      <Form onSubmit={createPlatform.mutate} />
     </div>
   );
 };
@@ -46,4 +38,4 @@ export const getServerSideProps: GetServerSideProps = async (
   };
 };
 
-export default NewGame;
+export default NewPlatform;
