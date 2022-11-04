@@ -2,15 +2,19 @@ import { z } from 'zod';
 import schema from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
 import ImageUpload from './ImageUpload';
-import RatingInput from './common/Stars';
-import Input from './common/Input';
-import Toggle from './common/Toggle';
-import TextArea from './common/TextArea';
-import Select from './common/Select';
-import Button from './common/Button';
+import {
+  Input,
+  Toggle,
+  TextArea,
+  Select,
+  Button,
+  Stars,
+  StarsInput,
+} from './common';
 import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
 import { Controller } from 'react-hook-form';
+import { getDirtyValues, ValidDirtyFields } from '../utils/forms';
 
 type Schema = z.infer<typeof schema>;
 
@@ -48,7 +52,7 @@ const GameForm: React.FC<Props> = ({
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, dirtyFields },
     setValue,
     handleSubmit,
     control,
@@ -59,7 +63,11 @@ const GameForm: React.FC<Props> = ({
 
   return (
     <form
-      onSubmit={handleSubmit((values) => onSubmit(values))}
+      onSubmit={handleSubmit((values) =>
+        onSubmit(
+          getDirtyValues(values, dirtyFields as ValidDirtyFields<Schema>)
+        )
+      )}
       className="flex min-w-[200px] flex-col gap-5 md:items-start"
     >
       <ImageUpload
@@ -70,7 +78,7 @@ const GameForm: React.FC<Props> = ({
         control={control}
         name="rating"
         render={({ field: { onChange, onBlur, value, ref } }) => (
-          <RatingInput value={value} onChange={onChange} />
+          <StarsInput value={value} onChange={onChange} />
         )}
       />
       <Input
