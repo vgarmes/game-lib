@@ -65,8 +65,8 @@ export const gameRouter = createRouter()
           id: input.id,
         },
         include: {
-          cover: { select: { secureUrl: true } },
-          platform: { select: { name: true } },
+          cover: { select: { id: true, secureUrl: true } },
+          platform: { select: { id: true, name: true } },
         },
       });
     },
