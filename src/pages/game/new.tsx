@@ -6,11 +6,11 @@ import {
 import { useRouter } from 'next/router';
 import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
-import GameForm from '../../components/GameForm';
+import GameForm, { DEFAULT_VALUES } from '../../components/GameForm';
+import useZodForm from '../../utils/hooks/useZodForm';
+import schema from '../../server/routers/game/schema';
 
-const NewGame = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const NewGame = () => {
   const router = useRouter();
   const createGame = trpc.useMutation('game.create', {
     onSuccess() {
@@ -22,7 +22,7 @@ const NewGame = (
   return (
     <div>
       <h2 className="pb-6 text-3xl font-bold">New game</h2>
-      <GameForm onSubmit={createGame.mutate} />
+      <GameForm onSubmit={(values, _) => createGame.mutate(values)} />
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { z } from 'zod';
-import schema from '../server/routers/game/schema';
+import schema, {
+  updateGame as nullishSchema,
+} from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
 import ImageUpload from './ImageUpload';
 import {
@@ -13,25 +15,25 @@ import {
 } from './common';
 import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
-import { Controller } from 'react-hook-form';
-import { getDirtyValues, ValidDirtyFields } from '../utils/forms';
+import { Controller, FieldValues, UseFormReturn } from 'react-hook-form';
+import { getDirtyValues, DirtyFields } from '../utils/forms';
 
-type Schema = z.infer<typeof schema>;
+export type Schema = z.infer<typeof schema>;
 
-const DEFAULT_VALUES = {
-  title: undefined,
+export const DEFAULT_VALUES = {
+  title: '',
   inCollection: false,
   completed: false,
-  edition: undefined,
-  releaseDate: undefined,
-  completedDate: undefined,
-  buyDate: undefined,
-  buyPrice: undefined,
-  developerId: undefined,
-  rating: undefined,
-  comment: undefined,
-  platformId: undefined,
-  coverId: undefined,
+  edition: '',
+  releaseDate: null,
+  completedDate: null,
+  buyDate: null,
+  buyPrice: null,
+  developerId: null,
+  rating: null,
+  comment: '',
+  platformId: null,
+  coverId: null,
 };
 
 const setValueAsNumber = (value: string, defaultValue?: number | null) => {
@@ -39,16 +41,13 @@ const setValueAsNumber = (value: string, defaultValue?: number | null) => {
 };
 
 interface Props {
-  onSubmit: (values: Schema) => void;
-  defaultValues?: Schema;
+  onSubmit: (values: Schema, dirtyFields: DirtyFields<Schema>) => void;
   defaultCoverUrl?: string;
+  initialValues?: Schema;
 }
 
-const GameForm: React.FC<Props> = ({
-  defaultValues = DEFAULT_VALUES,
-  defaultCoverUrl,
-  onSubmit,
-}) => {
+const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
+  const defaultValues = initialValues || DEFAULT_VALUES;
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
@@ -60,14 +59,9 @@ const GameForm: React.FC<Props> = ({
     schema: schema,
     defaultValues,
   });
-
   return (
     <form
-      onSubmit={handleSubmit((values) =>
-        onSubmit(
-          getDirtyValues(values, dirtyFields as ValidDirtyFields<Schema>)
-        )
-      )}
+      onSubmit={handleSubmit((values) => onSubmit(values, dirtyFields))}
       className="flex min-w-[200px] flex-col gap-5 md:items-start"
     >
       <ImageUpload

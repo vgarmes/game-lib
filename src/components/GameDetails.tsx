@@ -6,10 +6,9 @@ import Table from './common/Table';
 
 interface Props {
   game: inferQueryOutput<'game.by-id'>;
-  onClickEdit: () => void;
 }
 
-const GameDetails: React.FC<Props> = ({ game, onClickEdit }) => {
+const GameDetails: React.FC<Props> = ({ game }) => {
   if (!game) return null;
 
   const {
@@ -61,7 +60,7 @@ const GameDetails: React.FC<Props> = ({ game, onClickEdit }) => {
           ]}
         />
       </div>
-      <Button onClick={onClickEdit}>Edit</Button>
+      <Button onClick={() => console.log('edit')}>Edit</Button>
     </div>
   );
 };
