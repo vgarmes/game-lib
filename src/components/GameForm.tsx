@@ -56,9 +56,10 @@ const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
     handleSubmit,
     control,
   } = useZodForm({
-    schema: schema,
+    schema,
     defaultValues,
   });
+
   return (
     <form
       onSubmit={handleSubmit((values) => onSubmit(values, dirtyFields))}
@@ -66,7 +67,7 @@ const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
     >
       <ImageUpload
         defaultImageSrc={defaultCoverUrl}
-        onSubmit={(id) => setValue('coverId', id)}
+        onSubmit={(id) => setValue('coverId', id, { shouldDirty: true })}
       />
       <Controller
         control={control}

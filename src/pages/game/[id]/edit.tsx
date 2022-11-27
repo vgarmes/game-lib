@@ -10,17 +10,6 @@ import { Game } from '@prisma/client';
 import { DirtyFields, getDirtyValues } from '../../../utils/forms';
 import { inferQueryOutput } from '../../../utils/trpc';
 
-interface PageProps {
-  game: Game & {
-    cover: {
-      secureUrl: string;
-    } | null;
-    platform: {
-      name: string;
-    } | null;
-  };
-}
-
 const EditPage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -55,12 +44,24 @@ const EditPage = () => {
     return updateGame.mutate({ id: game.id, ...updatedValues });
   };
 
-  const { id: gameId, createdAt, updatedAt, ...restValues } = game;
+  const {
+    id: gameId,
+    platform,
+    cover,
+    createdAt,
+    updatedAt,
+    ...restValues
+  } = game;
+
   return (
     <GameForm
       onSubmit={handleSubmit}
       defaultCoverUrl={game.cover?.secureUrl}
-      initialValues={restValues}
+      initialValues={{
+        ...restValues,
+        platformId: platform?.id,
+        coverId: cover?.id,
+      }}
     />
   );
 };
