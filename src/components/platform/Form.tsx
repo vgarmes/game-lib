@@ -13,22 +13,23 @@ const DEFAULT_VALUES = {
 };
 interface Props {
   onSubmit: (values: Schema) => void;
-  defaultValues?: Schema;
+  initialValues?: Schema;
   isSubmitting?: boolean;
 }
 
 const Form: React.FC<Props> = ({
-  defaultValues = DEFAULT_VALUES,
+  initialValues,
   onSubmit,
   isSubmitting = false,
 }) => {
+  const defaultValues = initialValues || DEFAULT_VALUES;
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useZodForm({ schema, defaultValues });
 
-  const buttonText = defaultValues ? 'Update' : 'Create';
+  const buttonText = initialValues ? 'Update' : 'Create';
 
   return (
     <form

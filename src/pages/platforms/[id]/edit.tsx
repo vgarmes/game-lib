@@ -36,7 +36,7 @@ const EditPlatform = () => {
     <div>
       <Title>{`${platform.name} - ${platform.manufacturer}`}</Title>
       <Form
-        defaultValues={platform}
+        initialValues={platform}
         onSubmit={(values) => mutate({ id: numId, ...values })}
         isSubmitting={isSubmitting}
       />
