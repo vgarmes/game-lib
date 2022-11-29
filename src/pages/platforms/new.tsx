@@ -8,7 +8,7 @@ const NewPlatform = () => {
   const router = useRouter();
   const createPlatform = trpc.useMutation('platform.create', {
     onSuccess() {
-      router.push('/platform');
+      router.push('/platforms');
     },
   });
   return (
