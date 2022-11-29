@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router';
 import GameDetails from '../../../components/GameDetails';
+import parseId from '../../../utils/parse-id';
 import { trpc } from '../../../utils/trpc';
 
 const GameDetailsPage = () => {
   const router = useRouter();
   const { id } = router.query; // slug will be undefined during first renders
 
-  const isValidId = !!id && !isNaN(parseInt(id as string));
-  const numId = id ? parseInt(id as string) : 0;
+  const { numId, isValidId } = parseId(id);
 
   const { data: game, isLoading } = trpc.useQuery(
-    ['game.by-id', { id: numId }],
+    ['game.by-id', { id: numId! }],
     {
       enabled: isValidId,
     }
