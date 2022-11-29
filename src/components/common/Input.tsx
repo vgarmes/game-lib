@@ -8,10 +8,10 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, error, className, ...rest }, ref) => {
+  ({ label, error, ...rest }, ref) => {
     const hasError = !!error;
     return (
-      <div className={className}>
+      <div className="w-full">
         <label>
           <span
             className={classNames(

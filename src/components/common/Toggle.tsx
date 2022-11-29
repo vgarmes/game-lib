@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { InputHTMLAttributes } from 'react';
 
@@ -6,14 +7,14 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   labelPosition?: 'left' | 'right';
 }
 const Toggle = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, labelPosition = 'right', className, ...rest }, ref) => {
+  ({ label, labelPosition = 'right', ...rest }, ref) => {
     const labelElement = (
       <span className="text-sm font-medium text-gray-900 dark:text-gray-300">
         {label}
       </span>
     );
     return (
-      <div className={className}>
+      <div className="w-full">
         <label className="flex cursor-pointer items-center gap-3">
           <input
             ref={ref}

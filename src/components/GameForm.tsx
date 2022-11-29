@@ -1,22 +1,13 @@
 import { z } from 'zod';
-import schema, {
-  updateGame as nullishSchema,
-} from '../server/routers/game/schema';
+import schema from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
 import ImageUpload from './ImageUpload';
-import {
-  Input,
-  Toggle,
-  TextArea,
-  Select,
-  Button,
-  Stars,
-  StarsInput,
-} from './common';
+import { Input, Toggle, TextArea, Select, Button, StarsInput } from './common';
 import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
-import { Controller, FieldValues, UseFormReturn } from 'react-hook-form';
-import { getDirtyValues, DirtyFields } from '../utils/forms';
+import { Controller } from 'react-hook-form';
+import { DirtyFields } from '../utils/forms';
+import { Spinner } from './common/LoadingScreen';
 
 export type Schema = z.infer<typeof schema>;
 
@@ -42,16 +33,22 @@ const setValueAsNumber = (value: string, defaultValue?: number | null) => {
 
 interface Props {
   onSubmit: (values: Schema, dirtyFields: DirtyFields<Schema>) => void;
+  isSubmitting: boolean;
   defaultCoverUrl?: string;
   initialValues?: Schema;
 }
 
-const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
+const GameForm = ({
+  defaultCoverUrl,
+  onSubmit,
+  isSubmitting,
+  initialValues,
+}: Props) => {
   const defaultValues = initialValues || DEFAULT_VALUES;
   const { data: platforms } = trpc.useQuery(['platform.get-all']);
   const {
     register,
-    formState: { errors, isSubmitting, dirtyFields },
+    formState: { errors, dirtyFields },
     setValue,
     handleSubmit,
     control,
@@ -60,10 +57,12 @@ const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
     defaultValues,
   });
 
+  const buttonText = initialValues ? 'Edit' : 'Create';
+
   return (
     <form
       onSubmit={handleSubmit((values) => onSubmit(values, dirtyFields))}
-      className="flex min-w-[200px] flex-col gap-5 md:items-start"
+      className="flex max-w-xl flex-col gap-5"
     >
       <ImageUpload
         defaultImageSrc={defaultCoverUrl}
@@ -88,10 +87,10 @@ const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
         {...register('edition')}
         placeholder="Edition"
       />
-      <div className="flex items-center gap-5">
-        <Toggle label="In collection" {...register('inCollection')} />
-        <Toggle label="Completed" {...register('completed')} />
-      </div>
+
+      <Toggle label="In collection" {...register('inCollection')} />
+      <Toggle label="Completed" {...register('completed')} />
+
       <div className="flex w-full items-center gap-3">
         <Controller
           control={control}
@@ -174,7 +173,13 @@ const GameForm = ({ defaultCoverUrl, onSubmit, initialValues }: Props) => {
       />
 
       <Button type="submit" disabled={isSubmitting}>
-        Submit
+        {isSubmitting ? (
+          <span>
+            <Spinner />
+          </span>
+        ) : (
+          buttonText
+        )}
       </Button>
     </form>
   );

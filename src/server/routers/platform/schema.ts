@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-const platformSchema = z.object({
+const platform = z.object({
   name: z.string(),
-  manufacturer: z.string().optional(),
+  manufacturer: z.string().nullish(),
 });
 
-export default platformSchema;
+export default platform;

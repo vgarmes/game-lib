@@ -1,7 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { inferQueryOutput } from '../utils/trpc';
 import Badge from './common/Badge';
-import Button from './common/Button';
+import Button, { getButtonClassnames } from './common/Button';
 import Table from './common/Table';
 
 interface Props {
@@ -60,7 +61,9 @@ const GameDetails: React.FC<Props> = ({ game }) => {
           ]}
         />
       </div>
-      <Button onClick={() => console.log('edit')}>Edit</Button>
+      <Link href={`/games/${game.id}/edit`} passHref>
+        <a className={getButtonClassnames('primary', 'solid')}>Edit</a>
+      </Link>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const GameList = ({ games }: props) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => (
-        <Link key={game.id} href={`/game/${game.id}`} passHref>
+        <Link key={game.id} href={`/games/${game.id}`} passHref>
           <a>
             <div className="flex w-40 flex-col items-center">
               {game.coverUrl && (

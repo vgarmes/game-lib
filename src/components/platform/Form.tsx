@@ -3,31 +3,37 @@ import schema from '../../server/routers/platform/schema';
 import useZodForm from '../../utils/hooks/useZodForm';
 import Button from '../common/Button';
 import Input from '../common/Input';
+import { Spinner } from '../common/LoadingScreen';
 
 type Schema = z.infer<typeof schema>;
 
 const DEFAULT_VALUES = {
-  name: undefined,
-  manufacturer: undefined,
+  name: '',
+  manufacturer: '',
 };
 interface Props {
   onSubmit: (values: Schema) => void;
   defaultValues?: Schema;
+  isSubmitting?: boolean;
 }
 
 const Form: React.FC<Props> = ({
   defaultValues = DEFAULT_VALUES,
   onSubmit,
+  isSubmitting = false,
 }) => {
   const {
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     handleSubmit,
   } = useZodForm({ schema, defaultValues });
+
+  const buttonText = defaultValues ? 'Update' : 'Create';
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex min-w-[200px] flex-col gap-5 md:items-start"
+      className="flex max-w-xl flex-col gap-5"
     >
       <Input
         label="Manufacturer"
@@ -42,7 +48,13 @@ const Form: React.FC<Props> = ({
         placeholder="f.ex.: PlayStation"
       />
       <Button type="submit" disabled={isSubmitting}>
-        Create
+        {isSubmitting ? (
+          <span>
+            <Spinner size="24px" />
+          </span>
+        ) : (
+          buttonText
+        )}
       </Button>
     </form>
   );

@@ -1,11 +1,6 @@
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import GameDetails from '../../../components/GameDetails';
-import GameForm from '../../../components/GameForm';
-import useZodForm from '../../../utils/hooks/useZodForm';
 import { trpc } from '../../../utils/trpc';
-import { updateGame as schema } from '../../../server/routers/game/schema';
 
 const GameDetailsPage = () => {
   const router = useRouter();
