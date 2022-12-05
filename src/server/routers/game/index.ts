@@ -76,7 +76,7 @@ export const gameRouter = createRouter()
     input: z.object({
       skip: z.number().nonnegative().nullish(),
       take: z.number().positive().nullish(),
-      query: z.string().min(1),
+      query: z.string(),
     }),
     async resolve({ input, ctx }) {
       const skip = input.skip ?? 0;
@@ -84,7 +84,10 @@ export const gameRouter = createRouter()
       return ctx.prisma.game.findMany({
         skip,
         take,
-        include: { cover: { select: { secureUrl: true } } },
+        include: {
+          cover: { select: { id: true, secureUrl: true } },
+          platform: { select: { id: true, name: true } },
+        },
         where: {
           title: {
             contains: input.query,
