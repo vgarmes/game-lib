@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { createProtectedRouter, createRouter } from '../../createRouter';
 import schema from './schema';
 
+const MAX_RESULTS = 100;
+
 const protectedGameRouter = createProtectedRouter('ADMIN')
   .mutation('create', {
     input: schema,
@@ -38,7 +40,6 @@ export const gameRouter = createRouter()
     input: z.object({
       skip: z.number().nonnegative().nullish(),
       take: z.number().positive().nullish(),
-      searchQuery: z.string().optional(),
     }),
     async resolve({ input, ctx }) {
       const skip = input.skip ?? 0;
@@ -67,6 +68,28 @@ export const gameRouter = createRouter()
         include: {
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
+        },
+      });
+    },
+  })
+  .query('search', {
+    input: z.object({
+      skip: z.number().nonnegative().nullish(),
+      take: z.number().positive().nullish(),
+      query: z.string().min(1),
+    }),
+    async resolve({ input, ctx }) {
+      const skip = input.skip ?? 0;
+      const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
+      return ctx.prisma.game.findMany({
+        skip,
+        take,
+        include: { cover: { select: { secureUrl: true } } },
+        where: {
+          title: {
+            contains: input.query,
+            mode: 'insensitive',
+          },
         },
       });
     },
