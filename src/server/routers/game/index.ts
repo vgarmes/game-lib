@@ -36,7 +36,7 @@ const protectedGameRouter = createProtectedRouter('ADMIN')
   });
 
 export const gameRouter = createRouter()
-  .query('all', {
+  .query('completed', {
     input: z.object({
       skip: z.number().nonnegative().nullish(),
       take: z.number().positive().nullish(),
@@ -48,7 +48,10 @@ export const gameRouter = createRouter()
       return ctx.prisma.game.findMany({
         skip,
         take,
-        include: { cover: { select: { secureUrl: true } } },
+        include: {
+          cover: { select: { id: true, secureUrl: true } },
+          platform: { select: { id: true, name: true } },
+        },
         orderBy: { completedDate: 'desc' },
         where: {
           completed: true,

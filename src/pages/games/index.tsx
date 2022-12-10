@@ -17,15 +17,7 @@ const GameResults = ({ query }: { query: string }) => {
   if (isLoading || !games) {
     return <LoadingScreen />;
   }
-  return (
-    <GameList
-      games={games.map(({ id, title, cover }) => ({
-        id,
-        title,
-        coverUrl: cover ? cover.secureUrl : null,
-      }))}
-    />
-  );
+  return <GameList games={games} />;
 };
 
 const GamePage = () => {
@@ -33,7 +25,7 @@ const GamePage = () => {
   const debouncedQuery = useDebounce(query, 1000);
   return (
     <div>
-      <form className="pb-12">
+      <form className="pb-12" onSubmit={(e) => e.preventDefault()}>
         <SearchInput
           placeholder="Search games"
           value={query}

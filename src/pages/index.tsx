@@ -1,10 +1,13 @@
 import Head from 'next/head';
-import GameList from '../components/GameList';
+import GameList, { Games } from '../components/GameList';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
+import superjson from 'superjson';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: games } = props;
+  const parsedGames = superjson.parse(games) as Games;
+
   return (
     <div>
       <Head>
@@ -17,7 +20,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <h1 className="mt-6 pb-6 text-center text-4xl font-extrabold tracking-tight text-white">
           Last completed games
         </h1>
-        {games && <GameList games={games} />}
+        {games && <GameList games={parsedGames} />}
       </section>
 
       <footer></footer>
@@ -37,11 +40,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   return {
     props: {
-      data: games.map(({ id, title, cover }) => ({
-        id,
-        title,
-        coverUrl: cover ? cover.secureUrl : null,
-      })),
+      data: superjson.stringify(games),
     },
   };
 }
