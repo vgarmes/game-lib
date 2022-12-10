@@ -15,10 +15,10 @@ const GameList = ({ games }: props) => {
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => (
         <Link key={game.id} href={`/games/${game.id}`} passHref>
-          <a>
+          <a className="group">
             <div className="flex w-40 flex-col items-center">
               {game.coverUrl && (
-                <div className="relative h-28 w-28">
+                <div className="relative h-28 w-28 transition-transform group-hover:scale-110">
                   <Image
                     alt={`${game.title} cover`}
                     src={game.coverUrl}
