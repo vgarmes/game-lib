@@ -15,7 +15,7 @@ interface Props {
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog open={isOpen} onClose={onClose}>
+      <Dialog open={isOpen} onClose={onClose} initalFocus={null}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,14 +38,17 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <Dialog.Panel className="relative w-full overflow-hidden rounded-t-lg text-white">
+            <Dialog.Panel
+              className="relative w-full overflow-hidden rounded-t-lg text-white"
+              style={{ transform: 'translateZ(0)' }} // fix for rounded corners in Safari
+            >
               {game?.cover?.secureUrl && (
                 <Image
                   alt="background"
                   src={game.cover.secureUrl}
                   layout="fill"
                   objectFit="cover"
-                  className=""
+                  className="rounded-t-lg"
                 />
               )}
 
