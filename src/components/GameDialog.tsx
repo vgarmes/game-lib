@@ -3,7 +3,7 @@ import type { Game } from './GameList';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
-import { Stars } from './common';
+import { Badge, Stars } from './common';
 import Link from 'next/link';
 
 interface StatProps {
@@ -65,26 +65,30 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                   className="rounded-t-lg"
                 />
               )}
-
               <div className="flex items-center gap-3 p-4 backdrop-blur backdrop-brightness-50 sm:p-10">
                 <GameThumbnail
                   title={game?.title}
                   src={game?.cover?.secureUrl ?? undefined}
                 />
                 <div className="grow">
-                  <Dialog.Title className="pb-1 text-xl font-semibold uppercase">
-                    {game?.title}
-                  </Dialog.Title>
-                  <Dialog.Description className="pb-1 text-sm text-gray-300">
-                    {game.platform?.name}
+                  <div className="flex flex-col items-start gap-1 pb-1 md:flex-row md:items-center md:gap-3">
+                    <Dialog.Title className="text-base font-semibold uppercase md:text-xl">
+                      {game.title}
+                    </Dialog.Title>
+                    {game.edition && <Badge text={game.edition} color="pink" />}
+                  </div>
+
+                  <Dialog.Description className="text-sm text-gray-300">
+                    {game.platform?.name || 'No platform'}
                   </Dialog.Description>
+
                   <div className="flex items-center gap-1">
-                    <Stars activeStar={game?.rating} />
+                    <Stars activeStar={game.rating && game.rating - 1} />
                     {!game?.rating && (
                       <p className="text-xs text-gray-300">(not rated)</p>
                     )}
                   </div>
-                  <div className="flex gap-5 py-2">
+                  <div className="flex flex-col gap-2 py-2 md:flex-row md:gap-5">
                     <Stat
                       title="Completed"
                       content={
@@ -100,9 +104,11 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                       content={game.inCollection ? 'Yes' : 'No'}
                     />
                   </div>
-                  <Link href={`/games/${game?.id}`} passHref>
-                    <a className="text-sm font-bold underline">More...</a>
-                  </Link>
+                  {/* <Link href={`/games/${game?.id}`} passHref>
+                    <a className="focus:bo text-sm font-bold underline">
+                      More...
+                    </a>
+                  </Link> */}
                 </div>
               </div>
             </Dialog.Panel>
