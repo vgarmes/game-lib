@@ -6,6 +6,20 @@ import Image from 'next/image';
 import { Stars } from './common';
 import Link from 'next/link';
 
+interface StatProps {
+  title: string;
+  content: string;
+}
+
+const Stat: React.FC<StatProps> = ({ title, content }) => {
+  return (
+    <div>
+      <p className="text-xs uppercase text-gray-300">{title}</p>
+      <p className="text-sm font-semibold">{content}</p>
+    </div>
+  );
+};
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -13,9 +27,12 @@ interface Props {
 }
 
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
+  if (!game) {
+    return null;
+  }
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog open={isOpen} onClose={onClose} initialFocus={undefined}>
+      <Dialog open={isOpen} onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -33,15 +50,12 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="translate-y-full"
-            enterTo=""
+            enterTo="translate-y-0"
             leave="ease-in duration-200"
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <Dialog.Panel
-              className="relative w-full overflow-hidden rounded-t-lg text-white"
-              style={{ transform: 'translateZ(0)' }} // fix for rounded corners in Safari
-            >
+            <Dialog.Panel className="w-full overflow-hidden rounded-t-lg text-white">
               {game?.cover?.secureUrl && (
                 <Image
                   alt="background"
@@ -61,22 +75,33 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                   <Dialog.Title className="pb-1 text-xl font-semibold uppercase">
                     {game?.title}
                   </Dialog.Title>
+                  <Dialog.Description className="pb-1 text-sm text-gray-300">
+                    {game.platform?.name}
+                  </Dialog.Description>
                   <div className="flex items-center gap-1">
                     <Stars activeStar={game?.rating} />
                     {!game?.rating && (
                       <p className="text-xs text-gray-300">(not rated)</p>
                     )}
                   </div>
-                  <div className="py-2">
-                    <p className="text-xs uppercase text-gray-300">Completed</p>
-                    <p className="text-sm font-semibold">
-                      {game?.completed
-                        ? game?.completedDate?.toDateString()
-                        : 'Not completed'}
-                    </p>
+                  <div className="flex gap-5 py-2">
+                    <Stat
+                      title="Completed"
+                      content={
+                        game.completed
+                          ? game.completedDate
+                            ? game.completedDate.toDateString()
+                            : 'Unknown date'
+                          : 'Not completed'
+                      }
+                    />
+                    <Stat
+                      title="In collection"
+                      content={game.inCollection ? 'Yes' : 'No'}
+                    />
                   </div>
                   <Link href={`/games/${game?.id}`} passHref>
-                    <a className="text-sm font-bold underline">See details</a>
+                    <a className="text-sm font-bold underline">More...</a>
                   </Link>
                 </div>
               </div>
