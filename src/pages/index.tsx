@@ -33,7 +33,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     where: {
       completed: true,
     },
-    include: { cover: { select: { secureUrl: true } } },
+    include: {
+      cover: { select: { secureUrl: true } },
+      platform: { select: { name: true } },
+    },
     orderBy: { completedDate: 'desc' },
     take: 20,
   });
