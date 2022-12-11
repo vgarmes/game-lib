@@ -15,7 +15,7 @@ interface Props {
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog open={isOpen} onClose={onClose} initalFocus={null}>
+      <Dialog open={isOpen} onClose={onClose} initialFocus={undefined}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
