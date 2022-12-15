@@ -3,6 +3,7 @@ import GameList, { Games } from '../components/GameList';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
 import superjson from 'superjson';
+import Title from '../components/common/Title';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: games } = props;
@@ -17,9 +18,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
 
       <section>
-        <h1 className="mt-6 pb-6 text-center text-4xl font-extrabold tracking-tight text-white">
-          Last completed games
-        </h1>
+        <Title className="text-center">Last completed games</Title>
         {games && <GameList games={parsedGames} />}
       </section>
 

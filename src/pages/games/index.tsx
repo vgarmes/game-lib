@@ -26,11 +26,13 @@ const GamePage = () => {
   return (
     <div>
       <form className="pb-12" onSubmit={(e) => e.preventDefault()}>
-        <SearchInput
-          placeholder="Search games"
-          value={query}
-          onChange={(value) => setQuery(value)}
-        />
+        <div className="mx-auto max-w-lg">
+          <SearchInput
+            placeholder="Search games"
+            value={query}
+            onChange={(value) => setQuery(value)}
+          />
+        </div>
       </form>
       <GameResults query={debouncedQuery} />
     </div>
