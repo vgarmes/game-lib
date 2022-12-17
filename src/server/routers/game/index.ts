@@ -100,4 +100,31 @@ export const gameRouter = createRouter()
       });
     },
   })
+  .query('by-platform-id', {
+    input: z.object({
+      id: z.number(),
+      skip: z.number().nonnegative().nullish(),
+      take: z.number().positive().nullish(),
+    }),
+    async resolve({ input, ctx }) {
+      const skip = input.skip ?? 0;
+      const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
+      return ctx.prisma.game.findMany({
+        skip,
+        take,
+        include: {
+          cover: { select: { id: true, secureUrl: true } },
+          platform: { select: { id: true, name: true } },
+        },
+        where: {
+          platformId: {
+            equals: input.id,
+          },
+        },
+        orderBy: {
+          title: 'asc',
+        },
+      });
+    },
+  })
   .merge(protectedGameRouter);

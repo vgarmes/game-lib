@@ -33,4 +33,21 @@ export const platformRouter = createRouter()
       return ctx.prisma.platform.findFirst({ where: { id: input.id } });
     },
   })
+  .query('count', {
+    async resolve({ ctx }) {
+      return ctx.prisma.platform.findMany({
+        include: {
+          _count: {
+            select: { games: true },
+          },
+        },
+        orderBy: [
+          {
+            manufacturer: 'asc',
+          },
+          { name: 'asc' },
+        ],
+      });
+    },
+  })
   .merge(protectedRouter);
