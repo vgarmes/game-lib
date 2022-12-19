@@ -3,8 +3,12 @@ import type { Game } from './GameList';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
-import { Badge, Stars } from './common';
+import { Badge, Button, Stars } from './common';
 import Link from 'next/link';
+import { getButtonClassnames } from './common/Button';
+import classNames from 'classnames';
+import { useSession } from 'next-auth/react';
+import Icon from './icon';
 
 interface StatProps {
   title: string;
@@ -27,6 +31,7 @@ interface Props {
 }
 
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
+  const { data: session } = useSession();
   if (!game) {
     return null;
   }
@@ -65,7 +70,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                   className="rounded-t-lg"
                 />
               )}
-              <div className="flex items-center gap-3 p-4 backdrop-blur backdrop-brightness-50 sm:p-10">
+              <div className="flex items-center gap-3 p-4 backdrop-blur backdrop-brightness-50 md:gap-6 md:p-10">
                 <GameThumbnail
                   title={game?.title}
                   src={game?.cover?.secureUrl ?? undefined}
@@ -88,27 +93,40 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                       <p className="text-xs text-gray-300">(not rated)</p>
                     )}
                   </div>
-                  <div className="flex flex-col gap-2 py-2 md:flex-row md:gap-5">
-                    <Stat
-                      title="Completed"
-                      content={
-                        game.completed
-                          ? game.completedDate
-                            ? game.completedDate.toDateString()
-                            : 'Unknown date'
-                          : 'Not completed'
-                      }
-                    />
-                    <Stat
-                      title="In collection"
-                      content={game.inCollection ? 'Yes' : 'No'}
-                    />
+                  <div className="flex items-end justify-between">
+                    <div className="flex flex-col gap-2 py-2 md:flex-row md:gap-5">
+                      <Stat
+                        title="Completed"
+                        content={
+                          game.completed
+                            ? game.completedDate
+                              ? game.completedDate.toDateString()
+                              : 'Unknown date'
+                            : 'Not completed'
+                        }
+                      />
+                      <Stat
+                        title="In collection"
+                        content={game.inCollection ? 'Yes' : 'No'}
+                      />
+                    </div>
+                    {session?.user.role === 'ADMIN' && (
+                      <Link
+                        href={`/games/${game?.id.toString()}/edit`}
+                        passHref
+                      >
+                        <a
+                          className={classNames(
+                            getButtonClassnames('primary', 'solid'),
+                            'flex items-center'
+                          )}
+                        >
+                          <Icon name="pencil" className="md:pr-3" />
+                          <span className="hidden md:inline-block">Edit</span>
+                        </a>
+                      </Link>
+                    )}
                   </div>
-                  {/* <Link href={`/games/${game?.id}`} passHref>
-                    <a className="focus:bo text-sm font-bold underline">
-                      More...
-                    </a>
-                  </Link> */}
                 </div>
               </div>
             </Dialog.Panel>
