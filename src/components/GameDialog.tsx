@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { Badge, Button, Stars } from './common';
 import Link from 'next/link';
 import { getButtonClassnames } from './common/Button';
-import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 import Icon from './icon';
 
@@ -115,12 +114,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                         href={`/games/${game?.id.toString()}/edit`}
                         passHref
                       >
-                        <a
-                          className={classNames(
-                            getButtonClassnames('primary', 'solid'),
-                            'flex items-center'
-                          )}
-                        >
+                        <a className={getButtonClassnames('primary', 'solid')}>
                           <Icon name="pencil" className="md:pr-3" />
                           <span className="hidden md:inline-block">Edit</span>
                         </a>

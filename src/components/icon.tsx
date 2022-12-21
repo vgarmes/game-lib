@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 const Paths = ['plus', 'pencil'] as const;
 type Path = typeof Paths[number];
-
+type Size = 'lg' | 'md' | 'sm';
 const paths: { [k in Path]: JSX.Element } = {
   plus: (
     <path
@@ -22,10 +22,16 @@ const paths: { [k in Path]: JSX.Element } = {
 
 interface Props {
   name: Path;
+  size?: Size;
   className?: HTMLAttributes<HTMLSpanElement>['className'];
 }
 
-const Icon: React.FC<Props> = ({ name, className }) => {
+const SIZES: { [k in Size]: string } = {
+  lg: 'h-6 w-6',
+  md: 'h-4 w-4',
+  sm: 'h-2 w-2',
+};
+const Icon: React.FC<Props> = ({ name, className, size = 'md' }) => {
   return (
     <span className={className}>
       <svg
@@ -34,7 +40,7 @@ const Icon: React.FC<Props> = ({ name, className }) => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="h-6 w-6"
+        className={SIZES[size]}
       >
         {paths[name]}
       </svg>

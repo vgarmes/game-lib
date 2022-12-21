@@ -14,14 +14,17 @@ export const getButtonClassnames = (
   variant: Variant,
   disabled: boolean = false
 ) =>
-  classNames('shadow-sm; rounded-md border px-4 py-2 font-medium', {
-    'border-pink-700': colorScheme === 'primary',
-    'cursor-not-allowed border-slate-500 text-slate-500': disabled,
-    'bg-pink-600 hover:border-pink-800 hover:bg-pink-700':
-      variant === 'solid' && colorScheme === 'primary' && !disabled,
-    'hover:border-pink-800':
-      variant === 'outline' && colorScheme === 'primary' && !disabled,
-  });
+  classNames(
+    'shadow-sm; rounded-md border px-4 py-4 md:py-2 font-medium flex items-center',
+    {
+      'border-pink-700': colorScheme === 'primary',
+      'cursor-not-allowed border-slate-500 text-slate-500': disabled,
+      'bg-pink-600 hover:border-pink-800 hover:bg-pink-700':
+        variant === 'solid' && colorScheme === 'primary' && !disabled,
+      'hover:border-pink-800':
+        variant === 'outline' && colorScheme === 'primary' && !disabled,
+    }
+  );
 
 const Button: React.FC<PropsWithChildren<Props>> = ({
   variant = 'solid',
