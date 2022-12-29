@@ -1,70 +1,86 @@
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { z } from 'zod';
+import { Button, Input } from '../../components/common';
+import LoadingScreen from '../../components/common/LoadingScreen';
+import Title from '../../components/common/Title';
 import useZodForm from '../../utils/hooks/useZodForm';
 
 const SignIn = () => {
   const router = useRouter();
-  const methods = useZodForm({
+  const [error, setError] = useState('');
+  const { data: session, status } = useSession();
+
+  const {
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting, isSubmitted },
+    register,
+    trigger,
+  } = useZodForm({
     schema: z.object({
-      email: z.string().email('Not a valid email'),
-      password: z.string(),
+      email: z.string().email('Not a valid email').min(1),
+      password: z.string().min(1),
     }),
     defaultValues: {
       email: '',
       password: '',
     },
   });
+
+  const handleSignIn = async (email: string, password: string) =>
+    signIn<'credentials'>('credentials', {
+      redirect: false,
+      email: email,
+      password: password,
+    }).then((response) => {
+      if (response?.ok) {
+        return router.push('/');
+      }
+      setError('Email or password are invalid');
+      return;
+    });
+
+  if (session) {
+    //router.push('/games');
+  }
+
+  if (status === 'loading') {
+    return <LoadingScreen />;
+  }
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold">Sign in </h2>
+    <div className="mx-auto flex max-w-md flex-col">
+      <Title>Sign in</Title>
+      {error && (
+        <div className="max flex justify-center">
+          <p className="rounded border border-red-500 bg-red-200 px-4 py-2 text-red-600">
+            {error}
+          </p>
+        </div>
+      )}
       <form
-        onSubmit={methods.handleSubmit(async (values) =>
-          signIn<'credentials'>('credentials', {
-            redirect: false,
-            email: values.email,
-            password: values.password,
-          }).then((response) => {
-            if (response?.ok) {
-              return router.push('/');
-            }
-            console.log(response?.error);
-            return;
-          })
+        onSubmit={handleSubmit((values) =>
+          handleSignIn(values.email, values.password)
         )}
       >
-        <div>
-          <label>
-            Email
-            <br />
-            <input type="email" {...methods.register('email')} />
-            {methods.formState.errors.email?.message && (
-              <p className="text-red-700">
-                {methods.formState.errors.email.message}
-              </p>
-            )}
-          </label>
-        </div>
+        <Input
+          type="email"
+          label="Email"
+          error={errors.email?.message}
+          {...register('email')}
+        />
 
-        <div>
-          <label>
-            Email
-            <br />
-            <input type="password" {...methods.register('password')} />
-            {methods.formState.errors.password?.message && (
-              <p className="text-red-700">
-                {methods.formState.errors.password.message}
-              </p>
-            )}
-          </label>
-        </div>
+        <Input
+          type="password"
+          label="Password"
+          error={errors.password?.message}
+          {...register('password')}
+        />
 
-        <button
-          type="submit"
-          className="bg-primary-500 border p-2 font-bold text-white"
-        >
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           Sign in
-        </button>
+        </Button>
       </form>
     </div>
   );

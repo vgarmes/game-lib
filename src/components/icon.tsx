@@ -1,9 +1,16 @@
 import { HTMLAttributes } from 'react';
 
-const Paths = ['plus', 'pencil'] as const;
+const Paths = ['check-circle', 'plus', 'pencil'] as const;
 type Path = typeof Paths[number];
 type Size = 'lg' | 'md' | 'sm';
 const paths: { [k in Path]: JSX.Element } = {
+  'check-circle': (
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  ),
   plus: (
     <path
       strokeLinecap="round"

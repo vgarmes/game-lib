@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import classNames, { Argument } from 'classnames';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
@@ -15,7 +16,7 @@ export const getButtonClassnames = (
   disabled: boolean = false
 ) =>
   classNames(
-    'shadow-sm; rounded-md border px-4 py-4 md:py-2 font-medium flex items-center',
+    'shadow-sm rounded-md border px-4 py-2 font-medium flex items-center justify-center',
     {
       'border-pink-700': colorScheme === 'primary',
       'cursor-not-allowed border-slate-500 text-slate-500': disabled,
@@ -31,11 +32,15 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   colorScheme = 'primary',
   disabled = false,
   children,
+  className,
   ...rest
 }) => {
   return (
     <button
-      className={getButtonClassnames(colorScheme, variant, disabled)}
+      className={classnames(
+        getButtonClassnames(colorScheme, variant, disabled),
+        className
+      )}
       disabled={disabled}
       {...rest}
     >
