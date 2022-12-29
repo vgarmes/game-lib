@@ -89,7 +89,7 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
     if (hoveredStar || hoveredStar === 0) {
       ratingText = RATINGS[hoveredStar];
     } else if (value || value === 0) {
-      ratingText = RATINGS[value];
+      ratingText = RATINGS[value - 1] || RATINGS[0]; // this will set the text to "Bad" either if value is 0 or 1
     }
 
     return (
