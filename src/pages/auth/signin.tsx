@@ -1,6 +1,6 @@
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Button, Input } from '../../components/common';
 import LoadingScreen from '../../components/common/LoadingScreen';
@@ -41,11 +41,13 @@ const SignIn = () => {
       return;
     });
 
-  if (session) {
-    //router.push('/games');
-  }
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/games');
+    }
+  }, [status, router]);
 
-  if (status === 'loading') {
+  if (status !== 'unauthenticated') {
     return <LoadingScreen />;
   }
 
