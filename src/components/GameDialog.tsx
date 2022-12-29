@@ -3,7 +3,7 @@ import type { Game } from './GameList';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
-import { Badge, Button, Stars } from './common';
+import { Badge, Stars } from './common';
 import Link from 'next/link';
 import { getButtonClassnames } from './common/Button';
 import { useSession } from 'next-auth/react';
@@ -31,8 +31,20 @@ interface Props {
 
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
   const { data: session } = useSession();
+
   if (!game) {
     return null;
+  }
+
+  let completedDate = 'Not completed';
+  if (game.completed) {
+    completedDate = game.completedDate
+      ? new Intl.DateTimeFormat('en-GB', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }).format(game.completedDate)
+      : 'Unknown';
   }
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -94,16 +106,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                   </div>
                   <div className="flex items-end justify-between">
                     <div className="flex flex-col gap-2 py-2 md:flex-row md:gap-5">
-                      <Stat
-                        title="Completed"
-                        content={
-                          game.completed
-                            ? game.completedDate
-                              ? game.completedDate.toDateString()
-                              : 'Unknown date'
-                            : 'Not completed'
-                        }
-                      />
+                      <Stat title="Completed" content={completedDate} />
                       <Stat
                         title="In collection"
                         content={game.inCollection ? 'Yes' : 'No'}
