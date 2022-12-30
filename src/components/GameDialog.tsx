@@ -29,6 +29,12 @@ interface Props {
   game: Game | null;
 }
 
+const intl = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
 const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
   const { data: session } = useSession();
 
@@ -39,11 +45,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
   let completedDate = 'Not completed';
   if (game.completed) {
     completedDate = game.completedDate
-      ? new Intl.DateTimeFormat('en-GB', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }).format(game.completedDate)
+      ? intl.format(game.completedDate)
       : 'Unknown';
   }
   return (
