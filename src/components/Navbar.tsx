@@ -1,6 +1,9 @@
+import classNames from 'classnames';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { forwardRef } from 'react';
+import { routes } from '../constants';
 import MobileMenu from './MobileMenu';
 
 const UserArea = () => {
@@ -30,14 +33,16 @@ const UserArea = () => {
 };
 
 const NavLinks = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-1 items-center">
       <Link href="/" passHref>
-        <a className="font-bold tracking-tight">GAMELIB</a>
+        <a className="font-bold tracking-tight hover:text-pink-600">GAMELIB</a>
       </Link>
       <div className="hidden md:ml-10 md:flex">
-        <NavLink title="Games" href="/games" />
-        <NavLink title="Platforms" href="/platforms" />
+        {routes.map(({ id, href }) => (
+          <NavLink key={id} title={id} href={href} />
+        ))}
       </div>
     </div>
   );
@@ -49,9 +54,19 @@ interface LinkProps {
 }
 const NavLink = forwardRef<HTMLAnchorElement, LinkProps>(
   ({ title, href }, ref) => {
+    const router = useRouter();
     return (
       <Link href={href} passHref>
-        <a ref={ref} className="px-4 py-2 font-medium hover:text-gray-300">
+        <a
+          ref={ref}
+          className={classNames(
+            'px-4 py-2 font-medium hover:text-pink-600 dark:hover:text-gray-300',
+            {
+              'underline decoration-pink-600 decoration-4 underline-offset-4':
+                router.asPath === href,
+            }
+          )}
+        >
           {title}
         </a>
       </Link>

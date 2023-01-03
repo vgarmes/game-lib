@@ -38,7 +38,7 @@ const GameList = ({ games }: props) => {
               </div>
             )}
             <div className="p-3">
-              <h1 className="text-center text-sm font-bold tracking-tight text-white">
+              <h1 className="text-center text-sm font-bold tracking-tight">
                 {game.title}
               </h1>
             </div>

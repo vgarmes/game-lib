@@ -8,7 +8,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  @apply bg-gray-900 text-slate-100;
+  @apply bg-slate-100 text-slate-900 dark:bg-gray-900 dark:text-slate-100;
 }
 
 a {
@@ -18,8 +18,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-input {
-  @apply bg-gray-800;
 }
