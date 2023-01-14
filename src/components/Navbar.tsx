@@ -1,39 +1,11 @@
-import { Switch } from '@headlessui/react';
 import classNames from 'classnames';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, useState } from 'react';
 import { routes } from '../constants';
-import { COLOR_MODE } from '../utils/color-mode';
-import useColorMode from '../utils/hooks/useColorMode';
+import ColorModeToggle from './color-mode-toggle';
 import MobileMenu from './MobileMenu';
-
-function ColorToggle() {
-  const { colorMode, setColorMode } = useColorMode();
-  const enabled = colorMode === COLOR_MODE.DARK;
-
-  return (
-    <Switch
-      checked={enabled}
-      onChange={() =>
-        setColorMode(
-          colorMode === COLOR_MODE.DARK ? COLOR_MODE.LIGHT : COLOR_MODE.DARK
-        )
-      }
-      className={`${
-        enabled ? 'bg-blue-600' : 'bg-gray-200'
-      } relative inline-flex h-6 w-11 items-center rounded-full`}
-    >
-      <span className="sr-only">Color mode</span>
-      <span
-        className={`${
-          enabled ? 'translate-x-6' : 'translate-x-1'
-        } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-      />
-    </Switch>
-  );
-}
 
 const UserArea = () => {
   const { data: session } = useSession();
@@ -106,7 +78,7 @@ const Navbar = () => {
   return (
     <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 p-4">
       <NavLinks />
-      <ColorToggle />
+      <ColorModeToggle />
       <UserArea />
       <MobileMenu />
     </nav>
