@@ -2,11 +2,14 @@ import { COLOR_MODE } from '../utils/color-mode';
 import useColorMode from '../utils/hooks/useColorMode';
 import Icon from './icon';
 
-const ColorModeToggle = () => {
+interface Props {
+  invertBackground?: boolean;
+}
+const ColorModeToggle: React.FC<Props> = ({ invertBackground = false }) => {
   const { colorMode, setColorMode } = useColorMode();
   return (
     <button
-      className="relative inline-flex w-12 items-center justify-between rounded-full bg-gray-50 p-1 dark:bg-gray-700"
+      className="relative inline-flex items-center justify-between gap-4 rounded-full bg-gray-50 px-2 py-3 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
       onClick={() =>
         setColorMode(
           colorMode === COLOR_MODE.DARK ? COLOR_MODE.LIGHT : COLOR_MODE.DARK

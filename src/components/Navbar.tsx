@@ -6,6 +6,7 @@ import { forwardRef, useState } from 'react';
 import { routes } from '../constants';
 import ColorModeToggle from './color-mode-toggle';
 import MobileMenu from './MobileMenu';
+import UserMenu from './user-menu';
 
 const UserArea = () => {
   const { data: session } = useSession();
@@ -19,16 +20,7 @@ const UserArea = () => {
     );
   }
 
-  return (
-    <div className="flex items-center space-x-2">
-      <button
-        className="rounded-md border border-pink-700 px-4 py-2 font-medium shadow-sm hover:border-pink-800"
-        onClick={() => signOut()}
-      >
-        Sign out
-      </button>
-    </div>
-  );
+  return <UserMenu username={session.user.username} />;
 };
 
 const NavLinks = () => {
@@ -78,7 +70,9 @@ const Navbar = () => {
   return (
     <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 p-4">
       <NavLinks />
-      <ColorModeToggle />
+      <div className="hidden md:block">
+        <ColorModeToggle />
+      </div>
       <UserArea />
       <MobileMenu />
     </nav>
