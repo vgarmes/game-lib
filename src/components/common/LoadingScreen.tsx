@@ -1,7 +1,7 @@
 interface SpinnerProps {
   size?: string;
 }
-export const Spinner = ({ size = '1em' }: SpinnerProps) => (
+export const Spinner = ({ size = '2em' }: SpinnerProps) => (
   <svg
     width={size}
     height={size}
@@ -29,7 +29,7 @@ export const Spinner = ({ size = '1em' }: SpinnerProps) => (
 
 const LoadingScreen = () => {
   return (
-    <div className="flex h-screen w-screen items-center justify-center pb-[20%]">
+    <div className="flex w-full justify-center">
       <Spinner />
     </div>
   );

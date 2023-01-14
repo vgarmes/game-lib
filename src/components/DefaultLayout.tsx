@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import Footer from './footer';
 import Navbar from './Navbar';
 
 type DefaultLayoutProps = { children: ReactNode };
@@ -17,7 +18,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       <div className="mx-auto min-h-screen max-w-7xl px-4 pb-10">
         {children}
       </div>
-
+      <Footer />
       {process.env.NODE_ENV !== 'production' && (
         <ReactQueryDevtools initialIsOpen={false} />
       )}

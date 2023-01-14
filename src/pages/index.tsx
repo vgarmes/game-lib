@@ -11,18 +11,10 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <div>
-      <Head>
-        <title>Game library</title>
-        <meta name="description" content="Victor game library" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <section>
         <Title className="text-center">Last completed games</Title>
         {games && <GameList games={parsedGames} />}
       </section>
-
-      <footer></footer>
     </div>
   );
 };
