@@ -54,10 +54,9 @@ const UserMenu: React.FC<Props> = ({ username }) => {
               {({ active }) => (
                 <button
                   className={classNames(
-                    'block w-full cursor-pointer rounded-md px-2 py-2 text-sm',
+                    'block w-full cursor-pointer rounded-md border border-pink-600 px-2 py-2 text-sm text-pink-600',
                     {
-                      'bg-pink-700 text-white': active,
-                      'text-gray-900': !active,
+                      'bg-pink-100': active,
                     }
                   )}
                   onClick={() => signOut()}
