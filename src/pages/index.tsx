@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import GameList, { Games } from '../components/GameList';
+import GameList, { Games } from '../components/game-list';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
 import superjson from 'superjson';

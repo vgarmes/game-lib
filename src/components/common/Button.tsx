@@ -16,7 +16,7 @@ export const getButtonClassnames = (
   disabled: boolean = false
 ) =>
   classNames(
-    'shadow-sm rounded-md border px-4 py-2 font-medium flex items-center justify-center text-slate-100',
+    'shadow-sm truncate rounded-md border px-4 py-2 font-medium flex items-center justify-center text-slate-100',
     {
       'border-pink-700': colorScheme === 'primary',
       'cursor-not-allowed border-slate-500 text-slate-500': disabled,

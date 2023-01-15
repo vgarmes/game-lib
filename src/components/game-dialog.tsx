@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import type { Game } from './GameList';
+import type { Game } from './game-list';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
@@ -121,7 +121,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                       >
                         <a className={getButtonClassnames('primary', 'solid')}>
                           <Icon name="pencil" className="md:pr-3" />
-                          <span className="hidden md:inline-block">Edit</span>
+                          <span>Edit</span>
                         </a>
                       </Link>
                     )}

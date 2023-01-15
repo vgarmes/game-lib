@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { inferQueryOutput } from '../utils/trpc';
-import GameDialog from './GameDialog';
+import GameDialog from './game-dialog';
 
 //  <Link key={game.id} href={`/games/${game.id}`} passHref>
 export type Games = inferQueryOutput<'game.search'>;
