@@ -116,12 +116,7 @@ const ImageUpload: React.FC<{
           onChange={(e) => handleChange(e.target.files)}
           ref={fileRef}
         />
-        <Button
-          type="button"
-          onClick={handleSubmit}
-          disabled={!preview}
-          variant="outline"
-        >
+        <Button type="button" onClick={handleSubmit} disabled={!preview}>
           Upload
         </Button>
         {isLoading && <p className="pl-3">Loading...</p>}
