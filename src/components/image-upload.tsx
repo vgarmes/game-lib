@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { ImgHTMLAttributes, useRef, useState } from 'react';
 import { CLOUDINARY_CONFIG, uploadImage } from '../utils/cloudinary';
 import FileInput from './common/FileInput';
-import { CloudinaryUploadResponse } from '../types/cloudinary';
 import { Signature } from '../types';
 import Button from './common/Button';
 import { trpc } from '../utils/trpc';

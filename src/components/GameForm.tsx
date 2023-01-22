@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import schema from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
-import ImageUpload from './ImageUpload';
+import ImageUpload from './image-upload';
 import { Input, Toggle, TextArea, Select, Button, StarsInput } from './common';
 import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
