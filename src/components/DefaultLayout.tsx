@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 
 type DefaultLayoutProps = { children: ReactNode };
 
-export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
+const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <>
       <Head>
@@ -25,3 +25,5 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     </>
   );
 };
+
+export default DefaultLayout;

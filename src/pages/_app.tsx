@@ -7,6 +7,7 @@ import { loggerLink } from '@trpc/client/links/loggerLink';
 import superjson from 'superjson';
 import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
+import DefaultLayout from '@/components/DefaultLayout';
 
 const MyApp = ({
   Component,
@@ -14,7 +15,9 @@ const MyApp = ({
 }: AppProps<{ session: Session }>) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <DefaultLayout>
+        <Component {...pageProps} />
+      </DefaultLayout>
     </SessionProvider>
   );
 };
