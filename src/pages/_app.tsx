@@ -1,37 +1,23 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
-import { DefaultLayout } from '../components/DefaultLayout';
-import { AppType } from 'next/dist/shared/lib/utils';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from '../server/routers/_app';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import superjson from 'superjson';
 import { SessionProvider } from 'next-auth/react';
+import type { Session } from 'next-auth';
 
-export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-const MyApp = (({
+const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) => {
-  const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
-
+}: AppProps<{ session: Session }>) => {
   return (
     <SessionProvider session={session}>
-      {getLayout(<Component {...pageProps} />)}
+      <Component {...pageProps} />
     </SessionProvider>
   );
-}) as AppType;
+};
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
