@@ -13,7 +13,6 @@ const PlatformPage = () => {
   }
 
   const groupedPlatforms = groupBy(platforms, 'manufacturer');
-  console.log(groupedPlatforms);
   return (
     <div>
       <Title>Platforms</Title>

@@ -5,7 +5,7 @@ const Title: React.FC<
   PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>
 > = ({ children, className }) => {
   return (
-    <h2 className={classNames('pb-6 text-3xl font-bold', className)}>
+    <h2 className={classNames('pb-12 text-3xl font-bold', className)}>
       {children}
     </h2>
   );

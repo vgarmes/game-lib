@@ -25,6 +25,7 @@ const GameList = ({ games }: props) => {
           >
             <div className="relative h-28 w-28 transition-transform group-hover:scale-110">
               <Image
+                unoptimized
                 alt={`${game.title} cover`}
                 src={game.cover?.secureUrl || '/image-placeholder.jpeg'}
                 layout="fill"
