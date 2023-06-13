@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import type { Game } from './game-list';
+import type { Game } from './GameList';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';

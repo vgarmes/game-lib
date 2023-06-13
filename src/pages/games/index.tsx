@@ -5,7 +5,7 @@ import { Button } from '../../components/common';
 import { getButtonClassnames } from '../../components/common/Button';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import SearchInput from '../../components/common/SearchInput';
-import GameList from '../../components/game-list';
+import GameList from '../../components/GameList';
 import Icon from '../../components/icon';
 import useDebounce from '../../utils/hooks/useDebounce';
 import { inferQueryOutput, trpc } from '../../utils/trpc';
