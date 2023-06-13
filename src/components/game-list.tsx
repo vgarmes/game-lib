@@ -13,7 +13,6 @@ interface props {
 }
 const GameList = ({ games }: props) => {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   return (
     <>
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
@@ -21,10 +20,7 @@ const GameList = ({ games }: props) => {
           <div
             key={game.id}
             className="group flex w-40 cursor-pointer flex-col items-center"
-            onClick={() => {
-              setSelectedGame(game);
-              setIsDialogOpen(true);
-            }}
+            onClick={() => setSelectedGame(game)}
           >
             {game.cover?.secureUrl && (
               <div className="relative h-28 w-28 transition-transform group-hover:scale-110">
@@ -47,8 +43,8 @@ const GameList = ({ games }: props) => {
       </div>
       <GameDialog
         game={selectedGame}
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        isOpen={Boolean(selectedGame)}
+        onClose={() => setSelectedGame(null)}
       />
     </>
   );
