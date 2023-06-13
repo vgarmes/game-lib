@@ -6,7 +6,6 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['res.cloudinary.com', 'media.steampowered.com'],
-    unoptimized: true,
   },
 };
 
