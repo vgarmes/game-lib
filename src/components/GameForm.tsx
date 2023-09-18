@@ -3,11 +3,11 @@ import schema from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
 import ImageUpload from './image-upload';
 import { Input, Toggle, TextArea, Select, Button, StarsInput } from './common';
-import { trpc } from '../utils/trpc';
 import { toISODateString } from '../utils';
 import { Controller } from 'react-hook-form';
 import { DirtyFields } from '../utils/forms';
 import { Spinner } from './common/LoadingScreen';
+import { trpc } from '@/utils/trpc';
 
 export type Schema = z.infer<typeof schema>;
 
@@ -45,7 +45,8 @@ const GameForm = ({
   initialValues,
 }: Props) => {
   const defaultValues = initialValues || DEFAULT_VALUES;
-  const { data: platforms } = trpc.useQuery(['platform.get-all']);
+  const { data: platforms } = trpc.platform['get-all'].useQuery();
+
   const {
     register,
     formState: { errors, dirtyFields },

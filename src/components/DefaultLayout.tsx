@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import Footer from './footer';
 import Navbar from './Navbar';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 type DefaultLayoutProps = { children: ReactNode };
 

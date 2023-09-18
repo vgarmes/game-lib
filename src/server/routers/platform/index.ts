@@ -1,53 +1,42 @@
 import { z } from 'zod';
-import { createProtectedRouter, createRouter } from '../../createRouter';
 import schema from './schema';
+import { adminProcedure, publicProcedure, router } from '../../trpc';
 
-const protectedRouter = createProtectedRouter('ADMIN')
-  .mutation('create', {
-    input: schema,
-    async resolve({ input, ctx }) {
-      return ctx.prisma.platform.create({
-        data: input,
-      });
-    },
-  })
-  .mutation('update', {
-    input: schema.partial().extend({ id: z.number() }),
-    async resolve({ input, ctx }) {
+export const platformRouter = router({
+  create: adminProcedure.input(schema).mutation(({ input, ctx }) =>
+    ctx.prisma.platform.create({
+      data: input,
+    })
+  ),
+  update: adminProcedure
+    .input(schema.partial().extend({ id: z.number() }))
+    .mutation(({ input, ctx }) => {
       const { id, ...rest } = input;
       return ctx.prisma.platform.update({ where: { id }, data: rest });
-    },
-  });
-
-export const platformRouter = createRouter()
-  .query('get-all', {
-    async resolve({ ctx }) {
-      return ctx.prisma.platform.findMany();
-    },
-  })
-  .query('by-id', {
-    input: z.object({
-      id: z.number(),
     }),
-    async resolve({ input, ctx }) {
-      return ctx.prisma.platform.findFirst({ where: { id: input.id } });
-    },
-  })
-  .query('count', {
-    async resolve({ ctx }) {
-      return ctx.prisma.platform.findMany({
-        include: {
-          _count: {
-            select: { games: true },
-          },
+  'get-all': publicProcedure.query(({ ctx }) => ctx.prisma.platform.findMany()),
+  'by-id': publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(({ input, ctx }) =>
+      ctx.prisma.platform.findFirst({ where: { id: input.id } })
+    ),
+  count: publicProcedure.query(({ ctx }) =>
+    ctx.prisma.platform.findMany({
+      include: {
+        _count: {
+          select: { games: true },
         },
-        orderBy: [
-          {
-            manufacturer: 'asc',
-          },
-          { name: 'asc' },
-        ],
-      });
-    },
-  })
-  .merge(protectedRouter);
+      },
+      orderBy: [
+        {
+          manufacturer: 'asc',
+        },
+        { name: 'asc' },
+      ],
+    })
+  ),
+});

@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { inferQueryOutput } from '../utils/trpc';
 import Badge from './common/Badge';
-import Button, { getButtonClassnames } from './common/Button';
+import { getButtonClassnames } from './common/Button';
 import Table from './common/Table';
+import { RouterOutput } from '@/types/trpc';
+
+type GameOutput = RouterOutput['game']['by-id'];
 
 interface Props {
-  game: inferQueryOutput<'game.by-id'>;
+  game: GameOutput;
 }
 
 const GameDetails: React.FC<Props> = ({ game }) => {

@@ -6,7 +6,7 @@ import { groupBy } from '../../utils';
 import { trpc } from '../../utils/trpc';
 
 const PlatformPage = () => {
-  const { data: platforms, isLoading } = trpc.useQuery(['platform.count']);
+  const { data: platforms, isLoading } = trpc.platform.count.useQuery();
 
   if (isLoading || !platforms) {
     return <LoadingScreen />;

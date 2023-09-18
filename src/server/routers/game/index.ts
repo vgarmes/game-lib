@@ -1,27 +1,24 @@
 import { z } from 'zod';
-import { createProtectedRouter, createRouter } from '../../createRouter';
 import schema from './schema';
+import { adminProcedure, publicProcedure, router } from '../../trpc';
 
 const MAX_RESULTS = 100;
 
-const protectedGameRouter = createProtectedRouter('ADMIN')
-  .mutation('create', {
-    input: schema,
-    async resolve({ input, ctx }) {
-      const { coverId, ...rest } = input;
-      await ctx.prisma.game.create({
-        data: {
-          ...rest,
-          cover: coverId ? { connect: { id: coverId } } : undefined,
-        },
-      });
-      await ctx.res.revalidate('/');
-      return { sucess: true };
-    },
-  })
-  .mutation('update', {
-    input: schema.partial().extend({ id: z.number() }),
-    async resolve({ input, ctx }) {
+export const gameRouter = router({
+  create: adminProcedure.input(schema).mutation(async ({ input, ctx }) => {
+    const { coverId, ...rest } = input;
+    await ctx.prisma.game.create({
+      data: {
+        ...rest,
+        cover: coverId ? { connect: { id: coverId } } : undefined,
+      },
+    });
+    await ctx.res.revalidate('/');
+    return { sucess: true };
+  }),
+  update: adminProcedure
+    .input(schema.partial().extend({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
       const { id, coverId, ...rest } = input;
       await ctx.prisma.game.update({
         where: {
@@ -32,19 +29,17 @@ const protectedGameRouter = createProtectedRouter('ADMIN')
           cover: coverId ? { connect: { id: coverId } } : undefined,
         },
       });
-    },
-  });
-
-export const gameRouter = createRouter()
-  .query('completed', {
-    input: z.object({
-      skip: z.number().nonnegative().nullish(),
-      take: z.number().positive().nullish(),
     }),
-    async resolve({ input, ctx }) {
+  completed: publicProcedure
+    .input(
+      z.object({
+        skip: z.number().nonnegative().nullish(),
+        take: z.number().positive().nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
       const skip = input.skip ?? 0;
       const take = input.take ?? 50;
-
       return ctx.prisma.game.findMany({
         skip,
         take,
@@ -57,14 +52,15 @@ export const gameRouter = createRouter()
           completed: true,
         },
       });
-    },
-  })
-  .query('by-id', {
-    input: z.object({
-      id: z.number(),
     }),
-    async resolve({ input, ctx }) {
-      return ctx.prisma.game.findFirst({
+  'by-id': publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(({ input, ctx }) =>
+      ctx.prisma.game.findFirst({
         where: {
           id: input.id,
         },
@@ -72,16 +68,17 @@ export const gameRouter = createRouter()
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
         },
-      });
-    },
-  })
-  .query('search', {
-    input: z.object({
-      skip: z.number().nonnegative().nullish(),
-      take: z.number().positive().nullish(),
-      query: z.string(),
-    }),
-    async resolve({ input, ctx }) {
+      })
+    ),
+  search: publicProcedure
+    .input(
+      z.object({
+        skip: z.number().nonnegative().nullish(),
+        take: z.number().positive().nullish(),
+        query: z.string(),
+      })
+    )
+    .query(({ input, ctx }) => {
       const skip = input.skip ?? 0;
       const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
       return ctx.prisma.game.findMany({
@@ -98,15 +95,16 @@ export const gameRouter = createRouter()
           },
         },
       });
-    },
-  })
-  .query('by-platform-id', {
-    input: z.object({
-      id: z.number(),
-      skip: z.number().nonnegative().nullish(),
-      take: z.number().positive().nullish(),
     }),
-    async resolve({ input, ctx }) {
+  'by-platform-id': publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        skip: z.number().nonnegative().nullish(),
+        take: z.number().positive().nullish(),
+      })
+    )
+    .query(({ input, ctx }) => {
       const skip = input.skip ?? 0;
       const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
       return ctx.prisma.game.findMany({
@@ -125,6 +123,5 @@ export const gameRouter = createRouter()
           title: 'asc',
         },
       });
-    },
-  })
-  .merge(protectedGameRouter);
+    }),
+});

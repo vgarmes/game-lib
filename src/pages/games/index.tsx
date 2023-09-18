@@ -8,14 +8,14 @@ import SearchInput from '../../components/common/SearchInput';
 import GameList from '../../components/GameList';
 import Icon from '../../components/icon';
 import useDebounce from '../../utils/hooks/useDebounce';
-import { inferQueryOutput, trpc } from '../../utils/trpc';
+import { trpc } from '../../utils/trpc';
 
 const size = 20;
 const page = 0;
 
 const GameResults = ({ query }: { query: string }) => {
-  const { data: games, isLoading } = trpc.useQuery(
-    ['game.search', { skip: size * page, query }],
+  const { data: games, isLoading } = trpc.game.search.useQuery(
+    { skip: size * page, query },
     { staleTime: 5000 }
   );
 

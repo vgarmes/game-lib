@@ -1,20 +1,14 @@
-import { createRouter } from '../createRouter';
-import superjson from 'superjson';
-import { gameRouter } from './game';
-import { userRouter } from './user';
-import { platformRouter } from './platform';
+import { router } from '../trpc';
 import { coverRouter } from './cover';
+import { gameRouter } from './game';
+import { platformRouter } from './platform';
+import { userRouter } from './user';
 
-export const appRouter = createRouter()
-  .transformer(superjson)
-  .query('healthz', {
-    async resolve() {
-      return 'yay!';
-    },
-  })
-  .merge('game.', gameRouter)
-  .merge('platform.', platformRouter)
-  .merge('user.', userRouter)
-  .merge('cover.', coverRouter);
+const appRouter = router({
+  user: userRouter,
+  game: gameRouter,
+  platform: platformRouter,
+  cover: coverRouter,
+});
 
 export type AppRouter = typeof appRouter;
