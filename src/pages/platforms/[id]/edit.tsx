@@ -11,18 +11,15 @@ const EditPlatform = () => {
 
   const { numId, isValidId } = parseId(id);
 
-  const { mutate, isLoading: isSubmitting } = trpc.useMutation(
-    'platform.update',
-    {
-      onSuccess() {
-        console.log('success!');
-        router.push('/platform');
-      },
-    }
-  );
+  const { mutate, isLoading: isSubmitting } = trpc.platform.update.useMutation({
+    onSuccess() {
+      console.log('success!');
+      router.push('/platform');
+    },
+  });
 
-  const { data: platform, isLoading } = trpc.useQuery(
-    ['platform.by-id', { id: numId! }],
+  const { data: platform, isLoading } = trpc.platform.byId.useQuery(
+    { id: numId! },
     {
       enabled: isValidId,
     }

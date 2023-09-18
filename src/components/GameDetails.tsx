@@ -5,7 +5,7 @@ import { getButtonClassnames } from './common/Button';
 import Table from './common/Table';
 import { RouterOutput } from '@/types/trpc';
 
-type GameOutput = RouterOutput['game']['by-id'];
+type GameOutput = RouterOutput['game']['byId'];
 
 interface Props {
   game: GameOutput;

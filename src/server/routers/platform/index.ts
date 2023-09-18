@@ -14,8 +14,8 @@ export const platformRouter = router({
       const { id, ...rest } = input;
       return ctx.prisma.platform.update({ where: { id }, data: rest });
     }),
-  'get-all': publicProcedure.query(({ ctx }) => ctx.prisma.platform.findMany()),
-  'by-id': publicProcedure
+  all: publicProcedure.query(({ ctx }) => ctx.prisma.platform.findMany()),
+  byId: publicProcedure
     .input(
       z.object({
         id: z.number(),

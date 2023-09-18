@@ -1,5 +1,4 @@
 import { Dialog, Transition } from '@headlessui/react';
-import type { Game } from './GameList';
 import { Fragment } from 'react';
 import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
@@ -8,6 +7,7 @@ import Link from 'next/link';
 import { getButtonClassnames } from './common/Button';
 import { useSession } from 'next-auth/react';
 import Icon from './icon';
+import { Game } from '@/types/trpc';
 
 interface StatProps {
   title: string;

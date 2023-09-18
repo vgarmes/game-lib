@@ -6,7 +6,7 @@ import GameForm from '../../components/GameForm';
 
 const NewGame = () => {
   const router = useRouter();
-  const { mutate, isLoading } = trpc.useMutation('game.create', {
+  const { mutate, isLoading } = trpc.game.create.useMutation({
     onSuccess() {
       console.log('success!');
       router.push('/');

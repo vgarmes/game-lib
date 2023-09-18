@@ -53,7 +53,7 @@ export const gameRouter = router({
         },
       });
     }),
-  'by-id': publicProcedure
+  byId: publicProcedure
     .input(
       z.object({
         id: z.number(),
@@ -96,7 +96,7 @@ export const gameRouter = router({
         },
       });
     }),
-  'by-platform-id': publicProcedure
+  byPlatformId: publicProcedure
     .input(
       z.object({
         id: z.number(),

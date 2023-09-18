@@ -12,15 +12,15 @@ const EditPage = () => {
   const isValidId = !!id && !isNaN(parseInt(id as string));
   const numId = id ? parseInt(id as string) : 0;
 
-  const { mutate, isLoading: isSubmitting } = trpc.useMutation('game.update', {
+  const { mutate, isLoading: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
       console.log('success!');
       router.push(`/games/${id}`);
     },
   });
 
-  const { data: game, isLoading } = trpc.useQuery(
-    ['game.by-id', { id: numId }],
+  const { data: game, isLoading } = trpc.game.byId.useQuery(
+    { id: numId },
     {
       enabled: isValidId,
     }

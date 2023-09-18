@@ -8,8 +8,8 @@ const SinglePlatformPage = () => {
   const router = useRouter();
 
   const platformId = router.query.id;
-  const { data: games, isLoading } = trpc.useQuery(
-    ['game.by-platform-id', { id: parseInt(platformId as string) }],
+  const { data: games, isLoading } = trpc.game.byPlatformId.useQuery(
+    { id: parseInt(platformId as string) },
     { enabled: typeof platformId === 'string' }
   );
 

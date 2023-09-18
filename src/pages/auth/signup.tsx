@@ -4,7 +4,7 @@ import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
 
 const SignUp = () => {
-  const signup = trpc.useMutation('user.signup', {
+  const signup = trpc.user.signup.useMutation({
     onSuccess(_user, variables) {
       signIn('credentials', {
         callbackUrl: '/',

@@ -43,7 +43,7 @@ const ImageUpload: React.FC<{
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const createCover = trpc.useMutation('cover.create', {
+  const createCover = trpc.cover.create.useMutation({
     onError: (error) => console.log(error),
   });
 

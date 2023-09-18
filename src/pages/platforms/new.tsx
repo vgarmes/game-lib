@@ -6,7 +6,7 @@ import { trpc } from '../../utils/trpc';
 
 const NewPlatform = () => {
   const router = useRouter();
-  const createPlatform = trpc.useMutation('platform.create', {
+  const createPlatform = trpc.platform.create.useMutation({
     onSuccess() {
       router.push('/platforms');
     },

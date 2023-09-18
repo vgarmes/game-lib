@@ -1,12 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import GameDialog from './GameDialog';
-import { RouterOutput } from '@/types/trpc';
+import type { Games, Game } from '@/types/trpc';
 
 //  <Link key={game.id} href={`/games/${game.id}`} passHref>
-type Games = RouterOutput['game']['search'];
-type Game = Games[number];
 
 interface props {
   games: Games;

@@ -45,7 +45,7 @@ const GameForm = ({
   initialValues,
 }: Props) => {
   const defaultValues = initialValues || DEFAULT_VALUES;
-  const { data: platforms } = trpc.platform['get-all'].useQuery();
+  const { data: platforms } = trpc.platform.all.useQuery();
 
   const {
     register,

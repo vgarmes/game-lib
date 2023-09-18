@@ -1,8 +1,9 @@
-import GameList, { Games } from '../components/GameList';
+import GameList from '../components/GameList';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
 import superjson from 'superjson';
 import Title from '../components/common/Title';
+import { Games } from '@/types/trpc';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: games } = props;

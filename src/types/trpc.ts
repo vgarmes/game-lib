@@ -14,6 +14,9 @@ export interface SSRContext extends NextPageContext {
 export type RouterInput = inferRouterInputs<AppRouter>;
 export type RouterOutput = inferRouterOutputs<AppRouter>;
 
+export type Games = RouterOutput['game']['search'];
+export type Game = Games[number];
+
 export type inferMutationOutput<
   TRouteKey extends keyof AppRouter['_def']['mutations']
 > = inferProcedureOutput<AppRouter['_def']['mutations'][TRouteKey]>;

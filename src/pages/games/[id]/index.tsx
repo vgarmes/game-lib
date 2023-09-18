@@ -9,8 +9,8 @@ const GameDetailsPage = () => {
 
   const { numId, isValidId } = parseId(id);
 
-  const { data: game, isLoading } = trpc.useQuery(
-    ['game.by-id', { id: numId! }],
+  const { data: game, isLoading } = trpc.game.byId.useQuery(
+    { id: numId! },
     {
       enabled: isValidId,
     }
