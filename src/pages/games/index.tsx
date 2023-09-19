@@ -19,10 +19,7 @@ const GameResults = ({ query }: { query: string }) => {
     { staleTime: 5000 }
   );
 
-  if (isLoading || !games) {
-    return <LoadingScreen />;
-  }
-  return <GameList games={games} />;
+  return <GameList games={games ?? []} isLoading={isLoading} size={size} />;
 };
 
 const GamePage = () => {

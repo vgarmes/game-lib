@@ -2,9 +2,20 @@ import { signIn } from 'next-auth/react';
 import { signupSchema } from '../../server/routers/user/schema';
 import useZodForm from '../../utils/hooks/useZodForm';
 import { trpc } from '../../utils/trpc';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const SignUp = () => {
-  const signup = trpc.user.signup.useMutation({
+  const { mutate: signup, isLoading } = trpc.user.signup.useMutation({
     onSuccess(_user, variables) {
       signIn('credentials', {
         callbackUrl: '/',
@@ -13,7 +24,7 @@ const SignUp = () => {
       });
     },
   });
-  const methods = useZodForm({
+  const form = useZodForm({
     schema: signupSchema,
     defaultValues: {
       username: '',
@@ -21,87 +32,84 @@ const SignUp = () => {
       password: '',
     },
   });
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold">Sign up</h2>
-      <form
-        onSubmit={methods.handleSubmit(async (values) => {
-          await signup.mutateAsync(values);
-          methods.reset();
-        })}
-      >
-        <div>
-          <label>
-            Name
-            <br />
-            <input {...methods.register('username')} className="border" />
-          </label>
-          {methods.formState.errors.username?.message && (
-            <p className="text-red-700">
-              {methods.formState.errors.username.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label>
-            Email
-            <br />
-            <input
-              type="email"
-              {...methods.register('email')}
-              className="border"
-            />
-          </label>
-          {methods.formState.errors.email?.message && (
-            <p className="text-red-700">
-              {methods.formState.errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label>
-            Password
-            <br />
-            <input
-              type="password"
-              {...methods.register('password')}
-              className="border"
-            />
-          </label>
-          {methods.formState.errors.password?.message && (
-            <p className="text-red-700">
-              {methods.formState.errors.password.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label>
-            Confirm password
-            <br />
-            <input
-              type="password"
-              {...methods.register('passwordConfirm')}
-              className="border"
-            />
-          </label>
-          {methods.formState.errors.passwordConfirm?.message && (
-            <p className="text-red-700">
-              {methods.formState.errors.passwordConfirm.message}
-            </p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={signup.isLoading}
-          className="bg-primary-500 border p-2 font-bold text-white"
+    <div className="max-w-sm mx-auto">
+      <h2 className="text-3xl font-bold pb-6">Sign up</h2>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit((values) => signup(values))}
+          className="flex flex-col gap-6"
         >
-          {signup.isLoading ? 'Loading' : 'Submit'}
-        </button>
-      </form>
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Username" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Confirm password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              'Submit'
+            )}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

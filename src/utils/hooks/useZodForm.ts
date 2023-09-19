@@ -11,6 +11,7 @@ function useZodForm<TSchema extends z.ZodType>(
     ...props,
     resolver: zodResolver(props.schema, undefined, {
       // This makes it so we can use `.transform()`s on the schema without same transform getting applied again when it reaches the server
+      // (because data is parsed both on client and server)
       rawValues: true,
     }),
   });

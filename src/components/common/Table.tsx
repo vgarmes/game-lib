@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { HTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 
 interface TableRow {
@@ -28,7 +28,7 @@ const Cell: React.FC<PropsWithChildren<HTMLAttributes<HTMLDivElement>>> = ({
 }) => {
   return (
     <div
-      className={classNames(
+      className={clsx(
         'flex grow justify-between break-words px-3 py-2 text-sm font-semibold',
         className
       )}

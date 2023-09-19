@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { signOut } from 'next-auth/react';
 import { Fragment } from 'react';
 import MenuItem from './common/menu-item';
@@ -53,7 +53,7 @@ const UserMenu: React.FC<Props> = ({ username }) => {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  className={classNames(
+                  className={clsx(
                     'block w-full cursor-pointer rounded-md border border-pink-600 px-2 py-2 text-sm text-pink-600',
                     {
                       'bg-pink-100': active,

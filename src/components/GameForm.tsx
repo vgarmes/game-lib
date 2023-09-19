@@ -8,6 +8,7 @@ import { Controller } from 'react-hook-form';
 import { DirtyFields } from '../utils/forms';
 import { Spinner } from './common/LoadingScreen';
 import { trpc } from '@/utils/trpc';
+import { Input as ShadInput } from './ui/input';
 
 export type Schema = z.infer<typeof schema>;
 
@@ -76,6 +77,7 @@ const GameForm = ({
           <StarsInput value={value} onChange={onChange} />
         )}
       />
+      <ShadInput id="game-title" placeholder="Title" />
       <Input
         label="Title"
         error={errors.title?.message}

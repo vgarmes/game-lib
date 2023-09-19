@@ -1,5 +1,4 @@
-import classnames from 'classnames';
-import classNames, { Argument } from 'classnames';
+import clsx from 'clsx';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type ColorScheme = 'primary' | 'secondary';
@@ -15,7 +14,7 @@ export const getButtonClassnames = (
   variant: Variant,
   disabled: boolean = false
 ) =>
-  classNames(
+  clsx(
     'shadow-sm truncate rounded-md border px-4 py-2 font-medium flex items-center justify-center text-slate-100',
     {
       'border-pink-700': colorScheme === 'primary',
@@ -37,7 +36,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <button
-      className={classnames(
+      className={clsx(
         getButtonClassnames(colorScheme, variant, disabled),
         className
       )}

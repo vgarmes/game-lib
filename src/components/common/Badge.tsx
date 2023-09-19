@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 interface Props {
   text?: string;
@@ -7,7 +7,7 @@ interface Props {
 const Badge: React.FC<Props> = ({ text, color = 'red' }) => {
   return (
     <div
-      className={classNames(
+      className={clsx(
         'whitespace-nowrap rounded-xl px-3 py-1 text-xs font-bold',
         {
           'bg-red-400 text-red-900': color === 'red',

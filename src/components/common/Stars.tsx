@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { InputHTMLAttributes, useState } from 'react';
 
 const RATINGS = ['Bad', 'Meh', 'Good', 'Very Good', 'Masterpiece'];
@@ -14,7 +14,7 @@ const Star: React.FC<StarProps> = ({ title, isActive, onClick, onHover }) => {
   const isInteractive = !!onClick;
   return (
     <div
-      className={classNames('h-5 w-5 text-gray-300 dark:text-gray-500', {
+      className={clsx('h-5 w-5 text-gray-300 dark:text-gray-500', {
         'text-yellow-400 dark:text-yellow-500': isActive,
         'cursor-pointer hover:scale-110': isInteractive,
       })}

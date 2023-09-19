@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,6 +6,7 @@ import { routes } from '../constants';
 import ColorModeToggle from './color-mode-toggle';
 import MobileMenu from './MobileMenu';
 import UserMenu from './user-menu';
+import clsx from 'clsx';
 
 const UserArea = () => {
   const { data: session } = useSession();
@@ -50,7 +50,7 @@ const NavLink = forwardRef<HTMLAnchorElement, LinkProps>(
       <Link href={href} passHref>
         <a
           ref={ref}
-          className={classNames(
+          className={clsx(
             'px-4 py-2 font-medium hover:text-pink-600 dark:hover:text-gray-300',
             {
               'underline decoration-pink-600 decoration-4 underline-offset-4':
