@@ -3,8 +3,8 @@ import { ImgHTMLAttributes, useRef, useState } from 'react';
 import { CLOUDINARY_CONFIG, uploadImage } from '../utils/cloudinary';
 import FileInput from './common/FileInput';
 import { Signature } from '../types';
-import Button from './common/Button';
 import { trpc } from '../utils/trpc';
+import { Button } from './ui/button';
 
 const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   src,

@@ -1,14 +1,14 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Button } from '../../components/common';
-import { getButtonClassnames } from '../../components/common/Button';
 import LoadingScreen from '../../components/common/LoadingScreen';
-import SearchInput from '../../components/common/SearchInput';
 import GameList from '../../components/GameList';
 import Icon from '../../components/icon';
 import useDebounce from '../../utils/hooks/useDebounce';
 import { trpc } from '../../utils/trpc';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
+import { buttonVariants } from '@/components/ui/button';
 
 const size = 20;
 const page = 0;
@@ -19,7 +19,21 @@ const GameResults = ({ query }: { query: string }) => {
     { staleTime: 5000 }
   );
 
-  return <GameList games={games ?? []} isLoading={isLoading} size={size} />;
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (!games || games.length === 0) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        {query
+          ? `No results for "${query}"`
+          : 'Oooops! Something went wrong...'}
+      </div>
+    );
+  }
+
+  return <GameList games={games} />;
 };
 
 const GamePage = () => {
@@ -27,18 +41,22 @@ const GamePage = () => {
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 1000);
   return (
-    <div>
+    <div className="h-full">
       <div className="flex w-full items-center justify-between gap-3 pb-6">
         <div className="max-w-lg grow">
-          <SearchInput
-            placeholder="Search games"
-            value={query}
-            onChange={(value) => setQuery(value)}
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50" />
+            <Input
+              type="search"
+              placeholder="Search games..."
+              className="pl-9"
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
         {session && (
           <Link href="/games/new" passHref>
-            <a className={getButtonClassnames('primary', 'solid')}>
+            <a className={buttonVariants({ variant: 'default' })}>
               <Icon name="plus" />
               <span>Add game</span>
             </a>

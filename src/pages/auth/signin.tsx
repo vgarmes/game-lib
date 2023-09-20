@@ -2,10 +2,11 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
-import { Button, Input } from '../../components/common';
+import { Input } from '../../components/common';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import Title from '../../components/common/Title';
 import useZodForm from '../../utils/hooks/useZodForm';
+import { Button } from '@/components/ui/button';
 
 const SignIn = () => {
   const router = useRouter();

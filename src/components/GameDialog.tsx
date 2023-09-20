@@ -4,10 +4,10 @@ import GameThumbnail from './GameThumbnail';
 import Image from 'next/image';
 import { Badge, Stars } from './common';
 import Link from 'next/link';
-import { getButtonClassnames } from './common/Button';
 import { useSession } from 'next-auth/react';
 import Icon from './icon';
 import { Game } from '@/types/trpc';
+import { buttonVariants } from './ui/button';
 
 interface StatProps {
   title: string;
@@ -119,7 +119,7 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                         href={`/games/${game?.id.toString()}/edit`}
                         passHref
                       >
-                        <a className={getButtonClassnames('primary', 'solid')}>
+                        <a className={buttonVariants({ variant: 'default' })}>
                           <Icon name="pencil" className="md:pr-3" />
                           <span>Edit</span>
                         </a>

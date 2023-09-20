@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import schema from '../../server/routers/platform/schema';
 import useZodForm from '../../utils/hooks/useZodForm';
-import Button from '../common/Button';
 import Input from '../common/Input';
 import { Spinner } from '../common/LoadingScreen';
+import { Button } from '../ui/button';
 
 type Schema = z.infer<typeof schema>;
 

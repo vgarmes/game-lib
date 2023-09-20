@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Badge from './common/Badge';
-import { getButtonClassnames } from './common/Button';
 import Table from './common/Table';
 import { RouterOutput } from '@/types/trpc';
+import { buttonVariants } from './ui/button';
 
 type GameOutput = RouterOutput['game']['byId'];
 
@@ -63,8 +63,9 @@ const GameDetails: React.FC<Props> = ({ game }) => {
           ]}
         />
       </div>
+
       <Link href={`/games/${game.id}/edit`} passHref>
-        <a className={getButtonClassnames('primary', 'solid')}>Edit</a>
+        <a className={buttonVariants({ variant: 'default' })}>Edit</a>
       </Link>
     </div>
   );

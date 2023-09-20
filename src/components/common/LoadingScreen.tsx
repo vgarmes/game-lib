@@ -29,7 +29,7 @@ export const Spinner = ({ size = '2em' }: SpinnerProps) => (
 
 const LoadingScreen = () => {
   return (
-    <div className="flex w-full justify-center">
+    <div className="flex w-full h-full justify-center items-center">
       <Spinner />
     </div>
   );

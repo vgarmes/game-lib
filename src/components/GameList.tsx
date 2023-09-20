@@ -8,24 +8,10 @@ import { Skeleton } from './ui/skeleton';
 
 interface props {
   games: Games;
-  isLoading?: boolean;
-  size?: number;
 }
-const GameList = ({ games, isLoading, size = 100 }: props) => {
+const GameList = ({ games }: props) => {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
 
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center gap-6">
-        {Array.from({ length: size }, (_, index) => (
-          <div key={index} className="w-28 flex flex-col gap-3 items-center">
-            <Skeleton className="h-28 w-5/6 rounded" />
-            <Skeleton className="rounded-full w-full h-3" />
-          </div>
-        ))}
-      </div>
-    );
-  }
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => {

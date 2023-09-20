@@ -68,7 +68,7 @@ NavLink.displayName = 'NavLink';
 
 const Navbar = () => {
   return (
-    <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 p-4">
+    <nav className="mx-auto flex w-full items-center justify-between gap-3 p-4">
       <NavLinks />
       <div className="hidden md:block">
         <ColorModeToggle />

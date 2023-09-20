@@ -1,5 +1,4 @@
 import Badge from './Badge';
-import Button from './Button';
 import FileInput from './FileInput';
 import Input from './Input';
 import Select from './Select';
@@ -10,7 +9,6 @@ import Toggle from './Toggle';
 
 export {
   Badge,
-  Button,
   FileInput,
   Input,
   Select,
