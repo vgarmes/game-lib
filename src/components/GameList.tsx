@@ -27,13 +27,13 @@ const GameList = ({ games, isLoading, size = 100 }: props) => {
     );
   }
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center gap-6">
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => {
         const hasCover = Boolean(game.cover?.secureUrl);
         return (
           <div
             key={game.id}
-            className="group flex cursor-pointer flex-col items-center"
+            className="group flex cursor-pointer flex-col items-center mb-6"
             onClick={() => setSelectedGame(game)}
           >
             <div className="relative h-28 w-28 transition-transform group-hover:scale-110">
