@@ -8,7 +8,7 @@ type DefaultLayoutProps = { children: ReactNode };
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <div className="flex flex-col h-screen max-w-7xl px-6 mx-auto w-full">
+    <div className="flex flex-col h-screen max-w-7xl px-1 md:px-6 mx-auto w-full">
       <Head>
         <title>Game library</title>
         <meta name="description" content="Victor game library" />
