@@ -7,15 +7,19 @@ import ColorModeToggle from './color-mode-toggle';
 import MobileMenu from './MobileMenu';
 import UserMenu from './user-menu';
 import clsx from 'clsx';
+import { buttonVariants } from './ui/button';
 
 const UserArea = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return null;
+  }
+
   if (!session) {
     return (
       <Link href="/auth/signin" passHref>
-        <a className="rounded-md border border-pink-700 bg-pink-600 px-4 py-2 font-medium shadow-sm hover:border-pink-800 hover:bg-pink-700">
-          Sign in
-        </a>
+        <a className={buttonVariants({ variant: 'default' })}>Sign in</a>
       </Link>
     );
   }

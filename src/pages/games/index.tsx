@@ -42,7 +42,7 @@ const GamePage = () => {
   const debouncedQuery = useDebounce(query, 1000);
   return (
     <div className="h-full">
-      <div className="flex w-full items-center justify-between gap-3 pb-6">
+      <div className="flex w-full items-center justify-between gap-3 pt-6 pb-12">
         <div className="max-w-lg grow">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50" />
