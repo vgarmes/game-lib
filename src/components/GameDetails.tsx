@@ -42,9 +42,8 @@ const GameDetails: React.FC<Props> = ({ game }) => {
           <Image
             alt={`${title} cover`}
             src={cover?.secureUrl || '/image-placeholder.jpeg'}
-            layout="fill"
-            objectFit="contain"
-            objectPosition={'50% 0%'}
+            fill={true}
+            style={{ objectFit: 'contain', objectPosition: '50% 0%' }}
           />
         </div>
 
@@ -64,8 +63,11 @@ const GameDetails: React.FC<Props> = ({ game }) => {
         />
       </div>
 
-      <Link href={`/games/${game.id}/edit`} passHref>
-        <a className={buttonVariants({ variant: 'default' })}>Edit</a>
+      <Link
+        href={`/games/${game.id}/edit`}
+        className={buttonVariants({ variant: 'default' })}
+      >
+        Edit
       </Link>
     </div>
   );

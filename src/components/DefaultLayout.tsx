@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import Footer from './footer';
-import Navbar from './Navbar';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Header } from './header';
 
 type DefaultLayoutProps = { children: ReactNode };
 
@@ -14,7 +14,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         <meta name="description" content="Victor game library" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Header />
       <div className="mx-auto w-full flex-1 px-4 pb-10">{children}</div>
       <Footer />
       {process.env.NODE_ENV !== 'production' && (

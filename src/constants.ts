@@ -1,17 +1,14 @@
-const ROUTES = {
-  GAMES: 'Games',
-  PLATFORMS: 'Platforms',
-} as const;
+const ROUTES = ['Games', 'Platforms'] as const;
 
-type Route = keyof typeof ROUTES;
+type Route = (typeof ROUTES)[number];
 
 export const routes: Array<{ id: Route; href: string }> = [
   {
-    id: 'GAMES',
+    id: 'Games',
     href: '/games',
   },
   {
-    id: 'PLATFORMS',
+    id: 'Platforms',
     href: '/platforms',
   },
 ];

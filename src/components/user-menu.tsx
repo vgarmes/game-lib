@@ -1,12 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { Fragment } from 'react';
 import MenuItem from './common/menu-item';
-
-interface Props {
-  username: string;
-}
+import { buttonVariants } from './ui/button';
+import Link from 'next/link';
 
 const getInitials = (name: string) => {
   let initials = '';
@@ -20,13 +18,30 @@ const getInitials = (name: string) => {
   return initials;
 };
 
-const UserMenu: React.FC<Props> = ({ username }) => {
+const UserMenu = () => {
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return null;
+  }
+
+  if (!session) {
+    return (
+      <Link
+        href="/auth/signin"
+        className={buttonVariants({ variant: 'default' })}
+      >
+        Sign in
+      </Link>
+    );
+  }
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-50 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600">
           <span className="font-medium uppercase text-gray-600 dark:text-gray-300">
-            {getInitials(username)}
+            {getInitials(session.user.username ?? '')}
           </span>
         </Menu.Button>
       </div>

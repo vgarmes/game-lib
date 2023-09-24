@@ -78,8 +78,8 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                 <Image
                   alt="background"
                   src={game.cover.secureUrl}
-                  layout="fill"
-                  objectFit="cover"
+                  fill={true}
+                  style={{ objectFit: 'cover' }}
                   className="rounded-t-lg"
                 />
               )}
@@ -117,12 +117,10 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
                     {session?.user.role === 'ADMIN' && (
                       <Link
                         href={`/games/${game?.id.toString()}/edit`}
-                        passHref
+                        className={buttonVariants({ variant: 'default' })}
                       >
-                        <a className={buttonVariants({ variant: 'default' })}>
-                          <Icon name="pencil" className="md:pr-3" />
-                          <span>Edit</span>
-                        </a>
+                        <Icon name="pencil" className="md:pr-3" />
+                        <span>Edit</span>
                       </Link>
                     )}
                   </div>

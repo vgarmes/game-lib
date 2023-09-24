@@ -24,12 +24,10 @@ const PlatformPage = () => {
               <Link
                 key={entry.id}
                 href={`/platforms/${entry.id.toString()}`}
-                passHref
+                className="flex items-center gap-3 pb-3"
               >
-                <a className="flex items-center gap-3 pb-3">
-                  <p>{entry.name}</p>
-                  <Badge text={`${entry._count.games} games`} color="pink" />
-                </a>
+                <p>{entry.name}</p>
+                <Badge text={`${entry._count.games} games`} color="pink" />
               </Link>
             ))}
           </li>

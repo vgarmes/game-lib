@@ -2,9 +2,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import GameDialog from './GameDialog';
 import type { Games, Game } from '@/types/trpc';
-import { Skeleton } from './ui/skeleton';
-
-//  <Link key={game.id} href={`/games/${game.id}`} passHref>
+import clsx from 'clsx';
 
 interface props {
   games: Games;
@@ -26,10 +24,12 @@ const GameList = ({ games }: props) => {
               <Image
                 alt={`${game.title} cover`}
                 src={game.cover?.secureUrl || '/image-placeholder.jpeg'}
-                layout="fill"
-                objectFit={hasCover ? 'contain' : 'cover'}
-                objectPosition={'50% 50%'}
-                className={hasCover ? '' : 'rounded'}
+                fill={true}
+                style={{
+                  objectFit: hasCover ? 'contain' : 'cover',
+                  objectPosition: '50% 50%',
+                }}
+                className={clsx({ rounded: hasCover })}
               />
             </div>
 

@@ -14,7 +14,7 @@ const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
       <Image
         width={96}
         height={96}
-        objectFit="cover"
+        style={{ objectFit: 'cover' }}
         className="rounded-lg"
         src="/image-placeholder.jpeg"
         alt="placeholder"
@@ -29,7 +29,7 @@ const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
       height={96}
       alt="image to upload"
       onLoad={() => URL.revokeObjectURL(src)}
-      objectFit="contain"
+      style={{ objectFit: 'contain' }}
     />
   );
 };

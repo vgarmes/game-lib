@@ -55,11 +55,12 @@ const GamePage = () => {
           </div>
         </div>
         {session && (
-          <Link href="/games/new" passHref>
-            <a className={buttonVariants({ variant: 'default' })}>
-              <Icon name="plus" />
-              <span>Add game</span>
-            </a>
+          <Link
+            href="/games/new"
+            className={buttonVariants({ variant: 'default' })}
+          >
+            <Icon name="plus" />
+            <span>Add game</span>
           </Link>
         )}
       </div>

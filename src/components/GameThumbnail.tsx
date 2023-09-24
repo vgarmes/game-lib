@@ -11,14 +11,13 @@ const GameThumbnail: React.FC<Props> = ({ title, src }) => {
         <Image
           alt={`${title} cover`}
           src={src}
-          layout="fill"
-          objectFit="contain"
-          objectPosition={'50% 50%'}
+          fill={true}
+          style={{ objectFit: 'contain', objectPosition: '50% 50%' }}
         />
       ) : (
         <Image
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+          style={{ objectFit: 'cover' }}
           className="rounded-lg"
           src="/image-placeholder.jpeg"
           alt="placeholder"

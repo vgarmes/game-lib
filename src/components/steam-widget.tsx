@@ -46,8 +46,8 @@ const SteamWidget = () => {
           <li key={game.appid} className="flex">
             <Image
               alt="game icon"
-              width="32px"
-              height="32px"
+              width={32}
+              height={32}
               src={constructUrl(game.appid.toString(), game.img_icon_url)}
             />
 
