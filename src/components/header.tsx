@@ -14,7 +14,7 @@ const MainNav = () => {
 
 export const Header = () => {
   return (
-    <header className="flex h-16 shrink-0 items-center px-4">
+    <header className="flex h-16 shrink-0 items-center">
       <MainNav />
       <div className="ml-auto flex items-center space-x-4">
         <ColorModeToggle />

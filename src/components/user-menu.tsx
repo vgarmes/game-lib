@@ -34,10 +34,7 @@ const UserMenu = () => {
 
   if (!session) {
     return (
-      <Link
-        href="/auth/signin"
-        className={buttonVariants({ variant: 'default' })}
-      >
+      <Link href="/auth/signin" className={buttonVariants({ variant: 'link' })}>
         Sign in
       </Link>
     );

@@ -11,7 +11,7 @@ const GameList = ({ games }: props) => {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(8rem,_1fr))] md:grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
       {games.map((game) => {
         const hasCover = Boolean(game.cover?.secureUrl);
         return (
