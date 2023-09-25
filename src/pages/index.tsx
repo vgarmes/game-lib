@@ -4,6 +4,7 @@ import { prisma } from '../server/prisma';
 import superjson from 'superjson';
 import Title from '../components/common/Title';
 import { Games } from '@/types/trpc';
+import { Separator } from '@/components/ui/separator';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: games } = props;
@@ -12,7 +13,13 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <section>
-        <Title className="text-center">Last completed games</Title>
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Recently completed
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          The games I have recently completed.
+        </p>
+        <Separator className="my-4" />
         {games && <GameList games={parsedGames} />}
       </section>
     </div>

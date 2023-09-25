@@ -1,10 +1,17 @@
-import { Menu, Transition } from '@headlessui/react';
-import clsx from 'clsx';
 import { signOut, useSession } from 'next-auth/react';
-import { Fragment } from 'react';
-import MenuItem from './common/menu-item';
 import { buttonVariants } from './ui/button';
 import Link from 'next/link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { Button } from './ui/button';
+import { Avatar, AvatarFallback } from './ui/avatar';
 
 const getInitials = (name: string) => {
   let initials = '';
@@ -37,53 +44,44 @@ const UserMenu = () => {
   }
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-50 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600">
-          <span className="font-medium uppercase text-gray-600 dark:text-gray-300">
-            {getInitials(session.user.username ?? '')}
-          </span>
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className=" absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="px-1 py-1 ">
-            <Menu.Item>
-              {({ active }) => (
-                <MenuItem href="/settings" active={active}>
-                  Settings
-                </MenuItem>
-              )}
-            </Menu.Item>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-8 w-8">
+            {/* <AvatarImage src="/avatars/01.png" alt="@shadcn" /> */}
+            <AvatarFallback>
+              {getInitials(session.user.username ?? '')}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {session.user.username}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {session.user.email}
+            </p>
           </div>
-          <div className="px-1 py-1 ">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={clsx(
-                    'block w-full cursor-pointer rounded-md border border-pink-600 px-2 py-2 text-sm text-pink-600',
-                    {
-                      'bg-pink-100': active,
-                    }
-                  )}
-                  onClick={() => signOut()}
-                >
-                  Sign out
-                </button>
-              )}
-            </Menu.Item>
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href="/settings" className="w-full">
+              Settings
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>New Team</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
