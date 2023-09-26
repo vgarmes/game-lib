@@ -1,4 +1,4 @@
-import { Home, Library, LucideIcon, Search } from 'lucide-react';
+import { Gamepad2, Home, Library, LucideIcon, Search } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import Link from 'next/link';
 
@@ -22,9 +22,9 @@ const MobileNav = () => {
         <Library />
         Library
       </MenuButton>
-      <MenuButton href="/games">
-        <Search />
-        Search
+      <MenuButton href="/platforms">
+        <Gamepad2 />
+        Platforms
       </MenuButton>
     </div>
   );
