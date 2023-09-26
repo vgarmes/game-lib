@@ -3,6 +3,7 @@ import LoadingScreen from '../../../components/common/LoadingScreen';
 import Title from '../../../components/common/Title';
 import GameList from '../../../components/GameList';
 import { trpc } from '../../../utils/trpc';
+import PageTitle from '@/components/page-title';
 
 const SinglePlatformPage = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const SinglePlatformPage = () => {
   }
   return (
     <div>
-      <Title className="text-center">{games[0].platform?.name}</Title>
+      <PageTitle title={games[0].platform?.name ?? 'Other'} />
       {games && <GameList games={games} />}
     </div>
   );

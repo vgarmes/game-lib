@@ -4,6 +4,7 @@ import LoadingScreen from '../../components/common/LoadingScreen';
 import Title from '../../components/common/Title';
 import { groupBy } from '../../utils';
 import { trpc } from '../../utils/trpc';
+import PageTitle from '@/components/page-title';
 
 const PlatformPage = () => {
   const { data: platforms, isLoading } = trpc.platform.count.useQuery();
@@ -15,7 +16,10 @@ const PlatformPage = () => {
   const groupedPlatforms = groupBy(platforms, 'manufacturer');
   return (
     <div>
-      <Title>Platforms</Title>
+      <PageTitle
+        title="Platforms"
+        description="All my games grouped by their platform."
+      />
       <ul>
         {Object.entries(groupedPlatforms).map(([platform, entries]) => (
           <li key={platform} className="pb-3">

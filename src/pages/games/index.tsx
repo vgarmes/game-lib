@@ -1,15 +1,10 @@
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { useState } from 'react';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import GameList from '../../components/GameList';
-import Icon from '../../components/icon';
 import useDebounce from '../../utils/hooks/useDebounce';
 import { trpc } from '../../utils/trpc';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
-import Sidebar from '@/components/sidebar';
+import PageTitle from '@/components/page-title';
 
 const size = 20;
 const page = 0;
@@ -34,7 +29,12 @@ const GameResults = ({ query }: { query: string }) => {
     );
   }
 
-  return <GameList games={games} />;
+  return (
+    <>
+      <PageTitle title="All games" description="All my games." />
+      <GameList games={games} />
+    </>
+  );
 };
 
 const GamePage = () => {

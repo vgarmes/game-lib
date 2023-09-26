@@ -2,12 +2,9 @@ import GameList from '../components/GameList';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
 import superjson from 'superjson';
-import Title from '../components/common/Title';
 import { Games } from '@/types/trpc';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { ScrollBar } from '@/components/ui/scroll-area';
-import Image from 'next/image';
+import PageTitle from '@/components/page-title';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { addedGames, finishedGames } = props;
@@ -17,13 +14,10 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div className="px-4 py-6 lg:px-8">
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Recently finished
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          The games I have recently finished.
-        </p>
-        <Separator className="my-4" />
+        <PageTitle
+          title="Recently completed"
+          description={'Games I have recently finished.'}
+        />
 
         {finishedGames && <GameList games={parsedFinishedGames} />}
       </section>
