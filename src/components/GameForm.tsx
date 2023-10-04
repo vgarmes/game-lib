@@ -78,7 +78,6 @@ const GameForm = ({
           <StarsInput value={value} onChange={onChange} />
         )}
       />
-      <ShadInput id="game-title" placeholder="Title" />
       <Input
         label="Title"
         error={errors.title?.message}
