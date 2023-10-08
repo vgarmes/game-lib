@@ -2,23 +2,28 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
-import { Input } from '../../components/common';
+import { Input } from '../../components/ui/input';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import Title from '../../components/common/Title';
 import useZodForm from '../../utils/hooks/useZodForm';
 import { Button } from '@/components/ui/button';
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  Form,
+} from '@/components/ui/form';
+import { Loader2 } from 'lucide-react';
 
 const SignIn = () => {
   const router = useRouter();
   const [error, setError] = useState('');
   const { data: session, status } = useSession();
 
-  const {
-    handleSubmit,
-    formState: { errors, isValid, isSubmitting, isSubmitted },
-    register,
-    trigger,
-  } = useZodForm({
+  const form = useZodForm({
     schema: z.object({
       email: z.string().email('Not a valid email').min(1),
       password: z.string().min(1),
@@ -28,6 +33,8 @@ const SignIn = () => {
       password: '',
     },
   });
+
+  const isSubmitting = form.formState.isSubmitting;
 
   const handleSignIn = async (email: string, password: string) =>
     signIn<'credentials'>('credentials', {
@@ -42,13 +49,10 @@ const SignIn = () => {
       return;
     });
 
-  useEffect(() => {
+  if (status !== 'unauthenticated') {
     if (status === 'authenticated') {
       router.push('/games');
     }
-  }, [status, router]);
-
-  if (status !== 'unauthenticated') {
     return <LoadingScreen />;
   }
 
@@ -62,29 +66,49 @@ const SignIn = () => {
           </p>
         </div>
       )}
-      <form
-        onSubmit={handleSubmit((values) =>
-          handleSignIn(values.email, values.password)
-        )}
-      >
-        <Input
-          type="email"
-          label="Email"
-          error={errors.email?.message}
-          {...register('email')}
-        />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit((values) =>
+            handleSignIn(values.email, values.password)
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="" type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Input
-          type="password"
-          label="Password"
-          error={errors.password?.message}
-          {...register('password')}
-        />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="" type="password" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          Sign in
-        </Button>
-      </form>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Sign in
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

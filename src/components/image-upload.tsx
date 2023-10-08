@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import { ImgHTMLAttributes, useRef, useState } from 'react';
 import { CLOUDINARY_CONFIG, uploadImage } from '../utils/cloudinary';
-import FileInput from './common/FileInput';
 import { Signature } from '../types';
 import { trpc } from '../utils/trpc';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   src,
@@ -105,24 +106,30 @@ const ImageUpload: React.FC<{
   };
 
   return (
-    <div>
+    <>
       <div>
         <PreviewImage src={preview} />
       </div>
 
-      <div className="flex items-end gap-6 pt-5">
-        <FileInput
-          accept="image/*"
-          onChange={(e) => handleChange(e.target.files)}
-          ref={fileRef}
-        />
-        <Button type="button" onClick={handleSubmit} disabled={!preview}>
-          Upload
-        </Button>
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="picture">Cover picture</Label>
+        <div className="flex w-full max-w-sm items-center space-x-2 mt-2">
+          <Input
+            id="picture"
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleChange(e.target.files)}
+            ref={fileRef}
+          />
+          <Button type="button" onClick={handleSubmit} disabled={!preview}>
+            Upload
+          </Button>
+        </div>
+
         {isLoading && <p className="pl-3">Loading...</p>}
         {error && <p className="pl-3">{error}</p>}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -2,6 +2,16 @@ export function toISODateString(date: Date) {
   return date.toISOString().split('T')[0];
 }
 
+export function dateToLocalWithoutTime(utcDate: Date) {
+  return new Date(utcDate.getFullYear(), utcDate.getMonth(), utcDate.getDate());
+}
+
+export function dateToUtcWithoutTime(date: Date) {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+}
+
 export function groupBy<T extends Record<K, any>, K extends string>(
   objectArray: T[],
   property: K

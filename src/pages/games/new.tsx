@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
 import GameForm from '../../components/GameForm';
+import PageTitle from '@/components/page-title';
 
 const NewGame = () => {
   const router = useRouter();
@@ -15,7 +16,10 @@ const NewGame = () => {
 
   return (
     <div>
-      <h2 className="pb-6 text-3xl font-bold">New game</h2>
+      <PageTitle
+        title="New game"
+        description="Add the details to create a new game."
+      />
       <GameForm
         onSubmit={(values, _) => mutate(values)}
         isSubmitting={isLoading}

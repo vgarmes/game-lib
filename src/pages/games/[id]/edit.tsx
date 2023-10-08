@@ -1,9 +1,11 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import GameForm, { Schema } from '../../../components/GameForm';
+import GameForm from '../../../components/GameForm';
 import { getServerSession } from '../../../server/common/get-server-session';
 import { trpc } from '../../../utils/trpc';
 import { DirtyFields, getDirtyValues } from '../../../utils/forms';
+import PageTitle from '@/components/page-title';
+import { GameSchema } from '@/server/routers/game/schema';
 
 const EditPage = () => {
   const router = useRouter();
@@ -34,7 +36,10 @@ const EditPage = () => {
     return <p>No game found with given id</p>;
   }
 
-  const handleSubmit = (values: Schema, dirtyFields: DirtyFields<Schema>) => {
+  const handleSubmit = (
+    values: GameSchema,
+    dirtyFields: DirtyFields<GameSchema>
+  ) => {
     const updatedValues = getDirtyValues(values, dirtyFields);
     return mutate({ id: game.id, ...updatedValues });
   };
@@ -48,17 +53,28 @@ const EditPage = () => {
     ...restValues
   } = game;
 
+  const cleanValues = Object.fromEntries(
+    Object.entries(restValues).filter(([_key, value]) => value !== null)
+  ) as GameSchema;
+
   return (
-    <GameForm
-      onSubmit={handleSubmit}
-      isSubmitting={isSubmitting}
-      defaultCoverUrl={game.cover?.secureUrl}
-      initialValues={{
-        ...restValues,
-        platformId: platform?.id,
-        coverId: cover?.id,
-      }}
-    />
+    <div>
+      <PageTitle
+        title="Edit game"
+        description="Edit the details of the game."
+      />
+
+      <GameForm
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        defaultCoverUrl={game.cover?.secureUrl}
+        initialValues={{
+          ...cleanValues,
+          platformId: platform?.id,
+          coverId: cover?.id,
+        }}
+      />
+    </div>
   );
 };
 
