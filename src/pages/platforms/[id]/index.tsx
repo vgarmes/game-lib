@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import LoadingScreen from '../../../components/common/LoadingScreen';
-import Title from '../../../components/common/Title';
 import GameList from '../../../components/GameList';
 import { trpc } from '../../../utils/trpc';
 import PageTitle from '@/components/page-title';

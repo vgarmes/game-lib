@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Badge } from '../../components/common';
 import LoadingScreen from '../../components/common/LoadingScreen';
-import Title from '../../components/common/Title';
 import { groupBy } from '../../utils';
 import { trpc } from '../../utils/trpc';
 import PageTitle from '@/components/page-title';

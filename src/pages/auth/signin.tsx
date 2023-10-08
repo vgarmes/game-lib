@@ -1,10 +1,8 @@
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Input } from '../../components/ui/input';
 import LoadingScreen from '../../components/common/LoadingScreen';
-import Title from '../../components/common/Title';
 import useZodForm from '../../utils/hooks/useZodForm';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +15,12 @@ import {
   Form,
 } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
+import PageTitle from '@/components/page-title';
+import { useToast } from '@/components/ui/use-toast';
 
 const SignIn = () => {
   const router = useRouter();
-  const [error, setError] = useState('');
+  const { toast } = useToast();
   const { data: session, status } = useSession();
 
   const form = useZodForm({
@@ -45,7 +45,11 @@ const SignIn = () => {
       if (response?.ok) {
         return router.push('/');
       }
-      setError('Email or password are invalid');
+      toast({
+        variant: 'destructive',
+        title: 'Email and/or password are invalid',
+        description: 'There was a problem with your request.',
+      });
       return;
     });
 
@@ -58,14 +62,7 @@ const SignIn = () => {
 
   return (
     <div className="mx-auto flex max-w-md flex-col">
-      <Title>Sign in</Title>
-      {error && (
-        <div className="max flex justify-center">
-          <p className="rounded border border-red-500 bg-red-200 px-4 py-2 text-red-600">
-            {error}
-          </p>
-        </div>
-      )}
+      <PageTitle title="Sign in" />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((values) =>

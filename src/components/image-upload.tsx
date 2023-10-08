@@ -6,6 +6,7 @@ import { trpc } from '../utils/trpc';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { useToast } from './ui/use-toast';
 
 const PreviewImage: React.FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   src,
@@ -39,13 +40,19 @@ const ImageUpload: React.FC<{
   onSubmit?: (coverId: number) => void;
   defaultImageSrc?: string;
 }> = ({ onSubmit, defaultImageSrc }) => {
+  const { toast } = useToast();
   const [preview, setPreview] = useState(defaultImageSrc);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
   const createCover = trpc.cover.create.useMutation({
-    onError: (error) => console.log(error),
+    onError: (error) =>
+      toast({
+        variant: 'destructive',
+        title: 'Ups! Something went wrong.',
+        description: `${error?.toString().substring(0, 200) ?? 'Try again'}`,
+      }),
   });
 
   const handleChange = (files: FileList | null) => {

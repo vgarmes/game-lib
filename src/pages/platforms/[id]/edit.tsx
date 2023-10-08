@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import LoadingScreen from '../../../components/common/LoadingScreen';
-import Title from '../../../components/common/Title';
 import parseId from '../../../utils/parse-id';
 import { trpc } from '../../../utils/trpc';
 import Form from '../../../components/platform/Form';
+import PageTitle from '@/components/page-title';
 
 const EditPlatform = () => {
   const router = useRouter();
@@ -31,7 +31,10 @@ const EditPlatform = () => {
 
   return (
     <div>
-      <Title>{`${platform.name} - ${platform.manufacturer}`}</Title>
+      <PageTitle
+        title={platform.name}
+        description={platform.manufacturer ?? ''}
+      />
       <Form
         initialValues={platform}
         onSubmit={(values) => mutate({ id: numId, ...values })}
