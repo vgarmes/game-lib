@@ -4,13 +4,23 @@ import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
 import GameForm from '../../components/GameForm';
 import PageTitle from '@/components/page-title';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 
 const NewGame = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const { mutate, isLoading } = trpc.game.create.useMutation({
     onSuccess() {
-      console.log('success!');
+      toast({ title: 'Game created successfully!' });
       router.push('/');
+    },
+    onError() {
+      toast({
+        variant: 'destructive',
+        title: 'Ups! Something went wrong.',
+        description: 'There was a problem with your request.',
+      });
     },
   });
 

@@ -22,7 +22,7 @@ import { Switch } from './ui/switch';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Loader2 } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { useRef, useState } from 'react';
 import { Textarea } from './ui/textarea';
@@ -100,8 +100,6 @@ const GameForm = ({
     defaultValues: defaultValues.current,
   });
 
-  const buttonText = initialValues ? 'Edit' : 'Create';
-
   const handleSubmit = (values: GameSchema) => {
     const { completedDate, buyDate, releaseDate } = values;
     const newValues = {
@@ -116,7 +114,7 @@ const GameForm = ({
     };
     onSubmit(newValues, form.formState.dirtyFields);
   };
-  console.log('render');
+
   return (
     <Form {...form}>
       <form
@@ -429,13 +427,8 @@ const GameForm = ({
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <span>
-              <Spinner />
-            </span>
-          ) : (
-            buttonText
-          )}
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save
         </Button>
       </form>
     </Form>

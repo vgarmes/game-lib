@@ -6,18 +6,26 @@ import { trpc } from '../../../utils/trpc';
 import { DirtyFields, getDirtyValues } from '../../../utils/forms';
 import PageTitle from '@/components/page-title';
 import { GameSchema } from '@/server/routers/game/schema';
+import { useToast } from '@/components/ui/use-toast';
 
 const EditPage = () => {
   const router = useRouter();
   const { id } = router.query;
-
+  const { toast } = useToast();
   const isValidId = !!id && !isNaN(parseInt(id as string));
   const numId = id ? parseInt(id as string) : 0;
 
   const { mutate, isLoading: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
-      console.log('success!');
+      toast({ title: 'Game edited successfully!' });
       router.push(`/games/${id}`);
+    },
+    onError() {
+      toast({
+        variant: 'destructive',
+        title: 'Ups! Something went wrong.',
+        description: 'There was a problem with your request.',
+      });
     },
   });
 

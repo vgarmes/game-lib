@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import DefaultLayout from '@/components/DefaultLayout';
 import { trpc } from '@/utils/trpc';
+import { Toaster } from '@/components/ui/toaster';
 
 export const MyApp = ({
   Component,
@@ -13,6 +14,7 @@ export const MyApp = ({
     <SessionProvider session={session}>
       <DefaultLayout>
         <Component {...pageProps} />
+        <Toaster />
       </DefaultLayout>
     </SessionProvider>
   );
