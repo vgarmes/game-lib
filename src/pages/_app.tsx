@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
-import DefaultLayout from '@/components/DefaultLayout';
+import DefaultLayout from '@/components/layout/default';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
 

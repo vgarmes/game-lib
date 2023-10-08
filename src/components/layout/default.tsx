@@ -1,16 +1,16 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Header } from './header';
-import Sidebar from './sidebar';
-import MobileNav from './mobile-nav';
+import { Header } from '../header';
+import Sidebar from '../sidebar';
+import MobileNav from '../mobile-nav';
 
 type DefaultLayoutProps = { children: ReactNode };
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <div>
-      <div className="max-w-7xl px-3 md:px-6 mx-auto w-full flex flex-col h-[calc(100dvh-64px)] overflow-auto sm:overflow-visible sm:h-screen">
+      <div className="max-w-7xl px-3 md:px-6 mx-auto w-full flex flex-col h-[calc(100vh-64px)] overflow-auto sm:overflow-visible sm:h-screen">
         <Head>
           <title>Game library</title>
           <meta name="description" content="Victor game library" />
