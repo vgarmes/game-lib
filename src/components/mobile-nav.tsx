@@ -24,11 +24,7 @@ const MenuButton: React.FC<
 const MobileNav = () => {
   const router = useRouter();
   return (
-    <div
-      className={clsx(
-        'max-w-xs h-16 bg-card mx-auto grid grid-cols-3 items-center'
-      )}
-    >
+    <div className="h-16 bg-card mx-auto grid grid-cols-3 items-center">
       <MenuButton href="/" active={router.asPath === '/'}>
         <Home />
         Home
