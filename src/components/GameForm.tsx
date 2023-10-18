@@ -5,7 +5,6 @@ import { StarsInput } from './common';
 import { dateToLocalWithoutTime, dateToUtcWithoutTime } from '../utils';
 import { Controller } from 'react-hook-form';
 import { DirtyFields } from '../utils/forms';
-import { Spinner } from './common/LoadingScreen';
 import { trpc } from '@/utils/trpc';
 import { Input } from './ui/input';
 import { Button } from './ui/button';

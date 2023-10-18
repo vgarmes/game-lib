@@ -4,9 +4,14 @@ import LoadingScreen from '../../components/common/LoadingScreen';
 import { groupBy } from '../../utils';
 import { trpc } from '../../utils/trpc';
 import PageTitle from '@/components/page-title';
+import { buttonVariants } from '@/components/ui/button';
+import clsx from 'clsx';
+import { Plus } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 const PlatformPage = () => {
   const { data: platforms, isLoading } = trpc.platform.count.useQuery();
+  const { data: session } = useSession();
 
   if (isLoading || !platforms) {
     return <LoadingScreen />;
@@ -14,7 +19,16 @@ const PlatformPage = () => {
 
   const groupedPlatforms = groupBy(platforms, 'manufacturer');
   return (
-    <div>
+    <div className="flex flex-col w-full">
+      {session && (
+        <Link
+          href="/platforms/new"
+          className={clsx(buttonVariants({ variant: 'default' }), 'ml-auto')}
+        >
+          <Plus />
+          <span className="hidden md:inline-block">New platform</span>
+        </Link>
+      )}
       <PageTitle
         title="Platforms"
         description="All my games grouped by their platform."

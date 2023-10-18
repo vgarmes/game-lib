@@ -3,6 +3,7 @@ import LoadingScreen from '../../../components/common/LoadingScreen';
 import GameList from '../../../components/GameList';
 import { trpc } from '../../../utils/trpc';
 import PageTitle from '@/components/page-title';
+import { useSession } from 'next-auth/react';
 
 const SinglePlatformPage = () => {
   const router = useRouter();

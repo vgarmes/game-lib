@@ -2,8 +2,9 @@ import { useRouter } from 'next/router';
 import LoadingScreen from '../../../components/common/LoadingScreen';
 import parseId from '../../../utils/parse-id';
 import { trpc } from '../../../utils/trpc';
-import Form from '../../../components/platform/Form';
 import PageTitle from '@/components/page-title';
+import PlatformForm from '@/components/platform-form';
+import { PlatformSchema } from '@/server/routers/platform/schema';
 
 const EditPlatform = () => {
   const router = useRouter();
@@ -29,14 +30,18 @@ const EditPlatform = () => {
     return <LoadingScreen />;
   }
 
+  const cleanValues = Object.fromEntries(
+    Object.entries(platform).filter(([_key, value]) => value !== null)
+  ) as PlatformSchema;
+
   return (
     <div>
       <PageTitle
         title={platform.name}
         description={platform.manufacturer ?? ''}
       />
-      <Form
-        initialValues={platform}
+      <PlatformForm
+        initialValues={cleanValues}
         onSubmit={(values) => mutate({ id: numId, ...values })}
         isSubmitting={isSubmitting}
       />

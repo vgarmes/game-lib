@@ -5,7 +5,6 @@ import { trpc } from '../../utils/trpc';
 import GameForm from '../../components/GameForm';
 import PageTitle from '@/components/page-title';
 import { useToast } from '@/components/ui/use-toast';
-import { ToastAction } from '@/components/ui/toast';
 
 const NewGame = () => {
   const router = useRouter();
