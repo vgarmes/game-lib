@@ -13,7 +13,7 @@ const MenuButton: React.FC<
       'flex flex-col items-center text-xs gap-1 h-full justify-center border-b-2',
       {
         'text-foreground border-b-foreground': active,
-        'text-foreground/60 border-b-transparent': !active,
+        'text-foreground/60 border-b-card': !active,
       }
     )}
   >

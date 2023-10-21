@@ -10,7 +10,6 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   Form,
 } from '@/components/ui/form';
@@ -61,13 +60,14 @@ const SignIn = () => {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col">
+    <div className="mx-auto w-full max-w-md">
       <PageTitle title="Sign in" />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((values) =>
             handleSignIn(values.email, values.password)
           )}
+          className="flex flex-col gap-6"
         >
           <FormField
             control={form.control}
@@ -92,9 +92,6 @@ const SignIn = () => {
                 <FormControl>
                   <Input placeholder="" type="password" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

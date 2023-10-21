@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import PageTitle from '@/components/page-title';
 
 const SignUp = () => {
   const { mutate: signup, isLoading } = trpc.user.signup.useMutation({
@@ -34,8 +35,8 @@ const SignUp = () => {
   });
 
   return (
-    <div className="max-w-sm mx-auto">
-      <h2 className="text-3xl font-bold pb-6">Sign up</h2>
+    <div className="mx-auto w-full max-w-md">
+      <PageTitle title="Sign up" />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((values) => signup(values))}
@@ -102,11 +103,8 @@ const SignUp = () => {
           />
 
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              'Submit'
-            )}
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Sign up
           </Button>
         </form>
       </Form>
