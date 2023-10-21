@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import DefaultLayout from '@/components/layout/default';
 
 const size = 20;
 const page = 0;
@@ -43,7 +44,7 @@ const GamePage = () => {
   const debouncedQuery = useDebounce(query, 1000);
 
   return (
-    <>
+    <DefaultLayout>
       <div className="flex w-full items-center justify-between gap-3 py-6">
         <div className="max-w-lg grow">
           <div className="relative">
@@ -69,7 +70,7 @@ const GamePage = () => {
       </div>
       <PageTitle title="All games" description="All my games." />
       <Content searchTerm={debouncedQuery} />
-    </>
+    </DefaultLayout>
   );
 };
 

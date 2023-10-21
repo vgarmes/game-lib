@@ -5,6 +5,7 @@ import superjson from 'superjson';
 import { Games } from '@/types/trpc';
 import { Separator } from '@/components/ui/separator';
 import PageTitle from '@/components/page-title';
+import DefaultLayout from '@/components/layout/default';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { addedGames, finishedGames } = props;
@@ -12,27 +13,29 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const parsedAddedGames = superjson.parse(addedGames) as Games;
 
   return (
-    <div className="px-4 py-6 lg:px-8">
-      <section>
-        <PageTitle
-          title="Recently completed"
-          description={'Games I have recently finished.'}
-        />
+    <DefaultLayout>
+      <div className="px-4 py-6 lg:px-8">
+        <section>
+          <PageTitle
+            title="Recently completed"
+            description={'Games I have recently finished.'}
+          />
 
-        {finishedGames && <GameList games={parsedFinishedGames} />}
-      </section>
-      <section>
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Recently added
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          The games I have recently added to my library.
-        </p>
-        <Separator className="my-4" />
+          {finishedGames && <GameList games={parsedFinishedGames} />}
+        </section>
+        <section>
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Recently added
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            The games I have recently added to my library.
+          </p>
+          <Separator className="my-4" />
 
-        {addedGames && <GameList games={parsedAddedGames} />}
-      </section>
-    </div>
+          {addedGames && <GameList games={parsedAddedGames} />}
+        </section>
+      </div>
+    </DefaultLayout>
   );
 };
 

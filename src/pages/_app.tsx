@@ -2,10 +2,11 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
-import DefaultLayout from '@/components/layout/default';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers';
+import RootLayout from '@/components/layout/root';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const MyApp = ({
   Component,
@@ -19,10 +20,13 @@ export const MyApp = ({
         defaultTheme="system"
         disableTransitionOnChange
       >
-        <DefaultLayout>
+        <RootLayout>
           <Component {...pageProps} />
-          <Toaster />
-        </DefaultLayout>
+        </RootLayout>
+        <Toaster />
+        {process.env.NODE_ENV !== 'production' && (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )}
       </ThemeProvider>
     </SessionProvider>
   );
