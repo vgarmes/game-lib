@@ -17,7 +17,6 @@ export const MyApp = ({
         storageKey="color-mode"
         attribute="class"
         defaultTheme="system"
-        enableSystem
         disableTransitionOnChange
       >
         <DefaultLayout>
