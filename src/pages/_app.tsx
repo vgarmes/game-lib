@@ -5,6 +5,7 @@ import type { Session } from 'next-auth';
 import DefaultLayout from '@/components/layout/default';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/providers';
 
 export const MyApp = ({
   Component,
@@ -12,10 +13,18 @@ export const MyApp = ({
 }: AppProps<{ session: Session }>) => {
   return (
     <SessionProvider session={session}>
-      <DefaultLayout>
-        <Component {...pageProps} />
-        <Toaster />
-      </DefaultLayout>
+      <ThemeProvider
+        storageKey="color-mode"
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <DefaultLayout>
+          <Component {...pageProps} />
+          <Toaster />
+        </DefaultLayout>
+      </ThemeProvider>
     </SessionProvider>
   );
 };

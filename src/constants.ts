@@ -12,5 +12,3 @@ export const routes: Array<{ id: Route; href: string }> = [
     href: '/platforms',
   },
 ];
-
-export const COLOR_MODE_KEY = 'color-mode';
