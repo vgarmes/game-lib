@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button, buttonVariants } from './ui/button';
+import { Button } from './ui/button';
 import { Gamepad2, Library, LucideIcon, BookmarkCheck } from 'lucide-react';
 import { useRouter } from 'next/router';
 
@@ -24,6 +24,7 @@ const sections: Array<SectionProps> = [
 
 const Sidebar = () => {
   const router = useRouter();
+  console.log('path: ', router.asPath);
   return (
     <aside className="space-y-4 py-4">
       {sections.map((section) => (

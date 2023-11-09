@@ -1,5 +1,4 @@
-import { ReactNode } from 'react';
-import { Header } from '../header';
+import type { ReactNode } from 'react';
 import Sidebar from '../sidebar';
 import MobileNav from '../mobile-nav';
 
