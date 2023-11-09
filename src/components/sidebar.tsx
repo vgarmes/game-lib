@@ -24,7 +24,6 @@ const sections: Array<SectionProps> = [
 
 const Sidebar = () => {
   const router = useRouter();
-  console.log('path: ', router.asPath);
   return (
     <aside className="space-y-4 py-4">
       {sections.map((section) => (
