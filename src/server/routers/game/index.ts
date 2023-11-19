@@ -13,7 +13,10 @@ export const gameRouter = router({
         cover: coverId ? { connect: { id: coverId } } : undefined,
       },
     });
-    await ctx.res.revalidate('/');
+    await Promise.all([
+      ctx.res.revalidate('/'),
+      ctx.res.revalidate('/platforms'),
+    ]);
     return { sucess: true };
   }),
   update: adminProcedure
