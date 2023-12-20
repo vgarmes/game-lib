@@ -63,8 +63,8 @@ const GamePage = () => {
             href="/games/new"
             className={buttonVariants({ variant: 'default' })}
           >
-            <Plus />
-            <span className="hidden md:inline-block">New game</span>
+            <Plus size={16} />
+            <span className="hidden md:inline-block md:ml-1">New game</span>
           </Link>
         )}
       </div>
