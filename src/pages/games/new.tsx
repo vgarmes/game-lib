@@ -1,13 +1,14 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
 import GameForm from '../../components/GameForm';
 import PageTitle from '@/components/page-title';
 import { useToast } from '@/components/ui/use-toast';
+import { useSession } from 'next-auth/react';
+import { Loader } from 'lucide-react';
 
 const NewGame = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const { toast } = useToast();
   const { mutate, isLoading } = trpc.game.create.useMutation({
     onSuccess() {
@@ -23,6 +24,19 @@ const NewGame = () => {
     },
   });
 
+  if (status === 'loading') {
+    return (
+      <div className="w-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== 'ADMIN') {
+    router.push('/');
+    return null;
+  }
+
   return (
     <div>
       <PageTitle
@@ -35,25 +49,6 @@ const NewGame = () => {
       />
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const session = await getServerSession(context.req, context.res);
-
-  if (!session || session.user.role !== 'ADMIN') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
 };
 
 export default NewGame;
