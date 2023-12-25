@@ -1,8 +1,7 @@
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import GameList from '../../components/GameList';
-import useDebounce from '../../utils/hooks/useDebounce';
 import { trpc } from '../../utils/trpc';
 import PageTitle from '@/components/page-title';
 import { Search } from 'lucide-react';
@@ -11,6 +10,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import DefaultLayout from '@/components/layout/default';
+import { useRouter } from 'next/router';
 
 const size = 20;
 const page = 0;
@@ -40,8 +40,27 @@ const Content: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
 
 const GamePage = () => {
   const { data: session } = useSession();
-  const [query, setQuery] = useState('');
-  const debouncedQuery = useDebounce(query, 1000);
+  const [inputQuery, setInputQuery] = useState('');
+  const router = useRouter();
+  const { search } = router.query;
+
+  const searchQuery = typeof search === 'string' ? search : '';
+
+  useEffect(() => {
+    if (inputQuery === searchQuery) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      router.push({
+        pathname: router.pathname,
+        query: inputQuery ? { search: inputQuery } : null,
+      });
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [inputQuery, searchQuery, router]);
 
   return (
     <DefaultLayout>
@@ -53,8 +72,8 @@ const GamePage = () => {
               type="search"
               placeholder="Search games..."
               className="pl-9"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={inputQuery}
+              onChange={(e) => setInputQuery(e.target.value)}
             />
           </div>
         </div>
@@ -69,7 +88,7 @@ const GamePage = () => {
         )}
       </div>
       <PageTitle title="All games" description="All my games." />
-      <Content searchTerm={debouncedQuery} />
+      <Content searchTerm={searchQuery} />
     </DefaultLayout>
   );
 };

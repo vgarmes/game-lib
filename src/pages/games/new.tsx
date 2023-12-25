@@ -13,7 +13,7 @@ const NewGame = () => {
   const { mutate, isLoading } = trpc.game.create.useMutation({
     onSuccess() {
       toast({ title: 'Game created successfully!' });
-      router.push('/');
+      router.push('/games');
     },
     onError() {
       toast({
