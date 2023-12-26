@@ -11,6 +11,12 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../../server/prisma';
 import superjson from 'superjson';
 import type { Platform } from '@prisma/client';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 type GroupedPlatform = Platform & {
   _count: {
@@ -38,27 +44,34 @@ const PlatformPage = (
             <span className="hidden md:inline-block">New platform</span>
           </Link>
         )}
-        <PageTitle
-          title="Platforms"
-          description="All my games grouped by their platform."
-        />
-        <ul>
-          {Object.entries(groupedPlatforms).map(([platform, entries]) => (
-            <li key={platform} className="pb-3">
-              <p className="pb-3 text-lg font-bold">{platform}</p>
+        <PageTitle title="Library" />
+
+        {Object.entries(groupedPlatforms).map(([platform, entries]) => (
+          <div key={platform} className="pb-3">
+            <h3 className="pb-3 text-lg font-bold">{platform}</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 pb-3 gap-3">
               {entries.map((entry) => (
-                <Link
+                <div
                   key={entry.id}
-                  href={`/platforms/${entry.id.toString()}`}
-                  className="flex items-center gap-3 pb-3"
+                  className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent relative"
                 >
-                  <p>{entry.name}</p>
-                  <Badge text={`${entry._count.games} games`} color="pink" />
-                </Link>
+                  <Link
+                    href={`/platforms/${entry.id.toString()}`}
+                    className="text-lg font-bold"
+                  >
+                    <span className="absolute inset-0"></span>
+                    {entry.name}
+                  </Link>
+                  <p className="text-muted-foreground">
+                    {`${entry._count.games} ${
+                      entry._count.games === 1 ? 'game' : 'games'
+                    }`}
+                  </p>
+                </div>
               ))}
-            </li>
-          ))}
-        </ul>
+            </div>
+          </div>
+        ))}
       </div>
     </DefaultLayout>
   );
