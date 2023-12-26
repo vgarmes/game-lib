@@ -5,6 +5,7 @@ import PageTitle from '@/components/page-title';
 import { useToast } from '@/components/ui/use-toast';
 import { useSession } from 'next-auth/react';
 import { Loader } from 'lucide-react';
+import DefaultLayout from '@/components/layout/default';
 
 const NewGame = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const NewGame = () => {
   }
 
   return (
-    <div>
+    <DefaultLayout>
       <PageTitle
         title="New game"
         description="Add the details to create a new game."
@@ -47,7 +48,7 @@ const NewGame = () => {
         onSubmit={(values, _) => mutate(values)}
         isSubmitting={isLoading}
       />
-    </div>
+    </DefaultLayout>
   );
 };
 

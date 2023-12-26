@@ -7,10 +7,10 @@ type DefaultLayoutProps = { children: ReactNode };
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <div className="mx-auto w-full pb-10 flex items-start grow">
-      <div className="sticky top-0 max-h-[calc(100dvh - 4rem)] w-56 hidden sm:block">
+      <div className="sticky top-0 max-h-[calc(100dvh - 4rem)] w-56 hidden sm:block pr-3">
         <Sidebar />
       </div>
-      <div className="grow">{children}</div>
+      <div className="grow sm:pl-3">{children}</div>
       <div className="block w-full sm:hidden fixed bottom-0">
         <MobileNav />
       </div>

@@ -87,7 +87,6 @@ const GamePage = () => {
           </Link>
         )}
       </div>
-      <PageTitle title="All games" description="All my games." />
       <Content searchTerm={searchQuery} />
     </DefaultLayout>
   );
