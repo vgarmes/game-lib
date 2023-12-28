@@ -1,9 +1,8 @@
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import GameList from '../../components/GameList';
 import { trpc } from '../../utils/trpc';
-import PageTitle from '@/components/page-title';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
@@ -11,16 +10,16 @@ import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import DefaultLayout from '@/components/layout/default';
 import { useRouter } from 'next/router';
+import { Games } from '@/types/trpc';
 
 const size = 20;
 const page = 0;
 
-const Content: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
-  const { data: games, isLoading } = trpc.game.search.useQuery(
-    { skip: size * page, query: searchTerm },
-    { staleTime: 5000 }
-  );
-
+const Content: React.FC<{
+  games?: Games;
+  isLoading: boolean;
+  searchTerm: string;
+}> = ({ games, searchTerm, isLoading }) => {
   if (!games && isLoading) {
     return <LoadingScreen />;
   }
@@ -38,29 +37,44 @@ const Content: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   return <GameList games={games} />;
 };
 
+type Timeout = ReturnType<typeof setTimeout>;
+
 const GamePage = () => {
   const { data: session } = useSession();
-  const [inputQuery, setInputQuery] = useState('');
   const router = useRouter();
-  const { search } = router.query;
+  const { title } = router.query;
+  const isRouterReady = router.isReady;
 
-  const searchQuery = typeof search === 'string' ? search : '';
+  const timeoutId = useRef<Timeout>();
+  const searchedTitle = typeof title === 'string' ? title : '';
+  const { data: games, isLoading } = trpc.game.search.useQuery(
+    { skip: size * page, query: searchedTitle },
+    { enabled: isRouterReady }
+  );
 
-  useEffect(() => {
-    if (inputQuery === searchQuery) {
-      return;
+  const [inputQuery, setInputQuery] = useState('');
+  const [hasParsedInitialQuery, setHasParsedInitialQuery] = useState(false);
+
+  // sets the initial value of the search bar to the query parameter, if any
+  if (!hasParsedInitialQuery && isRouterReady) {
+    setHasParsedInitialQuery(true);
+    if (searchedTitle) {
+      setInputQuery(searchedTitle);
     }
-    const timer = setTimeout(() => {
+  }
+
+  const handleSearch = (value: string) => {
+    setInputQuery(value);
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+    timeoutId.current = setTimeout(() => {
       router.push({
         pathname: router.pathname,
-        query: inputQuery ? { search: inputQuery } : null,
+        query: value ? { title: value } : null,
       });
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [inputQuery, searchQuery, router]);
+    }, 500);
+  };
 
   return (
     <DefaultLayout>
@@ -73,7 +87,7 @@ const GamePage = () => {
               placeholder="Search games..."
               className="pl-9"
               value={inputQuery}
-              onChange={(e) => setInputQuery(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
         </div>
@@ -87,7 +101,7 @@ const GamePage = () => {
           </Link>
         )}
       </div>
-      <Content searchTerm={searchQuery} />
+      <Content games={games} isLoading={isLoading} searchTerm={searchedTitle} />
     </DefaultLayout>
   );
 };

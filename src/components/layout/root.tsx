@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Header } from '../header';
 import { siteConfig } from '@/config/site';
 import { Metadata } from 'next';
 
@@ -59,10 +57,7 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="max-w-7xl px-3 md:px-6 mx-auto w-full flex flex-col min-h-screen">
-        <Header />
-        {children}
-      </div>
+      <div className="w-full sm:h-full sm:p-2">{children}</div>
     </>
   );
 };

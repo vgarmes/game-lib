@@ -1,4 +1,4 @@
-import { Gamepad2, Home, Library, LucideIcon, Search } from 'lucide-react';
+import { Home, Library, Search } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -29,13 +29,13 @@ const MobileNav = () => {
         <Home />
         Home
       </MenuButton>
-      <MenuButton href="/games" active={router.asPath === '/games'}>
+      <MenuButton href="/search" active={router.asPath === '/search'}>
+        <Search />
+        Search
+      </MenuButton>
+      <MenuButton href="/library" active={router.asPath === '/library'}>
         <Library />
         Library
-      </MenuButton>
-      <MenuButton href="/platforms" active={router.asPath === '/platforms'}>
-        <Gamepad2 />
-        Platforms
       </MenuButton>
     </div>
   );

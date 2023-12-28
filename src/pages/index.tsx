@@ -1,5 +1,5 @@
 import GameList from '../components/GameList';
-import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import { prisma } from '../server/prisma';
 import superjson from 'superjson';
 import { Games } from '@/types/trpc';
@@ -14,32 +14,30 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <DefaultLayout>
-      <div className="px-4 py-6 lg:px-8">
-        <section>
-          <PageTitle
-            title="Recently completed"
-            description={'Games I have recently finished.'}
-          />
+      <section>
+        <PageTitle
+          title="Recently completed"
+          description={'Games I have recently finished.'}
+        />
 
-          {finishedGames && <GameList games={parsedFinishedGames} />}
-        </section>
-        <section>
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Recently added
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            The games I have recently added to my library.
-          </p>
-          <Separator className="my-4" />
+        {finishedGames && <GameList games={parsedFinishedGames} />}
+      </section>
+      <section>
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Recently added
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          The games I have recently added to my library.
+        </p>
+        <Separator className="my-4" />
 
-          {addedGames && <GameList games={parsedAddedGames} />}
-        </section>
-      </div>
+        {addedGames && <GameList games={parsedAddedGames} />}
+      </section>
     </DefaultLayout>
   );
 };
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getStaticProps() {
   const [finishedGames, addedGames] = await prisma.$transaction([
     prisma.game.findMany({
       where: {
