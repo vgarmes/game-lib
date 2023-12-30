@@ -1,11 +1,12 @@
 import { useTheme } from 'next-themes';
-import Icon from './icon';
 import { useEffect, useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
+import clsx from 'clsx';
 
 interface Props {
   invertBackground?: boolean;
 }
-const ColorModeToggle: React.FC<Props> = ({ invertBackground = false }) => {
+const ColorModeToggle: React.FC<Props> = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -15,17 +16,31 @@ const ColorModeToggle: React.FC<Props> = ({ invertBackground = false }) => {
 
   return (
     <button
-      className="relative inline-flex items-center justify-between gap-4 rounded-full bg-muted p-2 transition-colors"
+      className="inline-flex items-center justify-center rounded-full bg-muted w-8 h-8"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      <Icon
-        name="sun"
-        className={theme === 'light' ? 'text-orange-500' : 'text-inherit'}
-      />
-      <Icon
-        name="moon"
-        className={theme === 'dark' ? 'text-yellow-300' : 'text-inherit'}
-      />
+      <span className="relative h-5 w-5 overflow-hidden">
+        <span
+          className={clsx(
+            'absolute inset-0 inline-flex items-center justify-center',
+            {
+              invisible: theme === 'dark',
+            }
+          )}
+        >
+          <Sun className="text-orange-500 w-full" />
+        </span>
+        <span
+          className={clsx(
+            'absolute inset-0 inline-flex items-center justify-center',
+            {
+              invisible: theme === 'light',
+            }
+          )}
+        >
+          <Moon className="text-yellow-300 w-full" />
+        </span>
+      </span>
     </button>
   );
 };
