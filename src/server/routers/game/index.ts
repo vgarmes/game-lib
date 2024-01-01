@@ -103,16 +103,17 @@ export const gameRouter = router({
     .input(
       z.object({
         id: z.number(),
-        skip: z.number().nonnegative().nullish(),
-        take: z.number().positive().nullish(),
+        cursor: z.number().nonnegative().nullish(),
+        limit: z.number().positive().nullish(),
       })
     )
-    .query(({ input, ctx }) => {
-      const skip = input.skip ?? 0;
-      const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
-      return ctx.prisma.game.findMany({
-        skip,
-        take,
+    .query(async ({ input, ctx }) => {
+      console.log('cursor: ', input.cursor);
+      const cursor = input.cursor ?? 0;
+      const limit = input.limit ? Math.min(input.limit, MAX_RESULTS) : 50;
+      const items = await ctx.prisma.game.findMany({
+        skip: cursor * limit,
+        take: limit + 1,
         include: {
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
@@ -126,5 +127,15 @@ export const gameRouter = router({
           title: 'asc',
         },
       });
+      let nextPage: typeof input.cursor | undefined = undefined;
+      if (items.length > limit) {
+        items.pop();
+        nextPage = cursor + 1;
+      }
+
+      return {
+        items,
+        nextPage,
+      };
     }),
 });
