@@ -1,22 +1,10 @@
 import Link from 'next/link';
-import { Badge } from '../../components/common';
 import { groupBy } from '../../utils';
-import PageTitle from '@/components/page-title';
-import { buttonVariants } from '@/components/ui/button';
-import clsx from 'clsx';
-import { Plus } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import DefaultLayout from '@/components/layout/default';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { prisma } from '../../server/prisma';
 import superjson from 'superjson';
 import type { Platform } from '@prisma/client';
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 
 type GroupedPlatform = Platform & {
   _count: {
@@ -27,7 +15,6 @@ type GroupedPlatform = Platform & {
 const PlatformPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>
 ) => {
-  const { data: session } = useSession();
   const parsedCount = superjson.parse(
     props.gameCountByPlatform
   ) as GroupedPlatform[];
@@ -35,17 +22,6 @@ const PlatformPage = (
   return (
     <DefaultLayout>
       <div className="flex flex-col w-full">
-        {session && (
-          <Link
-            href="/platforms/new"
-            className={clsx(buttonVariants({ variant: 'default' }), 'ml-auto')}
-          >
-            <Plus />
-            <span className="hidden md:inline-block">New platform</span>
-          </Link>
-        )}
-        <PageTitle title="Library" />
-
         {Object.entries(groupedPlatforms).map(([platform, entries]) => (
           <div key={platform} className="pb-3">
             <h3 className="pb-3 text-lg font-bold">{platform}</h3>
@@ -77,7 +53,7 @@ const PlatformPage = (
   );
 };
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getStaticProps(_context: GetStaticPropsContext) {
   const gameCountByPlatform = await prisma.platform.findMany({
     include: {
       _count: {

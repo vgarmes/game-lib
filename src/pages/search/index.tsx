@@ -1,10 +1,6 @@
-import { useSession } from 'next-auth/react';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import GameList from '../../components/GameList';
 import { trpc } from '../../utils/trpc';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import DefaultLayout from '@/components/layout/default';
 import { Games } from '@/types/trpc';
 import { useSearch } from '@/utils/search';
@@ -35,7 +31,6 @@ const Content: React.FC<{
 };
 
 const GamePage = () => {
-  const { data: session } = useSession();
   const { query, isReady } = useSearch();
 
   const { data: games, isLoading } = trpc.game.search.useQuery(
@@ -45,16 +40,6 @@ const GamePage = () => {
 
   return (
     <DefaultLayout withSearch>
-      {session && (
-        <Link
-          href="/games/new"
-          className={buttonVariants({ variant: 'default' })}
-        >
-          <Plus size={16} />
-          <span className="hidden md:inline-block md:ml-1">New game</span>
-        </Link>
-      )}
-
       <Content games={games} isLoading={isLoading} searchTerm={query} />
     </DefaultLayout>
   );
