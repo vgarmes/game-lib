@@ -3,9 +3,9 @@ import Sidebar from '../sidebar';
 import MobileNav from '../mobile-nav';
 import { Header } from '../header';
 
-type DefaultLayoutProps = { children: ReactNode };
+type DefaultLayoutProps = { children: ReactNode; withSearch?: boolean };
 
-const DefaultLayout = ({ children }: DefaultLayoutProps) => {
+const DefaultLayout = ({ children, withSearch }: DefaultLayoutProps) => {
   return (
     <div className="w-full flex gap-2 h-full">
       <div className="w-64 hidden sm:block">
@@ -13,7 +13,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </div>
       <div className="grow sm:overflow-hidden h-full sm:px-1 py-2 sm:rounded-lg sm:border bg-card sm:shadow-sm">
         <div className="h-full sm:overflow-y-auto px-5">
-          <Header />
+          <Header withSearch={withSearch} />
           <main>{children}</main>
         </div>
       </div>
