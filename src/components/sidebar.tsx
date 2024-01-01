@@ -30,8 +30,8 @@ const navigation: Array<NavigationElement> = [
 ];
 
 const actions: Array<NavigationElement> = [
-  { title: 'Add game', href: '/game/new', Icon: Plus },
-  { title: 'Add platform', href: '/platform/new', Icon: Plus },
+  { title: 'Add game', href: '/games/new', Icon: Plus },
+  { title: 'Add platform', href: '/platforms/new', Icon: Plus },
 ];
 
 const Sidebar = () => {
