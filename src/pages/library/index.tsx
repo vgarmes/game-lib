@@ -24,7 +24,7 @@ const PlatformPage = (
       <div className="flex flex-col w-full">
         {Object.entries(groupedPlatforms).map(([platform, entries]) => (
           <div key={platform} className="pb-3">
-            <h3 className="pb-3 text-lg font-bold">{platform}</h3>
+            <h3 className="pb-3 text-2xl font-bold">{platform}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 pb-3 gap-3">
               {entries.map((entry) => (
                 <div
