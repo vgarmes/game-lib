@@ -1,8 +1,18 @@
 import { z } from 'zod';
 import schema from './schema';
 import { adminProcedure, publicProcedure, router } from '../../trpc';
+import { routes } from '@/constants';
 
 const MAX_RESULTS = 100;
+
+const revalidateStaticPages = async (
+  revalidator: (urlPath: string) => Promise<void>
+) => {
+  return Promise.all([
+    revalidator(routes['Home']),
+    revalidator(routes['Library']),
+  ]);
+};
 
 export const gameRouter = router({
   create: adminProcedure.input(schema).mutation(async ({ input, ctx }) => {
@@ -13,10 +23,7 @@ export const gameRouter = router({
         cover: coverId ? { connect: { id: coverId } } : undefined,
       },
     });
-    await Promise.all([
-      ctx.res.revalidate('/'),
-      ctx.res.revalidate('/platforms'),
-    ]);
+    await revalidateStaticPages(ctx.res.revalidate);
     return { sucess: true };
   }),
   update: adminProcedure
@@ -32,6 +39,8 @@ export const gameRouter = router({
           cover: coverId ? { connect: { id: coverId } } : undefined,
         },
       });
+      await revalidateStaticPages(ctx.res.revalidate);
+      return { success: true };
     }),
   completed: publicProcedure
     .input(
