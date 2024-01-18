@@ -5,13 +5,14 @@ import { trpc } from '../../utils/trpc';
 import PlatformForm from '@/components/platform-form';
 import PageTitle from '@/components/page-title';
 import DefaultLayout from '@/components/layout/default';
+import { routes } from '@/constants';
 
 const NewPlatform = () => {
   const router = useRouter();
   const { mutate: createPlatform, isLoading } =
     trpc.platform.create.useMutation({
       onSuccess() {
-        router.push('/platforms');
+        router.push(routes.Library);
       },
     });
   return (

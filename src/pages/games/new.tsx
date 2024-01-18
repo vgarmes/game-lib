@@ -6,6 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useSession } from 'next-auth/react';
 import { Loader } from 'lucide-react';
 import DefaultLayout from '@/components/layout/default';
+import { routes } from '@/constants';
 
 const NewGame = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const NewGame = () => {
   const { mutate, isLoading } = trpc.game.create.useMutation({
     onSuccess() {
       toast({ title: 'Game created successfully!' });
-      router.push('/games');
+      router.push(routes.Home);
     },
     onError() {
       toast({
@@ -34,7 +35,7 @@ const NewGame = () => {
   }
 
   if (!session || session.user.role !== 'ADMIN') {
-    router.push('/');
+    router.push(routes.Home);
     return null;
   }
 

@@ -16,6 +16,7 @@ import {
 import { Loader2 } from 'lucide-react';
 import PageTitle from '@/components/page-title';
 import { useToast } from '@/components/ui/use-toast';
+import { routes } from '@/constants';
 
 const SignIn = () => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const SignIn = () => {
 
   if (status !== 'unauthenticated') {
     if (status === 'authenticated') {
-      router.push('/games');
+      router.push(routes.Home);
     }
     return <LoadingScreen />;
   }

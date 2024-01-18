@@ -7,6 +7,7 @@ import { DirtyFields, getDirtyValues } from '../../../utils/forms';
 import PageTitle from '@/components/page-title';
 import { GameSchema } from '@/server/routers/game/schema';
 import { useToast } from '@/components/ui/use-toast';
+import { routes } from '@/constants';
 
 const EditPage = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const EditPage = () => {
   const { mutate, isLoading: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
       toast({ title: 'Game edited successfully!' });
-      router.push(`/games/${id}`);
+      router.push(routes.Library);
     },
     onError() {
       toast({

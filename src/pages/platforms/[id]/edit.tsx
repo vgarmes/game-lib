@@ -5,6 +5,7 @@ import { trpc } from '../../../utils/trpc';
 import PageTitle from '@/components/page-title';
 import PlatformForm from '@/components/platform-form';
 import { PlatformSchema } from '@/server/routers/platform/schema';
+import { routes } from '@/constants';
 
 const EditPlatform = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const EditPlatform = () => {
   const { mutate, isLoading: isSubmitting } = trpc.platform.update.useMutation({
     onSuccess() {
       console.log('success!');
-      router.push('/platform');
+      router.push(routes.Library);
     },
   });
 
