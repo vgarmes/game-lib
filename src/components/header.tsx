@@ -7,7 +7,7 @@ interface Props {
 }
 export const Header: React.FC<Props> = ({ withSearch }) => {
   return (
-    <header className="flex shrink-0 items-center justify-between w-full top-0 sticky bg-card z-10 pt-4 sm:pt-2 pb-4 gap-4">
+    <header className="flex shrink-0 items-center justify-between w-full top-0 sticky bg-card z-10 px-2 py-4 gap-4">
       {withSearch && (
         <div className="grow max-w-lg">
           <Search />

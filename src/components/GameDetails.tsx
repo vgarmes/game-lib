@@ -4,6 +4,7 @@ import Badge from './common/Badge';
 import Table from './common/Table';
 import { RouterOutput } from '@/types/trpc';
 import { buttonVariants } from './ui/button';
+import { Card } from './ui/card';
 
 type GameOutput = RouterOutput['game']['byId'];
 
@@ -27,6 +28,19 @@ const GameDetails: React.FC<Props> = ({ game }) => {
   const completedText = completed
     ? `Yes (${completedDate?.toLocaleDateString()})`
     : 'No';
+
+  const cardData = [
+    { title: 'Platform', content: platform?.name },
+    { title: 'Edition', content: edition },
+    {
+      title: 'Completed',
+      content: completedText,
+    },
+    {
+      title: 'In collection',
+      content: inCollection ? 'Yes' : 'No',
+    },
+  ];
   return (
     <div>
       <div className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-center">
@@ -37,7 +51,7 @@ const GameDetails: React.FC<Props> = ({ game }) => {
         </div>
       </div>
 
-      <div className="flex w-full max-w-xl flex-col items-center justify-center gap-6 pb-6 sm:flex-row sm:items-start sm:justify-start">
+      <div className="flex w-full flex-col items-center justify-center gap-6 pb-6 sm:flex-row sm:items-start sm:justify-start">
         <div className="relative h-48 w-48">
           <Image
             alt={`${title} cover`}
@@ -47,20 +61,16 @@ const GameDetails: React.FC<Props> = ({ game }) => {
           />
         </div>
 
-        <Table
-          rows={[
-            { title: 'Platform', content: platform?.name },
-            { title: 'Edition', content: edition },
-            {
-              title: 'Completed',
-              content: completedText,
-            },
-            {
-              title: 'In collection',
-              content: inCollection ? 'Yes' : 'No',
-            },
-          ]}
-        />
+        <div className="grid grid-cols-2 gap-3 w-full">
+          {cardData.map(({ title, content }) => (
+            <Card key={title} className="p-4">
+              <h3 className="text-xs pb-2 text-muted-foreground uppercase">
+                {title}
+              </h3>
+              <h4 className="text-lg">{content}</h4>
+            </Card>
+          ))}
+        </div>
       </div>
 
       <Link

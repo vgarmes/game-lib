@@ -8,6 +8,7 @@ import PageTitle from '@/components/page-title';
 import { GameSchema } from '@/server/routers/game/schema';
 import { useToast } from '@/components/ui/use-toast';
 import { routes } from '@/constants';
+import Layout from '@/components/layout/default';
 
 const EditPage = () => {
   const router = useRouter();
@@ -53,6 +54,7 @@ const EditPage = () => {
     return mutate({ id: game.id, ...updatedValues });
   };
 
+  // eslint-ignore
   const {
     id: gameId,
     platform,
@@ -67,12 +69,7 @@ const EditPage = () => {
   ) as GameSchema;
 
   return (
-    <div>
-      <PageTitle
-        title="Edit game"
-        description="Edit the details of the game."
-      />
-
+    <Layout>
       <GameForm
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
@@ -83,7 +80,7 @@ const EditPage = () => {
           coverId: cover?.id,
         }}
       />
-    </div>
+    </Layout>
   );
 };
 
