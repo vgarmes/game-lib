@@ -29,7 +29,7 @@ const navigation: Array<NavigationElement> = [
   },
 ];
 
-const actions: Array<NavigationElement> = [
+const adminActions: Array<NavigationElement> = [
   { title: 'Add game', href: '/games/new', Icon: Plus },
   { title: 'Add platform', href: '/platforms/new', Icon: Plus },
 ];
@@ -37,9 +37,10 @@ const actions: Array<NavigationElement> = [
 const Sidebar = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const userIsAdmin = session?.user.role === 'ADMIN';
   return (
-    <nav className="flex flex-col gap-2 h-full">
-      <Card className="px-6 py-4">
+    <nav className="hidden sm:flex p-2 flex-col gap-2 h-full w-64 fixed left-0 top-0 bottom-0">
+      <Card className="px-6 py-4 h-full">
         <Link href="/" className="flex items-center gap-2 hover:text-pink-600">
           <Gamepad className="-rotate-45 w-5 h-5" />
           <span className="font-semibold tracking-tight">Game Library</span>
@@ -62,12 +63,9 @@ const Sidebar = () => {
               </Link>
             </li>
           ))}
-        </ul>
-      </Card>
-      {session?.user.role === 'ADMIN' && (
-        <Card className="px-6 py-4 grow">
-          <ul className="space-y-4">
-            {actions.map(({ title, href, Icon }) => (
+
+          {userIsAdmin &&
+            adminActions.map(({ title, href, Icon }) => (
               <li key={title} className="flex items-center justify-between">
                 <Link
                   href={href}
@@ -84,9 +82,8 @@ const Sidebar = () => {
                 </Link>
               </li>
             ))}
-          </ul>
-        </Card>
-      )}
+        </ul>
+      </Card>
     </nav>
   );
 };

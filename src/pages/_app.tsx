@@ -5,7 +5,7 @@ import type { Session } from 'next-auth';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers';
-import RootLayout from '@/components/layout/root';
+import Head from '@/components/Head';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const MyApp = ({
@@ -20,9 +20,8 @@ export const MyApp = ({
         defaultTheme="system"
         disableTransitionOnChange
       >
-        <RootLayout>
-          <Component {...pageProps} />
-        </RootLayout>
+        <Head />
+        <Component {...pageProps} />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (
           <ReactQueryDevtools initialIsOpen={false} />

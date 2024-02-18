@@ -41,24 +41,21 @@ const metadata: Metadata = {
 
 const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <>
-      <Head>
-        <title>{siteConfig.name}</title>
-        <meta name="description" content={siteConfig.description} />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: light)"
-          content="cyan"
-        />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: dark)"
-          content="black"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="w-full sm:h-full sm:p-2">{children}</div>
-    </>
+    <Head>
+      <title>{siteConfig.name}</title>
+      <meta name="description" content={siteConfig.description} />
+      <meta
+        name="theme-color"
+        media="(prefers-color-scheme: light)"
+        content="cyan"
+      />
+      <meta
+        name="theme-color"
+        media="(prefers-color-scheme: dark)"
+        content="black"
+      />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
   );
 };
 

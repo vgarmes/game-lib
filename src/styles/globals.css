@@ -53,14 +53,8 @@
   * {
     @apply border-border;
   }
-  html {
-    height: 100%;
-  }
+
   body {
     @apply bg-background text-foreground;
-    height: 100%;
-  }
-  #__next {
-    height: 100%;
   }
 }
