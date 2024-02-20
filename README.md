@@ -15,16 +15,16 @@ This is a port to React/Nextjs of the [original project](https://github.com/vgar
 
 ## Prerequisites
 
-- Node.js and yarn installed
+- Node.js and pnpm installed
 - A PostgreSQL database: In my case I use Postgres locally for the development database and [ElephantSQL](https://www.elephantsql.com/) for the production database.
 
 ## Development environment
 
-Run `yarn` to install dependencies.
+Run `pnpm install` to install dependencies.
 
 Fill required environment variables (see `./env-schema.js`)
 
-Run `yarn dev` to start development server.
+Run `pnpm run dev` to start development server.
 
 ## Deployment to production
 
