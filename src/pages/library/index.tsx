@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { groupBy } from '../../utils';
 import DefaultLayout from '@/components/layout/default';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { prisma } from '../../server/prisma';
+import prisma from '../../server/prisma';
 import superjson from 'superjson';
 import type { Platform } from '@prisma/client';
 

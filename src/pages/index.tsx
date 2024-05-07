@@ -1,6 +1,6 @@
 import GameList from '../components/GameList';
 import { InferGetStaticPropsType } from 'next';
-import { prisma } from '../server/prisma';
+import prisma from '../server/prisma';
 import superjson from 'superjson';
 import { Games } from '@/types/trpc';
 import { Separator } from '@/components/ui/separator';

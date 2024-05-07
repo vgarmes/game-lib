@@ -38,4 +38,4 @@ next-env.d.ts
 
 # database dumps
 data
-dump
+dumps
