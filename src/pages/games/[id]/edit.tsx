@@ -4,7 +4,6 @@ import GameForm from '../../../components/GameForm';
 import { getServerSession } from '../../../server/common/get-server-session';
 import { trpc } from '../../../utils/trpc';
 import { DirtyFields, getDirtyValues } from '../../../utils/forms';
-import PageTitle from '@/components/page-title';
 import { GameSchema } from '@/server/routers/game/schema';
 import { useToast } from '@/components/ui/use-toast';
 import { routes } from '@/constants';
@@ -56,11 +55,11 @@ const EditPage = () => {
 
   // eslint-ignore
   const {
-    id: gameId,
+    id: _id,
     platform,
     cover,
-    createdAt,
-    updatedAt,
+    createdAt: _createdAt,
+    updatedAt: _updatedAt,
     ...restValues
   } = game;
 

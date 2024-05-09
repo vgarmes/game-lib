@@ -33,7 +33,7 @@ const SteamWidget = () => {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState<SteamResponse>();
   useEffect(() => {
-    const games = getSteamGames().then((res) => {
+    const _games = getSteamGames().then((res) => {
       setGames(res);
       setLoading(false);
     });

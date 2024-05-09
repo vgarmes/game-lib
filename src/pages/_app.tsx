@@ -5,8 +5,10 @@ import type { Session } from 'next-auth';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers';
-import Head from '@/components/Head';
+
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { siteConfig } from '@/config/site';
+import Head from 'next/head';
 
 export const MyApp = ({
   Component,
@@ -20,7 +22,21 @@ export const MyApp = ({
         defaultTheme="system"
         disableTransitionOnChange
       >
-        <Head />
+        <Head>
+          <title>{siteConfig.name}</title>
+          <meta name="description" content={siteConfig.description} />
+          <meta
+            name="theme-color"
+            media="(prefers-color-scheme: light)"
+            content="cyan"
+          />
+          <meta
+            name="theme-color"
+            media="(prefers-color-scheme: dark)"
+            content="black"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <Component {...pageProps} />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (

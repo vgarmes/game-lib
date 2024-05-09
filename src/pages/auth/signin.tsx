@@ -21,7 +21,7 @@ import { routes } from '@/constants';
 const SignIn = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const form = useZodForm({
     schema: z.object({

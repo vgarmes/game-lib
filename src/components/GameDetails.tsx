@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Badge from './common/Badge';
-import Table from './common/Table';
 import { RouterOutput } from '@/types/trpc';
 import { buttonVariants } from './ui/button';
 import { Card } from './ui/card';

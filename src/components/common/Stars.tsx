@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 
 const RATINGS = ['Bad', 'Meh', 'Good', 'Very Good', 'Masterpiece'];
 
@@ -79,7 +79,7 @@ interface Props {
 }
 
 const StarsInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ onChange, value, ...rest }, ref) => {
+  ({ onChange, value, ..._rest }, ref) => {
     const [hoveredStar, setHoveredStar] = useState<number | null>(null);
     const onClickHandler = (newRating: number) => {
       onChange && onChange(newRating);
@@ -93,7 +93,7 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
     }
 
     return (
-      <div className="flex items-center">
+      <div className="flex items-center" ref={ref}>
         <Stars
           activeStar={value ? value - 1 : null}
           onClickStar={(index) => onClickHandler(index + 1)}

@@ -12,14 +12,19 @@ export function dateToUtcWithoutTime(date: Date) {
   );
 }
 
-export function groupBy<T extends Record<K, any>, K extends string>(
-  objectArray: T[],
-  property: K
-) {
-  return objectArray.reduce((acc, obj) => {
-    const key = obj[property];
-    const curGroup = acc[key] ?? [];
-
-    return { ...acc, [key]: [...curGroup, obj] };
-  }, {} as Record<T[K], T[]>);
+export function groupBy<T, K>(
+  array: T[],
+  keySelector: (item: T) => K
+): Map<K, T[]> {
+  const map = new Map<K, T[]>();
+  array.forEach((item) => {
+    const key = keySelector(item);
+    const group = map.get(key);
+    if (group) {
+      group.push(item);
+    } else {
+      map.set(key, [item]);
+    }
+  });
+  return map;
 }
