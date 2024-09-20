@@ -60,10 +60,10 @@ const GameDialog: React.FC<Props> = ({ isOpen, onClose, game }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/60" aria-hidden="true" />
+          <div className="fixed inset-0 bg-black/60 z-10" aria-hidden="true" />
         </Transition.Child>
 
-        <div className="fixed inset-0 flex items-end">
+        <div className="fixed inset-0 flex items-end z-10">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
