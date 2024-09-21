@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Sidebar from '../sidebar';
+import Sidebar from '../sidebar/sidebar';
 import MobileNav from '../mobile-nav';
 import { Header } from '../header';
 
@@ -9,9 +9,9 @@ const DefaultLayout = ({ children, withSearch }: DefaultLayoutProps) => {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <div className="px-3 sm:ml-64">
+      <div className="sm:ml-64">
         <Header withSearch={withSearch} />
-        <main className="mt-4 mb-8">{children}</main>
+        <main className="mt-4 mb-8 px-6">{children}</main>
       </div>
       <div className="block w-full sm:hidden fixed bottom-0">
         <MobileNav />

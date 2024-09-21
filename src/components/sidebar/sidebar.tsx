@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { Library, LucideIcon, Home, Search, Plus, Gamepad } from 'lucide-react';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import { Card } from './ui/card';
 import { useSession } from 'next-auth/react';
+import SidebarListItem from './sidebar-item';
 
 interface NavigationElement {
   title: string;
@@ -39,30 +39,27 @@ const Sidebar = () => {
   const { data: session } = useSession();
   const userIsAdmin = session?.user.role === 'ADMIN';
   return (
-    <nav className="hidden sm:flex p-2 flex-col gap-2 h-full w-64 fixed left-0 top-0 bottom-0">
-      <Card className="px-6 py-4 h-full">
+    <div className="hidden sm:flex flex-col bg-neutral-50 dark:bg-neutral-900 border-r h-full w-64 fixed left-0 top-0 bottom-0">
+      <div className="p-4">
         <Link href="/" className="flex items-center gap-2 hover:text-pink-600">
           <Gamepad className="-rotate-45 w-5 h-5" />
           <span className="font-semibold tracking-tight">Game Library</span>
         </Link>
-        <ul className="space-y-4 mt-6">
-          {navigation.map(({ title, href, Icon }) => (
-            <li key={title}>
-              <Link
+      </div>
+      <nav className="flex-auto overflow-y-auto p-4">
+        <ul className="flex flex-col gap-2">
+          {navigation.map(({ title, href, Icon }) => {
+            const isActive = router.asPath === href;
+            return (
+              <SidebarListItem
+                key={title}
+                title={title}
+                isActive={isActive}
                 href={href}
-                className={clsx(
-                  'flex items-center gap-2 font-semibold hover:text-foreground transition-colors',
-                  {
-                    'text-foreground': router.asPath === href,
-                    'text-muted-foreground': router.asPath !== href,
-                  }
-                )}
-              >
-                <Icon className="mr-2 w-4 h-4" />
-                <span className="truncate">{title}</span>
-              </Link>
-            </li>
-          ))}
+                Icon={Icon}
+              />
+            );
+          })}
 
           {userIsAdmin &&
             adminActions.map(({ title, href, Icon }) => (
@@ -83,8 +80,8 @@ const Sidebar = () => {
               </li>
             ))}
         </ul>
-      </Card>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
