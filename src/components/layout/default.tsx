@@ -9,7 +9,7 @@ const DefaultLayout = ({ children, withSearch }: DefaultLayoutProps) => {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <div className="sm:ml-64">
+      <div className="sm:pl-64 flex flex-col flex-auto">
         <Header withSearch={withSearch} />
         <main className="mt-4 mb-8 px-6">{children}</main>
       </div>
