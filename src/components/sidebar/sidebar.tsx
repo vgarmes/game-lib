@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Library, LucideIcon, Home, Search, Plus, Gamepad } from 'lucide-react';
 import { useRouter } from 'next/router';
-import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import SidebarListItem from './sidebar-item';
 
@@ -34,10 +33,16 @@ const adminActions: Array<NavigationElement> = [
   { title: 'Add platform', href: '/platforms/new', Icon: Plus },
 ];
 
-const Sidebar = () => {
-  const router = useRouter();
+function useSidebar(): Array<NavigationElement> {
   const { data: session } = useSession();
   const userIsAdmin = session?.user.role === 'ADMIN';
+
+  return [...navigation, ...(userIsAdmin ? adminActions : [])];
+}
+
+const Sidebar = () => {
+  const router = useRouter();
+  const routes = useSidebar();
   return (
     <div className="hidden sm:flex flex-col bg-neutral-50 dark:bg-neutral-900 border-r h-full w-64 fixed left-0 top-0 bottom-0">
       <div className="p-4">
@@ -48,7 +53,7 @@ const Sidebar = () => {
       </div>
       <nav className="flex-auto overflow-y-auto p-4">
         <ul className="flex flex-col gap-2">
-          {navigation.map(({ title, href, Icon }) => {
+          {routes.map(({ title, href, Icon }) => {
             const isActive = router.asPath === href;
             return (
               <SidebarListItem
@@ -60,25 +65,6 @@ const Sidebar = () => {
               />
             );
           })}
-
-          {userIsAdmin &&
-            adminActions.map(({ title, href, Icon }) => (
-              <li key={title} className="flex items-center justify-between">
-                <Link
-                  href={href}
-                  className={clsx(
-                    'flex items-center gap-2 font-semibold hover:text-foreground transition-colors',
-                    {
-                      'text-foreground': router.asPath === href,
-                      'text-muted-foreground': router.asPath !== href,
-                    }
-                  )}
-                >
-                  <Icon className="mr-2 w-4 h-4" />
-                  <span className="truncate">{title}</span>
-                </Link>
-              </li>
-            ))}
         </ul>
       </nav>
     </div>
