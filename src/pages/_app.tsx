@@ -5,10 +5,10 @@ import type { Session } from 'next-auth';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers';
-
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { siteConfig } from '@/config/site';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
 
 export const MyApp = ({
   Component,
@@ -38,6 +38,7 @@ export const MyApp = ({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Component {...pageProps} />
+        <Analytics />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (
           <ReactQueryDevtools initialIsOpen={false} />
