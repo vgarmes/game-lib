@@ -7,7 +7,6 @@ import { DirtyFields, getDirtyValues } from '../../../utils/forms';
 import { GameSchema } from '@/server/routers/game/schema';
 import { useToast } from '@/components/ui/use-toast';
 import { routes } from '@/constants';
-import Layout from '@/components/layout/default';
 
 const EditPage = () => {
   const router = useRouter();
@@ -68,18 +67,16 @@ const EditPage = () => {
   ) as GameSchema;
 
   return (
-    <Layout>
-      <GameForm
-        onSubmit={handleSubmit}
-        isSubmitting={isSubmitting}
-        defaultCoverUrl={game.cover?.secureUrl}
-        initialValues={{
-          ...cleanValues,
-          platformId: platform?.id,
-          coverId: cover?.id,
-        }}
-      />
-    </Layout>
+    <GameForm
+      onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
+      defaultCoverUrl={game.cover?.secureUrl}
+      initialValues={{
+        ...cleanValues,
+        platformId: platform?.id,
+        coverId: cover?.id,
+      }}
+    />
   );
 };
 

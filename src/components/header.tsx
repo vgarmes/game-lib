@@ -1,3 +1,4 @@
+import { SearchForm } from './app-sidebar/search-form';
 import ColorModeToggle from './color-mode-toggle';
 import { Separator } from './ui/separator';
 import { SidebarTrigger } from './ui/sidebar';
@@ -21,8 +22,10 @@ export const Header: React.FC = () => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb> */}
-      <ColorModeToggle />
-      <UserMenu />
+      <div className="flex items-center flex-grow gap-2 justify-end">
+        <SearchForm />
+        <ColorModeToggle />
+      </div>
     </header>
   );
 };

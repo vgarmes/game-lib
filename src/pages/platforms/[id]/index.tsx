@@ -5,7 +5,6 @@ import { trpc } from '../../../utils/trpc';
 import PageTitle from '@/components/page-title';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import DefaultLayout from '@/components/layout/default';
 
 const SinglePlatformPage = () => {
   const router = useRouter();
@@ -21,16 +20,12 @@ const SinglePlatformPage = () => {
     );
 
   if (!data || isLoading) {
-    return (
-      <DefaultLayout>
-        <LoadingScreen />
-      </DefaultLayout>
-    );
+    return <LoadingScreen />;
   }
 
   const flatData = data.pages.flatMap((page) => page.items);
   return (
-    <DefaultLayout>
+    <>
       <PageTitle title={flatData[0].platform?.name ?? 'Other'} />
       <GameList games={flatData} />
       {hasNextPage && (
@@ -51,7 +46,7 @@ const SinglePlatformPage = () => {
           </Button>
         </div>
       )}
-    </DefaultLayout>
+    </>
   );
 };
 

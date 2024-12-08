@@ -1,7 +1,8 @@
-import { Home, Library, Plus, Gamepad, Gamepad2 } from 'lucide-react';
+import { Home, Library, Plus, Gamepad2 } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,7 +13,8 @@ import {
 } from '@/components/ui/sidebar';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { SearchForm } from '../sidebar/search-form';
+import { useRouter } from 'next/router';
+import { NavUser } from './nav-user';
 
 // Menu items.
 const mainItems = [
@@ -33,33 +35,37 @@ const adminItems = [
   { title: 'Add platform', url: '/platforms/new', icon: Plus },
 ];
 
-function useSidebarGroups() {
+export function AppSidebar() {
+  const { pathname } = useRouter();
   const { data: session } = useSession();
+
   const userIsAdmin = session?.user.role === 'ADMIN';
 
-  return [
+  const groups = [
     { id: 'Main', items: mainItems },
     { id: 'Admin', items: userIsAdmin ? adminItems : [] },
   ];
-}
 
-export function AppSidebar() {
-  const groups = useSidebarGroups();
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <Link
-              href="/"
-              className="flex items-center gap-2 hover:text-pink-600"
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Gamepad2 className="size-5" />
-              <span className="font-semibold">Game Library</span>
-            </Link>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SearchForm />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-600 text-sidebar-primary-foreground">
+                <Gamepad2 className="size-4" />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">Game Library</span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent>
         {groups.map(({ id, items }) => (
@@ -69,11 +75,11 @@ export function AppSidebar() {
               <SidebarMenu>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
+                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -82,6 +88,9 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 }

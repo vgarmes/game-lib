@@ -4,7 +4,6 @@ import { getServerSession } from '../../server/common/get-server-session';
 import { trpc } from '../../utils/trpc';
 import PlatformForm from '@/components/platform-form';
 import PageTitle from '@/components/page-title';
-import DefaultLayout from '@/components/layout/default';
 import { routes } from '@/constants';
 
 const NewPlatform = () => {
@@ -16,10 +15,10 @@ const NewPlatform = () => {
       },
     });
   return (
-    <DefaultLayout>
+    <>
       <PageTitle title="New platform" />
       <PlatformForm onSubmit={createPlatform} isSubmitting={isLoading} />
-    </DefaultLayout>
+    </>
   );
 };
 

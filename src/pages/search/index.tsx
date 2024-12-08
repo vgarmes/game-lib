@@ -1,9 +1,8 @@
+import { useRouter } from 'next/router';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import GameList from '../../components/GameList';
 import { trpc } from '../../utils/trpc';
-import DefaultLayout from '@/components/layout/default';
 import { Games } from '@/types/trpc';
-import { useSearch } from '@/utils/search';
 
 const size = 20;
 const page = 0;
@@ -31,17 +30,24 @@ const Content: React.FC<{
 };
 
 const GamePage = () => {
-  const { query, isReady } = useSearch();
+  const { query } = useRouter();
 
   const { data: games, isLoading } = trpc.game.search.useQuery(
-    { skip: size * page, query },
-    { enabled: isReady }
+    {
+      skip: size * page,
+      query: query.q as string,
+    },
+    {
+      enabled: typeof query.q === 'string',
+    }
   );
 
   return (
-    <DefaultLayout withSearch>
-      <Content games={games} isLoading={isLoading} searchTerm={query} />
-    </DefaultLayout>
+    <Content
+      games={games}
+      isLoading={isLoading}
+      searchTerm={query.q as string}
+    />
   );
 };
 

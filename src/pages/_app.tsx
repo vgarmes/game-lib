@@ -10,11 +10,25 @@ import { siteConfig } from '@/config/site';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import type { NextPage } from 'next';
+import type { ReactElement, ReactNode } from 'react';
+import DefaultLayout from '@/components/layout/default';
+
+type NextPageWithLayout<
+  TProps = Record<string, unknown>,
+  TInitialProps = TProps
+> = NextPage<TProps, TInitialProps> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
 export const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps<{ session: Session }>) => {
+}: AppProps<{ session: Session }> & { Component: NextPageWithLayout }) => {
+  // This is necessary because the default layout contains the Sidebar and we want to ensure that its state is preserved during navigation
+  const getLayout =
+    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
+
   return (
     <SessionProvider session={session}>
       <ThemeProvider
@@ -40,12 +54,12 @@ export const MyApp = ({
         </Head>
 
         <SidebarProvider>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </SidebarProvider>
         <Analytics />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         )}
       </ThemeProvider>
     </SessionProvider>

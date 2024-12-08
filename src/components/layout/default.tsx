@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Header } from '../header';
-import { AppSidebar } from '../ui/app-sidebar';
 import { SidebarInset } from '../ui/sidebar';
+import { AppSidebar } from '../app-sidebar/app-sidebar';
 
 const DefaultLayout = ({ children }: { children: ReactNode }) => {
   return (

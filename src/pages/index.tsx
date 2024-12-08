@@ -5,7 +5,6 @@ import superjson from 'superjson';
 import { Games } from '@/types/trpc';
 import { Separator } from '@/components/ui/separator';
 import PageTitle from '@/components/page-title';
-import DefaultLayout from '@/components/layout/default';
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { addedGames, finishedGames } = props;
@@ -13,7 +12,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const parsedAddedGames = superjson.parse(addedGames) as Games;
 
   return (
-    <DefaultLayout>
+    <>
       <section>
         <PageTitle
           title="Recently completed"
@@ -33,7 +32,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         {addedGames && <GameList games={parsedAddedGames} />}
       </section>
-    </DefaultLayout>
+    </>
   );
 };
 

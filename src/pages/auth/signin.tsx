@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react';
 import PageTitle from '@/components/page-title';
 import { useToast } from '@/components/ui/use-toast';
 import { routes } from '@/constants';
+import { ReactElement } from 'react';
 
 const SignIn = () => {
   const router = useRouter();
@@ -107,5 +108,7 @@ const SignIn = () => {
     </div>
   );
 };
+
+SignIn.getLayout = (page: ReactElement) => <>{page}</>;
 
 export default SignIn;

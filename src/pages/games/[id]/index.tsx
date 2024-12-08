@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import GameDetails from '../../../components/GameDetails';
 import parseId from '../../../utils/parse-id';
 import { trpc } from '../../../utils/trpc';
-import Layout from '@/components/layout/default';
 
 const GameDetailsPage = () => {
   const router = useRouter();
@@ -25,11 +24,7 @@ const GameDetailsPage = () => {
     return <p>No game found with given id</p>;
   }
 
-  return (
-    <Layout>
-      <GameDetails game={game} />
-    </Layout>
-  );
+  return <GameDetails game={game} />;
 };
 
 export default GameDetailsPage;

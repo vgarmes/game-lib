@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PageTitle from '@/components/page-title';
+import { ReactElement } from 'react';
 
 const SignUp = () => {
   const { mutate: signup, isLoading } = trpc.user.signup.useMutation({
@@ -111,5 +112,7 @@ const SignUp = () => {
     </div>
   );
 };
+
+SignUp.getLayout = (page: ReactElement) => <>{page}</>;
 
 export default SignUp;
