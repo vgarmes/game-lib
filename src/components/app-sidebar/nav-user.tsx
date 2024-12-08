@@ -16,17 +16,39 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { buttonVariants } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
+
+const getInitials = (name: string) => {
+  let initials = '';
+  const splitName = name.split(' ');
+  const LENGTH = 2;
+  for (let i = 0; i < LENGTH; i++) {
+    if (typeof splitName[i] !== 'undefined') {
+      initials += splitName[i][0];
+    }
+  }
+  return initials;
+};
 
 export function NavUser() {
   const { data: session, status } = useSession();
   const { isMobile } = useSidebar();
 
   if (status === 'loading') {
-    return <>skeleton</>;
+    return <Skeleton className="h-12" />;
   }
 
   if (status === 'unauthenticated' || !session) {
-    return <>login</>;
+    return (
+      <Link
+        href="/auth/signin"
+        className={buttonVariants({ variant: 'outline', size: 'lg' })}
+      >
+        Sign in
+      </Link>
+    );
   }
 
   const { user } = session;
@@ -42,7 +64,7 @@ export function NavUser() {
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={''} alt={user.username} />
                 <AvatarFallback className="rounded-lg">
-                  {user.username[0]}
+                  {getInitials(user.username)}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
