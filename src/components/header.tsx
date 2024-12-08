@@ -1,24 +1,28 @@
 import ColorModeToggle from './color-mode-toggle';
-import Search from './search';
+import { Separator } from './ui/separator';
+import { SidebarTrigger } from './ui/sidebar';
 import UserMenu from './user-menu';
 
-interface Props {
-  withSearch?: boolean;
-}
-export const Header: React.FC<Props> = ({ withSearch }) => {
+export const Header: React.FC = () => {
   return (
-    <header className="sticky left-0 top-0 w-full z-10 bg-background">
-      <div className="flex gap-4 items-center flex-auto px-4 py-2 border-b min-h-[56px]">
-        {withSearch && (
-          <div className="grow max-w-lg">
-            <Search />
-          </div>
-        )}
-        <div className="flex items-center gap-4 flex-auto justify-end">
-          <ColorModeToggle />
-          <UserMenu />
-        </div>
-      </div>
+    <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+      <SidebarTrigger className="-ml-1" />
+      <Separator orientation="vertical" className="mr-2 h-4" />
+      {/*  <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">
+                  Building Your Application
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb> */}
+      <ColorModeToggle />
+      <UserMenu />
     </header>
   );
 };

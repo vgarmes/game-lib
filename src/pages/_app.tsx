@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { siteConfig } from '@/config/site';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const MyApp = ({
   Component,
@@ -37,7 +38,10 @@ export const MyApp = ({
           />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} />
+
+        <SidebarProvider>
+          <Component {...pageProps} />
+        </SidebarProvider>
         <Analytics />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (
