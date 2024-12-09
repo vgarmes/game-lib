@@ -43,7 +43,7 @@ export async function getStaticProps() {
         completed: true,
       },
       include: {
-        cover: { select: { secureUrl: true } },
+        cover: { select: { secureUrl: true, width: true, height: true } },
         platform: { select: { name: true } },
       },
       orderBy: { completedDate: 'desc' },
@@ -51,7 +51,7 @@ export async function getStaticProps() {
     }),
     prisma.game.findMany({
       include: {
-        cover: { select: { secureUrl: true } },
+        cover: { select: { secureUrl: true, width: true, height: true } },
         platform: { select: { name: true } },
       },
       orderBy: { createdAt: 'desc' },

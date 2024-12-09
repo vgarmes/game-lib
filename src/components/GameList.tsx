@@ -19,20 +19,20 @@ const GameList = ({ games }: props) => {
             className="group flex cursor-pointer flex-col items-center mb-6"
             onClick={() => setSelectedGame(game)}
           >
-            <div className="relative h-28 w-28 transition-transform group-hover:scale-110">
+            <div className="flex justify-center h-28 w-28 transition-transform group-hover:scale-110">
               {game.cover?.secureUrl ? (
                 <Image
                   alt={`${game.title} cover`}
                   src={game.cover.secureUrl}
-                  fill={true}
+                  width={game.cover.width}
+                  height={game.cover.height}
                   style={{
                     objectFit: 'contain',
-                    objectPosition: '50% 50%',
                   }}
-                  className="rounded"
+                  className="w-auto h-full rounded"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full bg-zinc-100 dark:bg-zinc-900 rounded">
+                <div className="flex items-center justify-center w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded">
                   <ImageIcon />
                 </div>
               )}

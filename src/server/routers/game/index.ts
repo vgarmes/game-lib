@@ -97,7 +97,9 @@ export const gameRouter = router({
         skip,
         take,
         include: {
-          cover: { select: { id: true, secureUrl: true } },
+          cover: {
+            select: { id: true, secureUrl: true, width: true, height: true },
+          },
           platform: { select: { id: true, name: true } },
         },
         where: {
@@ -124,7 +126,9 @@ export const gameRouter = router({
         skip: cursor * limit,
         take: limit + 1,
         include: {
-          cover: { select: { id: true, secureUrl: true } },
+          cover: {
+            select: { id: true, secureUrl: true, width: true, height: true },
+          },
           platform: { select: { id: true, name: true } },
         },
         where: {
