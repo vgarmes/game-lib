@@ -4,7 +4,6 @@ import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import { trpc } from '@/utils/trpc';
 import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/components/providers';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { siteConfig } from '@/config/site';
 import Head from 'next/head';
@@ -13,6 +12,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import type { NextPage } from 'next';
 import type { ReactElement, ReactNode } from 'react';
 import DefaultLayout from '@/components/layout/default';
+import { ThemeProvider } from 'next-themes';
 
 type NextPageWithLayout<
   TProps = Record<string, unknown>,
