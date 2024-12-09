@@ -14,7 +14,7 @@ const ThemeCheckbox: React.FC<{
         aria-label={theme}
         type="checkbox"
         value={theme}
-        className="peer appearance-none p-0 m-0 outline-none absolute"
+        className="peer hidden"
         checked={checked}
         onChange={onChange}
         disabled={checked}
