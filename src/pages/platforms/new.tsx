@@ -11,7 +11,7 @@ const NewPlatform = () => {
   const { mutate: createPlatform, isLoading } =
     trpc.platform.create.useMutation({
       onSuccess() {
-        router.push(routes.Library);
+        router.push(routes.Platforms);
       },
     });
   return (

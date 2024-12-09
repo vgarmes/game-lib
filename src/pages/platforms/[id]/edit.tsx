@@ -16,7 +16,7 @@ const EditPlatform = () => {
   const { mutate, isLoading: isSubmitting } = trpc.platform.update.useMutation({
     onSuccess() {
       console.log('success!');
-      router.push(routes.Library);
+      router.push(routes.Platforms);
     },
   });
 

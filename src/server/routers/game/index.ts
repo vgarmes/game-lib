@@ -10,7 +10,7 @@ const revalidateStaticPages = async (
 ) => {
   return Promise.all([
     revalidator(routes['Home']),
-    revalidator(routes['Library']),
+    revalidator(routes['Platforms']),
   ]);
 };
 

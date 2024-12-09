@@ -24,8 +24,8 @@ const mainItems = [
     icon: Home,
   },
   {
-    title: 'Library',
-    url: '/library',
+    title: 'Platforms',
+    url: '/platforms',
     icon: Library,
   },
 ];

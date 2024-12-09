@@ -18,7 +18,7 @@ const EditPage = () => {
   const { mutate, isLoading: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
       toast({ title: 'Game edited successfully!' });
-      router.push(routes.Library);
+      router.push(routes.Platforms);
     },
     onError() {
       toast({

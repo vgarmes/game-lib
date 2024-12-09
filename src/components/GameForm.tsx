@@ -34,7 +34,7 @@ import {
 } from './ui/select';
 import { Card, CardContent } from './ui/card';
 
-export const DEFAULT_VALUES = {
+const DEFAULT_VALUES = {
   title: '',
   inCollection: false,
   completed: false,
