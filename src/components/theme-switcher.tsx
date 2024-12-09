@@ -24,7 +24,8 @@ const ThemeCheckbox: React.FC<{
         className={cn(
           'rounded-full flex items-center justify-center bg-none size-8 m-0 cursor-pointer absolute top-0 text-foreground [&_svg]:size-4 [&_svg]:relative [&_svg]:z-10 peer-checked:border peer-checked:border-border peer-checked:text-primary',
           { 'left-0': theme === 'light' },
-          { 'right-0': theme === 'dark' }
+          { 'right-0': theme === 'dark' },
+          { 'bg-background': checked }
         )}
       >
         <span className="sr-only">{theme}</span>
