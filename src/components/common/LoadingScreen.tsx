@@ -1,7 +1,7 @@
 interface SpinnerProps {
   size?: string;
 }
-export const Spinner = ({ size = '2em' }: SpinnerProps) => (
+const Spinner = ({ size = '2em' }: SpinnerProps) => (
   <svg
     width={size}
     height={size}

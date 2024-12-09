@@ -1,7 +1,3 @@
-export function toISODateString(date: Date) {
-  return date.toISOString().split('T')[0];
-}
-
 export function dateToLocalWithoutTime(utcDate: Date) {
   return new Date(utcDate.getFullYear(), utcDate.getMonth(), utcDate.getDate());
 }
