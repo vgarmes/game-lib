@@ -22,10 +22,11 @@ const ThemeCheckbox: React.FC<{
       <label
         htmlFor={`theme-switch-${theme}`}
         className={cn(
-          'rounded-full flex items-center justify-center bg-none size-8 m-0 cursor-pointer absolute top-0 text-foreground [&_svg]:size-4 [&_svg]:relative [&_svg]:z-10 peer-checked:border peer-checked:border-border peer-checked:text-primary',
+          'rounded-full flex items-center justify-center bg-none size-8 m-0 cursor-pointer absolute top-0 text-foreground [&_svg]:size-4 [&_svg]:relative [&_svg]:z-10 peer-checked:border peer-checked:border-border peer-checked:text-primary hover:text-foreground',
           { 'left-0': theme === 'light' },
           { 'right-0': theme === 'dark' },
-          { 'bg-background': checked }
+          { 'bg-background': checked },
+          { 'text-muted-foreground': !checked }
         )}
       >
         <span className="sr-only">{theme}</span>
@@ -40,7 +41,7 @@ const ThemeSwitcher = () => {
 
   return (
     <div className="relative">
-      <fieldset className="flex rounded-full h-8 w-16 m-0 p-0 border border-border">
+      <fieldset className="flex rounded-full h-8 w-16 m-0 p-0 border border-border bg-muted">
         <ThemeCheckbox
           theme="light"
           checked={theme === 'light'}
