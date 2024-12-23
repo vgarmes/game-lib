@@ -59,7 +59,7 @@ export const MyApp = ({
         <Analytics />
         <Toaster />
         {process.env.NODE_ENV !== 'production' && (
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          <ReactQueryDevtools initialIsOpen={false} />
         )}
       </ThemeProvider>
     </SessionProvider>
