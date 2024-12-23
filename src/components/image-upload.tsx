@@ -135,7 +135,7 @@ const ImageUpload: React.FC<{
       });
 
       setIsUploaded(true);
-      onSubmit && onSubmit(cover.id);
+      onSubmit?.(cover.id);
     } catch (error) {
       toast({ variant: 'destructive', title: 'Failed to upload image' });
       console.error(error);

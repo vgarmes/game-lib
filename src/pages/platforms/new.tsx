@@ -8,7 +8,7 @@ import { routes } from '@/constants';
 
 const NewPlatform = () => {
   const router = useRouter();
-  const { mutate: createPlatform, isLoading } =
+  const { mutate: createPlatform, isPending } =
     trpc.platform.create.useMutation({
       onSuccess() {
         router.push(routes.Platforms);
@@ -17,7 +17,7 @@ const NewPlatform = () => {
   return (
     <>
       <PageTitle title="New platform" />
-      <PlatformForm onSubmit={createPlatform} isSubmitting={isLoading} />
+      <PlatformForm onSubmit={createPlatform} isSubmitting={isPending} />
     </>
   );
 };

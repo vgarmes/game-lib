@@ -15,7 +15,7 @@ const EditPage = () => {
   const isValidId = !!id && !isNaN(parseInt(id as string));
   const numId = id ? parseInt(id as string) : 0;
 
-  const { mutate, isLoading: isSubmitting } = trpc.game.update.useMutation({
+  const { mutate, isPending: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
       toast({ title: 'Game edited successfully!' });
       router.push(routes.Platforms);

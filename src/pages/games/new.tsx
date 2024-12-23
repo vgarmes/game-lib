@@ -11,7 +11,7 @@ const NewGame = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { toast } = useToast();
-  const { mutate, isLoading } = trpc.game.create.useMutation({
+  const { mutate, isPending } = trpc.game.create.useMutation({
     onSuccess() {
       toast({ title: 'Game created successfully!' });
       router.push(routes.Home);
@@ -46,7 +46,7 @@ const NewGame = () => {
       />
       <GameForm
         onSubmit={(values, _) => mutate(values)}
-        isSubmitting={isLoading}
+        isSubmitting={isPending}
       />
     </>
   );

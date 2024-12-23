@@ -17,7 +17,7 @@ import PageTitle from '@/components/page-title';
 import { ReactElement } from 'react';
 
 const SignUp = () => {
-  const { mutate: signup, isLoading } = trpc.user.signup.useMutation({
+  const { mutate: signup, isPending } = trpc.user.signup.useMutation({
     onSuccess(_user, variables) {
       signIn('credentials', {
         callbackUrl: '/',
@@ -103,8 +103,8 @@ const SignUp = () => {
             )}
           />
 
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Sign up
           </Button>
         </form>

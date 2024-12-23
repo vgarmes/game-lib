@@ -13,7 +13,7 @@ const EditPlatform = () => {
 
   const { numId, isValidId } = parseId(id);
 
-  const { mutate, isLoading: isSubmitting } = trpc.platform.update.useMutation({
+  const { mutate, isPending: isSubmitting } = trpc.platform.update.useMutation({
     onSuccess() {
       console.log('success!');
       router.push(routes.Platforms);
