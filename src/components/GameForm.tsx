@@ -5,7 +5,6 @@ import { StarsInput } from './common';
 import { dateToLocalWithoutTime, dateToUtcWithoutTime } from '../utils';
 import { Controller } from 'react-hook-form';
 import { DirtyFields } from '../utils/forms';
-import { trpc } from '@/utils/trpc';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import {
@@ -25,14 +24,9 @@ import { CalendarIcon, Loader2 } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { useRef, useState } from 'react';
 import { Textarea } from './ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
 import { Card, CardContent } from './ui/card';
+import { PlatformSelector } from './PlatformSelector';
+import { trpc } from '@/utils/trpc';
 
 const DEFAULT_VALUES = {
   title: '',
@@ -93,6 +87,7 @@ const GameForm = ({
   const [isCompleted, setIsCompleted] = useState(
     defaultValues.current.completed
   );
+
   const { data: platforms } = trpc.platform.all.useQuery();
 
   const form = useZodForm({
@@ -175,33 +170,15 @@ const GameForm = ({
               <FormField
                 control={form.control}
                 name="platformId"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field: { value, onChange } }) => (
+                  <FormItem className="flex flex-col">
                     <FormLabel>Platform</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(Number(value))}
-                      defaultValue={
-                        typeof field.value === 'number'
-                          ? String(field.value)
-                          : undefined
-                      }
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a platform" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {platforms?.map((platform) => (
-                          <SelectItem
-                            key={platform.id}
-                            value={String(platform.id)}
-                          >
-                            {platform.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <PlatformSelector
+                      selectedId={value}
+                      onSelect={onChange}
+                      options={platforms ?? []}
+                    />
+
                     <FormMessage />
                   </FormItem>
                 )}
