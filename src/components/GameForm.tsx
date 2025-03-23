@@ -27,6 +27,7 @@ import { Textarea } from './ui/textarea';
 import { Card, CardContent } from './ui/card';
 import { PlatformSelector } from './PlatformSelector';
 import { trpc } from '@/utils/trpc';
+import NumberInput from './ui/number-input';
 
 const DEFAULT_VALUES = {
   title: '',
@@ -42,10 +43,6 @@ const DEFAULT_VALUES = {
   comment: '',
   platformId: undefined,
   coverId: undefined,
-};
-
-const setValueAsNumber = (value: string, defaultValue?: number | null) => {
-  return parseInt(value) || defaultValue;
 };
 
 interface Props {
@@ -369,17 +366,14 @@ const GameForm = ({
               <FormField
                 control={form.control}
                 name="buyPrice"
-                render={() => (
+                render={({ field: { value, onChange } }) => (
                   <FormItem>
                     <FormLabel>Buy Price</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="e.g.: 20"
-                        type="number"
-                        {...form.register('buyPrice', {
-                          setValueAs: (v) =>
-                            setValueAsNumber(v, defaultValues.current.buyPrice),
-                        })}
+                      <NumberInput
+                        value={value ?? null}
+                        onChange={onChange}
+                        min={0}
                       />
                     </FormControl>
                     <FormMessage />
