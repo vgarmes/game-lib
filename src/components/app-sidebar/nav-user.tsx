@@ -1,5 +1,5 @@
-import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { BadgeCheck, LogOut, MoreVertical, User } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,24 +8,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { buttonVariants } from '../ui/button';
-import { Skeleton } from '../ui/skeleton';
+} from "@/components/ui/sidebar";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { Skeleton } from "../ui/skeleton";
 
 const getInitials = (name: string) => {
-  let initials = '';
-  const splitName = name.split(' ');
+  let initials = "";
+  const splitName = name.split(" ");
   const LENGTH = 2;
   for (let i = 0; i < LENGTH; i++) {
-    if (typeof splitName[i] !== 'undefined') {
+    if (typeof splitName[i] !== "undefined") {
       initials += splitName[i][0];
     }
   }
@@ -36,18 +35,22 @@ export function NavUser() {
   const { data: session, status } = useSession();
   const { isMobile } = useSidebar();
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <Skeleton className="h-12" />;
   }
 
-  if (status === 'unauthenticated' || !session) {
+  if (status === "unauthenticated" || !session) {
     return (
-      <Link
-        href="/auth/signin"
-        className={buttonVariants({ variant: 'outline', size: 'lg' })}
-      >
-        Sign in
-      </Link>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <Link href="/auth/signin">
+              <User />
+              <span>Sign in</span>{" "}
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
     );
   }
 
@@ -61,36 +64,40 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={''} alt={user.username} />
+              <Avatar className="h-8 w-8 rounded-lg grayscale">
+                <AvatarImage src={undefined} alt={user.username} />
                 <AvatarFallback className="rounded-lg">
                   {getInitials(user.username)}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.username}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{user.username}</span>
+                <span className="text-muted-foreground truncate text-xs">
+                  {user.email}
+                </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <MoreVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={''} alt={user.username} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src={undefined} alt={user.username} />
+                  <AvatarFallback className="rounded-lg">
+                    {getInitials(user.username)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {user.username}
+                  <span className="truncate font-medium">{user.username}</span>
+                  <span className="text-muted-foreground truncate text-xs">
+                    {user.email}
                   </span>
-                  <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

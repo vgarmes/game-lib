@@ -1,10 +1,10 @@
-import GameList from '../components/GameList';
-import { InferGetStaticPropsType } from 'next';
-import prisma from '../server/prisma';
-import superjson from 'superjson';
-import { Games } from '@/types/trpc';
-import { Separator } from '@/components/ui/separator';
-import PageTitle from '@/components/page-title';
+import GameList from "../components/GameList";
+import { InferGetStaticPropsType } from "next";
+import prisma from "../server/prisma";
+import superjson from "superjson";
+import { Games } from "@/types/trpc";
+import { Separator } from "@/components/ui/separator";
+import PageTitle from "@/components/page-title";
 
 const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { addedGames, finishedGames } = props;
@@ -16,7 +16,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       <section>
         <PageTitle
           title="Recently completed"
-          description={'Games I have recently finished.'}
+          description={"Games I have recently finished."}
         />
 
         {finishedGames && <GameList games={parsedFinishedGames} />}
@@ -46,7 +46,7 @@ export async function getStaticProps() {
         cover: { select: { secureUrl: true, width: true, height: true } },
         platform: { select: { name: true } },
       },
-      orderBy: { completedDate: 'desc' },
+      orderBy: { completedDate: "desc" },
       take: 10,
     }),
     prisma.game.findMany({
@@ -54,7 +54,7 @@ export async function getStaticProps() {
         cover: { select: { secureUrl: true, width: true, height: true } },
         platform: { select: { name: true } },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       take: 10,
     }),
   ]);

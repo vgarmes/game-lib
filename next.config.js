@@ -4,9 +4,8 @@ import { env } from "./env.js";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
-    domains: ["res.cloudinary.com", "media.steampowered.com"],
+    remotePatterns: [new URL("https://res.cloudinary.com")],
     unoptimized: true,
   },
 };

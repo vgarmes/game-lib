@@ -1,50 +1,42 @@
-import { Home, Library, Plus, Gamepad2 } from 'lucide-react';
+import { Home, Library, Plus, Gamepad2 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { NavUser } from './nav-user';
+} from "@/components/ui/sidebar";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { NavUser } from "./nav-user";
+import { NavMain } from "./nav-main";
+import { NavAdmin } from "./nav-admin";
 
 // Menu items.
 const mainItems = [
   {
-    title: 'Home',
-    url: '/',
+    title: "Home",
+    url: "/",
     icon: Home,
   },
   {
-    title: 'Platforms',
-    url: '/platforms',
+    title: "Platforms",
+    url: "/platforms",
     icon: Library,
   },
 ];
 
 const adminItems = [
-  { title: 'Add game', url: '/games/new', icon: Plus },
-  { title: 'Add platform', url: '/platforms/new', icon: Plus },
+  { title: "Add game", url: "/games/new", icon: Plus },
+  { title: "Add platform", url: "/platforms/new", icon: Plus },
 ];
 
 export function AppSidebar() {
-  const { pathname } = useRouter();
   const { data: session } = useSession();
 
-  const userIsAdmin = session?.user.role === 'ADMIN';
-
-  const groups = [
-    { id: 'Main', items: mainItems },
-    { id: 'Admin', items: userIsAdmin ? adminItems : [] },
-  ];
+  const userIsAdmin = session?.user.role === "ADMIN";
 
   return (
     <Sidebar collapsible="icon">
@@ -52,44 +44,22 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              asChild
+              className="data-[slot=sidebar-menu-button]:p-1.5! hover:bg-transparent"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-600 text-sidebar-primary-foreground">
-                <Gamepad2 className="size-4" />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">Game Library</span>
-              </div>
+              <Link href="/">
+                <Gamepad2 className="size-5!" />
+                <span className="truncate text-base font-semibold">
+                  Game Library
+                </span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {groups
-          .filter((group) => group.items.length > 0)
-          .map(({ id, items }) => (
-            <SidebarGroup key={id}>
-              <SidebarGroupLabel>{id}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={pathname === item.url}
-                      >
-                        <Link href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          ))}
+        <NavMain items={mainItems} />
+        {userIsAdmin && <NavAdmin items={adminItems} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
