@@ -1,4 +1,4 @@
-const { z } = require('zod');
+import { z } from "zod";
 
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
@@ -8,4 +8,5 @@ const envSchema = z.object({
   NEXTAUTH_SECRET: z.string(),
 });
 
-module.exports.envSchema = envSchema;
+const _envSchema = envSchema;
+export { _envSchema as envSchema };
