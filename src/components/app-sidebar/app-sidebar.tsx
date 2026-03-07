@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Home, Library, Plus, Gamepad2 } from "lucide-react";
 import {
@@ -46,16 +46,16 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
               className="data-[slot=sidebar-menu-button]:p-1.5! hover:bg-transparent"
-            >
-              <Link href="/">
-                <Gamepad2 className="size-5!" />
-                <span className="truncate text-base font-semibold">
-                  Game Library
-                </span>
-              </Link>
-            </SidebarMenuButton>
+              render={
+                <Link href="/">
+                  <Gamepad2 className="size-5!" />
+                  <span className="truncate text-base font-semibold">
+                    Game Library
+                  </span>
+                </Link>
+              }
+            ></SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

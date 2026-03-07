@@ -17,12 +17,11 @@ import {
 } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
 import PageTitle from '@/components/page-title';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { routes } from '@/constants';
 
 export default function SignInPage() {
   const router = useRouter();
-  const { toast } = useToast();
   const { status } = useSession();
 
   const form = useZodForm({
@@ -47,9 +46,7 @@ export default function SignInPage() {
       if (response?.ok) {
         return router.push('/');
       }
-      toast({
-        variant: 'destructive',
-        title: 'Email and/or password are invalid',
+      toast.error('Email and/or password are invalid', {
         description: 'There was a problem with your request.',
       });
     });

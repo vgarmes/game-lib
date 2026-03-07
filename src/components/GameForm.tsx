@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import schema, { GameSchema } from '../server/routers/game/schema';
-import useZodForm from '../utils/hooks/useZodForm';
-import ImageUpload from './image-upload';
-import { StarsInput } from './common';
-import { dateToLocalWithoutTime, dateToUtcWithoutTime } from '../utils';
-import { Controller } from 'react-hook-form';
-import { DirtyFields } from '../utils/forms';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import schema, { GameSchema } from "../server/routers/game/schema";
+import useZodForm from "../utils/hooks/useZodForm";
+import ImageUpload from "./image-upload";
+import { StarsInput } from "./common";
+import { dateToLocalWithoutTime, dateToUtcWithoutTime } from "../utils";
+import { Controller } from "react-hook-form";
+import { DirtyFields } from "../utils/forms";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -17,32 +17,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
-import { Switch } from './ui/switch';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import clsx from 'clsx';
-import { format } from 'date-fns';
-import { CalendarIcon, Loader2 } from 'lucide-react';
-import { Calendar } from './ui/calendar';
-import { useRef, useState } from 'react';
-import { Textarea } from './ui/textarea';
-import { Card, CardContent } from './ui/card';
-import { PlatformSelector } from './PlatformSelector';
-import { trpc } from '@/trpc/client';
-import NumberInput from './ui/number-input';
+} from "./ui/form";
+import { Switch } from "./ui/switch";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import clsx from "clsx";
+import { format } from "date-fns";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { Calendar } from "./ui/calendar";
+import { useRef, useState } from "react";
+import { Textarea } from "./ui/textarea";
+import { Card, CardContent } from "./ui/card";
+import { PlatformSelector } from "./PlatformSelector";
+import { trpc } from "@/trpc/client";
+import NumberInput from "./ui/number-input";
 
 const DEFAULT_VALUES = {
-  title: '',
+  title: "",
   inCollection: false,
   completed: false,
-  edition: '',
+  edition: "",
   releaseDate: undefined,
   completedDate: undefined,
   buyDate: undefined,
   buyPrice: undefined,
   developerId: undefined,
   rating: undefined,
-  comment: '',
+  comment: "",
   platformId: undefined,
   coverId: undefined,
 };
@@ -66,11 +66,11 @@ const getDefaultValues = (initialValues?: GameSchema) => {
     ...initialValues,
     completedDate: getDefaultDate(
       initialValues.completedDate,
-      DEFAULT_VALUES.completedDate
+      DEFAULT_VALUES.completedDate,
     ),
     releaseDate: getDefaultDate(
       initialValues.releaseDate,
-      DEFAULT_VALUES.releaseDate
+      DEFAULT_VALUES.releaseDate,
     ),
     buyDate: getDefaultDate(initialValues.buyDate, DEFAULT_VALUES.buyDate),
   };
@@ -84,7 +84,7 @@ const GameForm = ({
 }: Props) => {
   const defaultValues = useRef(getDefaultValues(initialValues));
   const [isCompleted, setIsCompleted] = useState(
-    defaultValues.current.completed
+    defaultValues.current.completed,
   );
 
   const { data: platforms } = trpc.platform.all.useQuery();
@@ -117,10 +117,10 @@ const GameForm = ({
       >
         <ImageUpload
           defaultImageSrc={defaultCoverUrl}
-          onSubmit={(id) => form.setValue('coverId', id, { shouldDirty: true })}
+          onSubmit={(id) => form.setValue("coverId", id, { shouldDirty: true })}
         />
 
-        <Card className="flex-grow">
+        <Card className="grow">
           <CardContent>
             <div className="flex flex-col gap-5 py-3">
               <FormField
@@ -236,32 +236,34 @@ const GameForm = ({
                   <FormItem className="flex flex-col">
                     <FormLabel>Completed date</FormLabel>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={clsx(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                            disabled={!isCompleted}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
+                      <PopoverTrigger
+                        render={
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={clsx(
+                                "w-60 pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                              disabled={!isCompleted}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        }
+                      />
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -282,31 +284,34 @@ const GameForm = ({
                   <FormItem className="flex flex-col">
                     <FormLabel>Release date</FormLabel>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={clsx(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
+                      <PopoverTrigger
+                        render={
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={clsx(
+                                "w-60 pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        }
+                      />
+
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -327,31 +332,33 @@ const GameForm = ({
                   <FormItem className="flex flex-col">
                     <FormLabel>Buy date</FormLabel>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={clsx(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
+                      <PopoverTrigger
+                        render={
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={clsx(
+                                "w-60 pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        }
+                      />
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />

@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
-import '../styles/globals.css';
-import { Providers } from './providers';
-import { siteConfig } from '@/config/site';
-import { Analytics } from '@vercel/analytics/react';
+import type { Metadata } from "next";
+import "../styles/globals.css";
+import { Providers } from "./providers";
+import { siteConfig } from "@/config/site";
+import { Analytics } from "@vercel/analytics/react";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: siteConfig.name,
@@ -19,9 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("font-sans", geist.variable)}
+    >
       <body>
         <Providers>{children}</Providers>
+        <Toaster />
         <Analytics />
       </body>
     </html>

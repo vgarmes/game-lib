@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { trpc } from '@/trpc/client';
 import GameForm from '@/components/GameForm';
 import PageTitle from '@/components/page-title';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { Loader } from 'lucide-react';
 import { routes } from '@/constants';
@@ -12,17 +12,13 @@ import { routes } from '@/constants';
 export default function NewGamePage() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { toast } = useToast();
-
   const { mutate, isPending } = trpc.game.create.useMutation({
     onSuccess() {
-      toast({ title: 'Game created successfully!' });
+      toast('Game created successfully!');
       router.push(routes.Home);
     },
     onError() {
-      toast({
-        variant: 'destructive',
-        title: 'Ups! Something went wrong.',
+      toast.error('Ups! Something went wrong.', {
         description: 'There was a problem with your request.',
       });
     },
