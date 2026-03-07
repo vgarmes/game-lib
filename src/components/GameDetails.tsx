@@ -1,11 +1,11 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import Badge from './common/Badge';
-import { RouterOutput } from '@/types/trpc';
-import { buttonVariants } from './ui/button';
-import { Card } from './ui/card';
+import Image from "next/image";
+import Link from "next/link";
+import Badge from "./common/Badge";
+import { RouterOutput } from "@/types/trpc";
+import { buttonVariants } from "./ui/button";
+import { Card } from "./ui/card";
 
-type GameOutput = RouterOutput['game']['byId'];
+type GameOutput = RouterOutput["game"]["byId"];
 
 interface Props {
   game: GameOutput;
@@ -26,18 +26,18 @@ const GameDetails: React.FC<Props> = ({ game }) => {
 
   const completedText = completed
     ? `Yes (${completedDate?.toLocaleDateString()})`
-    : 'No';
+    : "No";
 
   const cardData = [
-    { title: 'Platform', content: platform?.name },
-    { title: 'Edition', content: edition },
+    { title: "Platform", content: platform?.name },
+    { title: "Edition", content: edition },
     {
-      title: 'Completed',
+      title: "Completed",
       content: completedText,
     },
     {
-      title: 'In collection',
-      content: inCollection ? 'Yes' : 'No',
+      title: "In collection",
+      content: inCollection ? "Yes" : "No",
     },
   ];
   return (
@@ -54,16 +54,16 @@ const GameDetails: React.FC<Props> = ({ game }) => {
         <div className="relative h-48 w-48">
           <Image
             alt={`${title} cover`}
-            src={cover?.secureUrl || '/image-placeholder.jpeg'}
+            src={cover?.secureUrl || "/image-placeholder.jpeg"}
             fill={true}
-            style={{ objectFit: 'contain', objectPosition: '50% 0%' }}
+            style={{ objectFit: "contain", objectPosition: "50% 0%" }}
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3 w-full">
+        <div className="grid w-full grid-cols-2 gap-3">
           {cardData.map(({ title, content }) => (
             <Card key={title} className="p-4">
-              <h3 className="text-xs pb-2 text-muted-foreground uppercase">
+              <h3 className="text-muted-foreground pb-2 text-xs uppercase">
                 {title}
               </h3>
               <h4 className="text-lg">{content}</h4>
@@ -71,13 +71,6 @@ const GameDetails: React.FC<Props> = ({ game }) => {
           ))}
         </div>
       </div>
-
-      <Link
-        href={`/games/${game.id}/edit`}
-        className={buttonVariants({ variant: 'default' })}
-      >
-        Edit
-      </Link>
     </div>
   );
 };

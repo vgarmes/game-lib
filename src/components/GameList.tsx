@@ -1,24 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import type { Games, Game } from "@/types/trpc";
+import type { Games } from "@/types/trpc";
 import { ImageIcon } from "lucide-react";
+import Link from "next/link";
 
 interface props {
   games: Games;
 }
 const GameList = ({ games }: props) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] justify-items-center">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] justify-items-center md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))]">
       {games.map((game) => {
         return (
           <div
             key={game.id}
-            className="group flex cursor-pointer flex-col items-center mb-6"
+            className="group relative mb-6 flex cursor-pointer flex-col items-center"
           >
-            <div className="flex justify-center h-28 w-28 transition-transform group-hover:scale-110">
+            <Link href={`/games/${game.id}`} className="absolute inset-0" />
+            <div className="flex h-28 w-28 justify-center transition-transform group-hover:scale-110">
               {game.cover?.secureUrl ? (
                 <Image
                   alt={`${game.title} cover`}
@@ -28,16 +28,16 @@ const GameList = ({ games }: props) => {
                   style={{
                     objectFit: "contain",
                   }}
-                  className="w-auto h-full rounded"
+                  className="h-full w-auto rounded"
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded">
+                <div className="flex h-full w-full items-center justify-center rounded bg-zinc-100 dark:bg-zinc-900">
                   <ImageIcon />
                 </div>
               )}
             </div>
 
-            <h1 className="text-center p-3 text-sm font-bold tracking-tight">
+            <h1 className="p-3 text-center text-sm font-bold tracking-tight">
               {game.title}
             </h1>
           </div>
