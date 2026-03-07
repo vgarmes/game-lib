@@ -52,9 +52,6 @@ importers:
       "@radix-ui/react-switch":
         specifier: ^1.0.3
         version: 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-toast":
-        specifier: ^1.1.5
-        version: 1.1.5(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       "@radix-ui/react-tooltip":
         specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -72,7 +69,7 @@ importers:
         version: 11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5)
       "@trpc/next":
         specifier: 11.0.0-rc.660
-        version: 11.0.0-rc.660(@tanstack/react-query@5.62.7(react@19.2.0))(@trpc/client@11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5))(@trpc/react-query@11.0.0-rc.660(@tanstack/react-query@5.62.7(react@19.2.0))(@trpc/client@11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5))(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.4.5))(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(next@16.0.10(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.4.5)
+        version: 11.0.0-rc.660(@tanstack/react-query@5.62.7(react@19.2.0))(@trpc/client@11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5))(@trpc/react-query@11.0.0-rc.660(@tanstack/react-query@5.62.7(react@19.2.0))(@trpc/client@11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5))(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.4.5))(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(next@16.0.5(@babel/core@7.29.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.4.5)
       "@trpc/react-query":
         specifier: 11.0.0-rc.660
         version: 11.0.0-rc.660(@tanstack/react-query@5.62.7(react@19.2.0))(@trpc/client@11.0.0-rc.660(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(typescript@5.4.5))(@trpc/server@11.0.0-rc.660(typescript@5.4.5))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.4.5)
@@ -81,7 +78,7 @@ importers:
         version: 11.0.0-rc.660(typescript@5.4.5)
       "@vercel/analytics":
         specifier: ^1.4.1
-        version: 1.4.1(next@16.0.10(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+        version: 1.4.1(next@16.0.5(@babel/core@7.29.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -105,10 +102,10 @@ importers:
         version: 16.0.10(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       next-auth:
         specifier: ^4.24.13
-        version: 4.24.13(next@16.0.5(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 4.24.13(next@16.0.5(@babel/core@7.29.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       next-themes:
-        specifier: ^0.4.4
-        version: 0.4.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.4.6
+        version: 0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -127,6 +124,9 @@ importers:
       shadcn:
         specifier: ^4.0.0
         version: 4.0.0(@types/node@18.6.3)(typescript@5.4.5)
+      sonner:
+        specifier: ^2.0.7
+        version: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       superjson:
         specifier: ^1.13.1
         version: 1.13.1
@@ -2427,22 +2427,6 @@ packages:
     resolution:
       {
         integrity: sha512-mxm87F88HyHztsI7N+ZUmEoARGkC22YVW5CaC+Byc+HRpuvCrOBPTAnXgf+tZ/7i0Sg/eOePGdMhUKhPaQEqow==,
-      }
-    peerDependencies:
-      "@types/react": "*"
-      "@types/react-dom": "*"
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      "@types/react":
-        optional: true
-      "@types/react-dom":
-        optional: true
-
-  "@radix-ui/react-toast@1.1.5":
-    resolution:
-      {
-        integrity: sha512-fRLn227WHIBRSzuRzGJ8W+5YALxofH23y0MlPLddaIpLpCDqdE0NZlS2NRQDRiptfxDeeCjgFIpexB1/zkxDlw==,
       }
     peerDependencies:
       "@types/react": "*"
@@ -6659,10 +6643,10 @@ packages:
       nodemailer:
         optional: true
 
-  next-themes@0.4.4:
+  next-themes@0.4.6:
     resolution:
       {
-        integrity: sha512-LDQ2qIOJF0VnuVrrMSMLrWGjRMkq+0mpgl6e0juCLqdJ+oo8Q84JRWT6Wh11VDQKkMMe+dVzDKLWs5n87T+PkQ==,
+        integrity: sha512-pZvgD5L0IEvX5/9GWyHMf3m8BKiVQwsCMHfoFosXtXBMnaS0ZnIJ9ST4b4NqLVKDEm8QBxoNNGNaBv2JNF6XNA==,
       }
     peerDependencies:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
@@ -7850,6 +7834,15 @@ packages:
         integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==,
       }
     engines: { node: ">=8" }
+
+  sonner@2.0.7:
+    resolution:
+      {
+        integrity: sha512-W6ZN4p58k8aDKA4XPcx2hpIQXBRAgyiWVkYhT7CvK6D3iAu7xjvVyhQHg2/iaKJZ1XVJ4r7XuwGL+WGEK37i9w==,
+      }
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
   source-map-js@1.2.1:
     resolution:
@@ -10429,27 +10422,6 @@ snapshots:
       "@radix-ui/react-use-controllable-state": 1.0.1(@types/react@18.3.1)(react@19.2.0)
       "@radix-ui/react-use-previous": 1.0.1(@types/react@18.3.1)(react@19.2.0)
       "@radix-ui/react-use-size": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-    optionalDependencies:
-      "@types/react": 18.3.1
-      "@types/react-dom": 18.3.0
-
-  "@radix-ui/react-toast@1.1.5(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)":
-    dependencies:
-      "@babel/runtime": 7.22.15
-      "@radix-ui/primitive": 1.0.1
-      "@radix-ui/react-collection": 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-compose-refs": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      "@radix-ui/react-context": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      "@radix-ui/react-dismissable-layer": 1.0.5(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-portal": 1.0.4(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-presence": 1.0.1(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-primitive": 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      "@radix-ui/react-use-callback-ref": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      "@radix-ui/react-use-controllable-state": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      "@radix-ui/react-use-layout-effect": 1.0.1(@types/react@18.3.1)(react@19.2.0)
-      "@radix-ui/react-visually-hidden": 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
     optionalDependencies:
@@ -13123,13 +13095,13 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next-auth@4.24.13(next@16.0.5(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  next-auth@4.24.13(next@16.0.5(@babel/core@7.29.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       "@babel/runtime": 7.24.5
       "@panva/hkdf": 1.1.1
       cookie: 0.7.2
       jose: 4.15.9
-      next: 16.0.5(@babel/core@7.26.10)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      next: 16.0.5(@babel/core@7.29.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       oauth: 0.9.15
       openid-client: 5.5.0
       preact: 10.17.1
@@ -13138,7 +13110,7 @@ snapshots:
       react-dom: 19.2.0(react@19.2.0)
       uuid: 8.3.2
 
-  next-themes@0.4.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  next-themes@0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
@@ -13151,7 +13123,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      styled-jsx: 5.1.6(@babel/core@7.26.10)(react@19.2.0)
+      styled-jsx: 5.1.6(@babel/core@7.29.0)(react@19.2.0)
     optionalDependencies:
       "@next/swc-darwin-arm64": 16.0.10
       "@next/swc-darwin-x64": 16.0.10
@@ -13926,6 +13898,11 @@ snapshots:
 
   slash@3.0.0: {}
 
+  sonner@2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+
   source-map-js@1.2.1: {}
 
   source-map@0.6.1: {}
@@ -14036,12 +14013,12 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  styled-jsx@5.1.6(@babel/core@7.26.10)(react@19.2.0):
+  styled-jsx@5.1.6(@babel/core@7.29.0)(react@19.2.0):
     dependencies:
       client-only: 0.0.1
       react: 19.2.0
     optionalDependencies:
-      "@babel/core": 7.26.10
+      "@babel/core": 7.29.0
 
   superjson@1.13.1:
     dependencies:

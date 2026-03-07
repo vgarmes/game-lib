@@ -7,7 +7,7 @@ import { Signature } from '../types';
 import { trpc } from '@/trpc/client';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useToast } from './ui/use-toast';
+import { toast } from 'sonner';
 import {
   CheckCircle2,
   ImagePlus,
@@ -63,7 +63,6 @@ const ImageUpload: React.FC<{
   onSubmit?: (coverId: number) => void;
   defaultImageSrc?: string;
 }> = ({ onSubmit, defaultImageSrc }) => {
-  const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState(defaultImageSrc);
   const [imageFile, setImageFile] = useState<File>();
@@ -72,9 +71,7 @@ const ImageUpload: React.FC<{
 
   const createCover = trpc.cover.create.useMutation({
     onError: (error) =>
-      toast({
-        variant: 'destructive',
-        title: 'Ups! Something went wrong.',
+      toast.error('Ups! Something went wrong.', {
         description: `${error?.toString().substring(0, 200) ?? 'Try again'}`,
       }),
   });
@@ -139,7 +136,7 @@ const ImageUpload: React.FC<{
       setIsUploaded(true);
       onSubmit?.(cover.id);
     } catch (error) {
-      toast({ variant: 'destructive', title: 'Failed to upload image' });
+      toast.error('Failed to upload image');
       console.error(error);
     }
     setIsLoading(false);

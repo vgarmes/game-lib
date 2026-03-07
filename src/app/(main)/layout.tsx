@@ -1,7 +1,6 @@
-import { AppSidebar } from '@/components/app-sidebar/app-sidebar';
-import { Header } from '@/components/header';
-import { SidebarInset } from '@/components/ui/sidebar';
-import { Toaster } from '@/components/ui/toaster';
+import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
+import { Header } from "@/components/header";
+import { SidebarInset } from "@/components/ui/sidebar";
 
 export default function MainLayout({
   children,
@@ -15,7 +14,6 @@ export default function MainLayout({
         <Header />
         <div className="mt-4 mb-8 px-6">{children}</div>
       </SidebarInset>
-      <Toaster />
     </>
   );
 }

@@ -5,7 +5,7 @@ import GameForm from '@/components/GameForm';
 import { trpc } from '@/trpc/client';
 import { DirtyFields, getDirtyValues } from '@/utils/forms';
 import { GameSchema } from '@/server/routers/game/schema';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { routes } from '@/constants';
 import { useSession } from 'next-auth/react';
 import { Loader2 } from 'lucide-react';
@@ -13,7 +13,6 @@ import { Loader2 } from 'lucide-react';
 export default function EditGamePage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { toast } = useToast();
   const { data: session, status } = useSession();
 
   const numId = parseInt(params.id);
@@ -21,13 +20,11 @@ export default function EditGamePage() {
 
   const { mutate, isPending: isSubmitting } = trpc.game.update.useMutation({
     onSuccess() {
-      toast({ title: 'Game edited successfully!' });
+      toast('Game edited successfully!');
       router.push(routes.Platforms);
     },
     onError() {
-      toast({
-        variant: 'destructive',
-        title: 'Ups! Something went wrong.',
+      toast.error('Ups! Something went wrong.', {
         description: 'There was a problem with your request.',
       });
     },

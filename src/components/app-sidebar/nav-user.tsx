@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { BadgeCheck, LogOut, MoreVertical, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -45,12 +45,14 @@ export function NavUser() {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <Link href="/auth/signin">
-              <User />
-              <span>Sign in</span>{" "}
-            </Link>
-          </SidebarMenuButton>
+          <SidebarMenuButton
+            render={
+              <Link href="/auth/signin">
+                <User />
+                <span>Sign in</span>{" "}
+              </Link>
+            }
+          ></SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     );
@@ -61,26 +63,28 @@ export function NavUser() {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={undefined} alt={user.username} />
-                <AvatarFallback className="rounded-lg">
-                  {getInitials(user.username)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.username}</span>
-                <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
-                </span>
-              </div>
-              <MoreVertical className="ml-auto size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <Avatar className="h-8 w-8 rounded-lg grayscale">
+                  <AvatarImage src={undefined} alt={user.username} />
+                  <AvatarFallback className="rounded-lg">
+                    {getInitials(user.username)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{user.username}</span>
+                  <span className="text-muted-foreground truncate text-xs">
+                    {user.email}
+                  </span>
+                </div>
+                <MoreVertical className="ml-auto size-4" />
+              </SidebarMenuButton>
+            }
+          ></DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
