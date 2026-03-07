@@ -1,23 +1,22 @@
-import Image from 'next/image';
-import { useState } from 'react';
-import GameDialog from './GameDialog';
-import type { Games, Game } from '@/types/trpc';
-import { ImageIcon } from 'lucide-react';
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import type { Games, Game } from "@/types/trpc";
+import { ImageIcon } from "lucide-react";
 
 interface props {
   games: Games;
 }
 const GameList = ({ games }: props) => {
-  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(8rem,_1fr))] md:grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] justify-items-center">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] justify-items-center">
       {games.map((game) => {
         return (
           <div
             key={game.id}
             className="group flex cursor-pointer flex-col items-center mb-6"
-            onClick={() => setSelectedGame(game)}
           >
             <div className="flex justify-center h-28 w-28 transition-transform group-hover:scale-110">
               {game.cover?.secureUrl ? (
@@ -27,7 +26,7 @@ const GameList = ({ games }: props) => {
                   width={game.cover.width}
                   height={game.cover.height}
                   style={{
-                    objectFit: 'contain',
+                    objectFit: "contain",
                   }}
                   className="w-auto h-full rounded"
                 />
@@ -44,11 +43,6 @@ const GameList = ({ games }: props) => {
           </div>
         );
       })}
-      <GameDialog
-        game={selectedGame}
-        isOpen={Boolean(selectedGame)}
-        onClose={() => setSelectedGame(null)}
-      />
     </div>
   );
 };

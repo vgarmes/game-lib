@@ -19,6 +19,7 @@ export const router = t.router;
 export const mergeRouters = t.mergeRouters;
 export const middleware = t.middleware;
 export const publicProcedure = t.procedure;
+export const createCallerFactory = t.createCallerFactory;
 
 const isAdmin = middleware(async ({ ctx, next }) => {
   if (!ctx.session || ctx.session.user.role !== 'ADMIN') {
