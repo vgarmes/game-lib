@@ -1,3 +1,5 @@
+'use client';
+
 import schema, { GameSchema } from '../server/routers/game/schema';
 import useZodForm from '../utils/hooks/useZodForm';
 import ImageUpload from './image-upload';
@@ -26,7 +28,7 @@ import { useRef, useState } from 'react';
 import { Textarea } from './ui/textarea';
 import { Card, CardContent } from './ui/card';
 import { PlatformSelector } from './PlatformSelector';
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/trpc/client';
 import NumberInput from './ui/number-input';
 
 const DEFAULT_VALUES = {

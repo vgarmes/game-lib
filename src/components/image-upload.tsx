@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
+
 import { useRef, useState } from 'react';
 import { CLOUDINARY_CONFIG, uploadImage } from '../utils/cloudinary';
 import { Signature } from '../types';
-import { trpc } from '../utils/trpc';
+import { trpc } from '@/trpc/client';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from './ui/use-toast';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Home, Library, Plus, Gamepad2 } from "lucide-react";
 import {
   Sidebar,

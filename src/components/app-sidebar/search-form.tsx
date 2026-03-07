@@ -1,7 +1,9 @@
+'use client';
+
 import { Search } from 'lucide-react';
 import { SidebarGroup, SidebarGroupContent, SidebarInput } from '../ui/sidebar';
 import { Label } from '../ui/label';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const NAME = 'search';
 
@@ -15,10 +17,7 @@ export function SearchForm() {
         const { [NAME]: query } = Object.fromEntries(formData.entries());
 
         if (typeof query !== 'string') return;
-        router.push({
-          pathname: '/search',
-          query: { q: query },
-        });
+        router.push(`/search?q=${encodeURIComponent(query)}`);
       }}
     >
       <SidebarGroup className="py-0">
