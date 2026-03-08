@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import type { Games } from "@/types/trpc";
+import type { Game } from "@/types/trpc";
 import { ImageIcon } from "lucide-react";
 import Link from "next/link";
 
 interface props {
-  games: Games;
+  games: Game[];
 }
 const GameList = ({ games }: props) => {
   return (

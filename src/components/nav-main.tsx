@@ -32,7 +32,7 @@ export function NavMain({
               className="flex items-center gap-2"
             >
               <SidebarMenuButton
-                className="hover:bg-primary/90 hover:text-primary-foreground data-active:bg-primary/90 data-active:text-primary-foreground min-w-8 font-normal duration-200 ease-linear data-active:font-normal"
+                className="hover:bg-muted/60 text-muted-foreground data-active:bg-muted min-w-8 font-normal duration-200 ease-linear data-active:font-normal"
                 render={
                   <Link href={item.url}>
                     {item.icon && <item.icon />}

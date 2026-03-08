@@ -25,7 +25,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("font-sans", geist.variable)}
     >
-      <body>
+      <body className="bg-sidebar">
         <Providers>{children}</Providers>
         <Toaster />
         <Analytics />
