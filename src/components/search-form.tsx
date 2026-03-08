@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Search } from 'lucide-react';
-import { SidebarGroup, SidebarGroupContent, SidebarInput } from '../ui/sidebar';
-import { Label } from '../ui/label';
-import { useRouter } from 'next/navigation';
+import { Search } from "lucide-react";
+import { SidebarGroup, SidebarGroupContent, SidebarInput } from "./ui/sidebar";
+import { Label } from "./ui/label";
+import { useRouter } from "next/navigation";
 
-const NAME = 'search';
+const NAME = "search";
 
 export function SearchForm() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export function SearchForm() {
         const formData = new FormData(e.currentTarget);
         const { [NAME]: query } = Object.fromEntries(formData.entries());
 
-        if (typeof query !== 'string') return;
+        if (typeof query !== "string") return;
         router.push(`/search?q=${encodeURIComponent(query)}`);
       }}
     >
@@ -31,7 +31,7 @@ export function SearchForm() {
             className="pl-8"
             name={NAME}
           />
-          <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
+          <Search className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
         </SidebarGroupContent>
       </SidebarGroup>
     </form>

@@ -1,6 +1,8 @@
 "use client";
 
-import { Home, Library, Plus, Gamepad2 } from "lucide-react";
+import * as React from "react";
+
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -10,13 +12,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { NavUser } from "./nav-user";
+import { Gamepad2, Home, Library } from "lucide-react";
 import { NavMain } from "./nav-main";
-import { NavAdmin } from "./nav-admin";
 
-// Menu items.
 const mainItems = [
   {
     title: "Home",
@@ -30,38 +29,31 @@ const mainItems = [
   },
 ];
 
-const adminItems = [
-  { title: "Add game", url: "/games/new", icon: Plus },
-  { title: "Add platform", url: "/platforms/new", icon: Plus },
-];
-
-export function AppSidebar() {
-  const { data: session } = useSession();
-
-  const userIsAdmin = session?.user.role === "ADMIN";
-
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="data-[slot=sidebar-menu-button]:p-1.5! hover:bg-transparent"
+              className="data-[slot=sidebar-menu-button]:p-1.5!"
               render={
                 <Link href="/">
                   <Gamepad2 className="size-5!" />
-                  <span className="truncate text-base font-semibold">
-                    Game Library
+                  <span className="text-base font-semibold">
+                    My Game Library
                   </span>
                 </Link>
               }
-            ></SidebarMenuButton>
+            />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={mainItems} />
-        {userIsAdmin && <NavAdmin items={adminItems} />}
+        {/*  <NavMain items={data.navMain} />
+        <NavDocuments items={data.documents} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

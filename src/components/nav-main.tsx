@@ -5,7 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "../ui/sidebar";
+} from "@/components/ui/sidebar";
 import Link from "next/link";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { usePathname } from "next/navigation";
@@ -24,19 +24,27 @@ export function NavMain({
   const pathname = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupContent>
-        <SidebarMenu>
+      <SidebarGroupContent className="flex flex-col gap-2">
+        <SidebarMenu className="flex flex-col gap-1">
           {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem
+              key={item.title}
+              className="flex items-center gap-2"
+            >
               <SidebarMenuButton
+                className="hover:bg-primary/90 hover:text-primary-foreground data-active:bg-primary/90 data-active:text-primary-foreground min-w-8 font-normal duration-200 ease-linear data-active:font-normal"
                 render={
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
                 }
-                isActive={pathname === item.url}
-              ></SidebarMenuButton>
+                isActive={
+                  item.url === "/"
+                    ? pathname === item.url
+                    : pathname.startsWith(item.url)
+                }
+              />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
