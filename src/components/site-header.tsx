@@ -10,7 +10,7 @@ export function SiteHeader() {
         <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
-          className="h-4 data-vertical:self-center"
+          className="mr-1 h-4 data-vertical:self-center"
         />
         <Breadcrumb>
           <BreadcrumbList>
