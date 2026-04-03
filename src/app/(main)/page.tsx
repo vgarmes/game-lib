@@ -1,5 +1,6 @@
 import prisma from "@/server/prisma";
 import { GameCarousel } from "@/components/game-carousel";
+import { PageLayout } from "@/components/page-layout";
 
 export default async function HomePage() {
   const [finishedGames, addedGames] = await prisma.$transaction([
@@ -27,7 +28,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div>
+    <PageLayout breadcrumbs={undefined}>
       <section>
         <h2 className="px-4 pb-4 text-xl font-medium tracking-tight lg:px-6">
           Recently completed
@@ -40,6 +41,6 @@ export default async function HomePage() {
         </h2>
         <GameCarousel games={addedGames} />
       </section>
-    </div>
+    </PageLayout>
   );
 }

@@ -1,6 +1,6 @@
-import GameDetails from '@/components/GameDetails';
-import prisma from '@/server/prisma';
-import { notFound } from 'next/navigation';
+import GameDetails from "@/components/game-details";
+import prisma from "@/server/prisma";
+import { notFound } from "next/navigation";
 
 export default async function GameDetailsPage({
   params,
@@ -17,7 +17,9 @@ export default async function GameDetailsPage({
   const game = await prisma.game.findFirst({
     where: { id: numId },
     include: {
-      cover: { select: { id: true, secureUrl: true } },
+      cover: {
+        select: { id: true, secureUrl: true, width: true, height: true },
+      },
       platform: { select: { id: true, name: true } },
     },
   });
