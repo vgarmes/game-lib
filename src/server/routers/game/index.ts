@@ -1,14 +1,14 @@
-import { z } from 'zod';
-import schema from './schema';
-import { adminProcedure, publicProcedure, router } from '../../trpc';
-import { routes } from '@/constants';
-import { revalidatePath } from 'next/cache';
+import { z } from "zod";
+import schema from "./schema";
+import { adminProcedure, publicProcedure, router } from "../../trpc";
+import { routes } from "@/constants";
+import { revalidatePath } from "next/cache";
 
 const MAX_RESULTS = 100;
 
 const revalidateStaticPages = () => {
-  revalidatePath(routes['Home']);
-  revalidatePath(routes['Platforms']);
+  revalidatePath(routes["Home"]);
+  revalidatePath(routes["Platforms"]);
 };
 
 export const gameRouter = router({
@@ -42,7 +42,7 @@ export const gameRouter = router({
       z.object({
         skip: z.number().nonnegative().nullish(),
         take: z.number().positive().nullish(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       const skip = input.skip ?? 0;
@@ -54,7 +54,7 @@ export const gameRouter = router({
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
         },
-        orderBy: { completedDate: 'desc' },
+        orderBy: { completedDate: "desc" },
         where: { completed: true },
       });
     }),
@@ -67,22 +67,22 @@ export const gameRouter = router({
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
         },
-      })
+      }),
     ),
   search: publicProcedure
     .input(
       z.object({
-        skip: z.number().nonnegative().nullish(),
-        take: z.number().positive().nullish(),
+        cursor: z.number().nonnegative().nullish(),
+        limit: z.number().positive().nullish(),
         query: z.string(),
-      })
+      }),
     )
-    .query(({ input, ctx }) => {
-      const skip = input.skip ?? 0;
-      const take = input.take ? Math.min(input.take, MAX_RESULTS) : 50;
-      return ctx.prisma.game.findMany({
-        skip,
-        take,
+    .query(async ({ input, ctx }) => {
+      const cursor = input.cursor ?? 0;
+      const limit = input.limit ? Math.min(input.limit, MAX_RESULTS) : 50;
+      const items = await ctx.prisma.game.findMany({
+        skip: cursor * limit,
+        take: limit + 1,
         include: {
           cover: {
             select: { id: true, secureUrl: true, width: true, height: true },
@@ -90,9 +90,15 @@ export const gameRouter = router({
           platform: { select: { id: true, name: true } },
         },
         where: {
-          title: { contains: input.query, mode: 'insensitive' },
+          title: { contains: input.query, mode: "insensitive" },
         },
       });
+      let nextPage: typeof input.cursor | undefined = undefined;
+      if (items.length > limit) {
+        items.pop();
+        nextPage = cursor + 1;
+      }
+      return { items, nextPage };
     }),
   byPlatformId: publicProcedure
     .input(
@@ -100,7 +106,7 @@ export const gameRouter = router({
         id: z.number(),
         cursor: z.number().nonnegative().nullish(),
         limit: z.number().positive().nullish(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       const cursor = input.cursor ?? 0;
@@ -115,7 +121,7 @@ export const gameRouter = router({
           platform: { select: { id: true, name: true } },
         },
         where: { platformId: { equals: input.id } },
-        orderBy: { title: 'asc' },
+        orderBy: { title: "asc" },
       });
       let nextPage: typeof input.cursor | undefined = undefined;
       if (items.length > limit) {

@@ -1,7 +1,9 @@
-import clsx from 'clsx';
-import React, { useState } from 'react';
+"use client";
 
-const RATINGS = ['Bad', 'Meh', 'Good', 'Very Good', 'Masterpiece'];
+import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+
+const RATINGS = ["Bad", "Meh", "Good", "Very Good", "Masterpiece"];
 
 interface StarProps {
   title: string;
@@ -14,9 +16,9 @@ const Star: React.FC<StarProps> = ({ title, isActive, onClick, onHover }) => {
   const isInteractive = !!onClick;
   return (
     <div
-      className={clsx('h-5 w-5 text-gray-300 dark:text-gray-500', {
-        'text-yellow-400 dark:text-yellow-500': isActive,
-        'cursor-pointer hover:scale-110': isInteractive,
+      className={cn("h-5 w-5 text-gray-300 dark:text-gray-500", {
+        "text-yellow-400 dark:text-yellow-500": isActive,
+        "cursor-pointer hover:scale-110": isInteractive,
       })}
       onClick={onClick}
       onMouseEnter={onHover}
@@ -85,7 +87,7 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
       onChange && onChange(newRating);
     };
 
-    let ratingText: string = '';
+    let ratingText: string = "";
     if (hoveredStar || hoveredStar === 0) {
       ratingText = RATINGS[hoveredStar];
     } else if (value || value === 0) {
@@ -108,9 +110,9 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
         )}
       </div>
     );
-  }
+  },
 );
 
-StarsInput.displayName = 'StarsInput';
+StarsInput.displayName = "StarsInput";
 
 export default StarsInput;
