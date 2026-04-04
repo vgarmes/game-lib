@@ -17,7 +17,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import useZodForm from "@/utils/hooks/useZodForm";
+import { useZodForm } from "@/utils/hooks/useZodForm";
 import { z } from "zod";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
