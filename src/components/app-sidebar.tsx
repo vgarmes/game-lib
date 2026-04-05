@@ -23,8 +23,8 @@ const mainItems = [
     icon: Home,
   },
   {
-    title: "Platforms",
-    url: "/platforms",
+    title: "All games",
+    url: "/games",
     icon: Library,
   },
 ];
