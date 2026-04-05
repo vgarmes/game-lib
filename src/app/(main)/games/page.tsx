@@ -15,17 +15,23 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns";
 import { Stars } from "@/components/common";
+import { Search } from "lucide-react";
+import { PlatformSelector } from "@/components/platform-selector";
+import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "long",
 });
 
 export default function GamesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [query, setQuery] = useQueryStates({
+    searchText: parseAsString.withDefault(""),
+    platformId: parseAsInteger,
+  });
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    trpc.game.search.useInfiniteQuery(
-      { limit: 50, query: searchQuery },
+    trpc.game.list.useInfiniteQuery(
+      { limit: 50, ...query },
       {
         getNextPageParam: (lastPage) => lastPage.nextPage,
         initialCursor: 0,
@@ -37,12 +43,27 @@ export default function GamesPage() {
   return (
     <PageLayout breadcrumbs={undefined}>
       <div className="flex flex-col gap-4 px-4 pb-4 lg:px-6">
-        <Input
-          className="h-10"
-          placeholder="Search games..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div className="flex items-center gap-4">
+          <div className="relative flex-1">
+            <Input
+              className="h-10 pl-8"
+              placeholder="Search games..."
+              value={query.searchText}
+              onChange={(e) => setQuery({ searchText: e.target.value })}
+            />
+            <Search className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
+          </div>
+          <PlatformSelector
+            selectedId={query.platformId ?? undefined}
+            onSelect={(value) =>
+              setQuery({
+                platformId: query.platformId === value ? null : value,
+              })
+            }
+            className="h-10"
+            placeholder="All platforms"
+          />
+        </div>
         <div className="flex flex-col gap-2 md:gap-0">
           {flatData.map((game) => (
             <div

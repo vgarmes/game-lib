@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { TRPCReactProvider } from "@/trpc/client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <TRPCReactProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <NuqsAdapter>
+            <TooltipProvider>{children}</TooltipProvider>
+          </NuqsAdapter>
           {process.env.NODE_ENV !== "production" && (
             <ReactQueryDevtools initialIsOpen={false} />
           )}

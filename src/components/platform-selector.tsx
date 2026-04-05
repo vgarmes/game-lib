@@ -15,14 +15,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
+import { trpc } from "@/trpc/client";
 
 interface Props {
-  options: Array<{ id: number; name: string }>;
   onSelect: (id: number | undefined) => void;
   selectedId: number | undefined;
+  className?: string;
+  placeholder?: string;
 }
 
-export function PlatformSelector({ options, onSelect, selectedId }: Props) {
+export function PlatformSelector({
+  onSelect,
+  selectedId,
+  className,
+  placeholder,
+}: Props) {
+  const { data: options = [] } = trpc.platform.all.useQuery(undefined, {
+    staleTime: Infinity,
+  });
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,11 +43,15 @@ export function PlatformSelector({ options, onSelect, selectedId }: Props) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className={cn("w-[200px] justify-between", className)}
           >
-            {selectedId
-              ? options.find((platform) => platform.id === selectedId)?.name
-              : "Select platform..."}
+            {selectedId ? (
+              options.find((platform) => platform.id === selectedId)?.name
+            ) : (
+              <span className="text-muted-foreground font-normal">
+                {placeholder ?? "Select platform..."}
+              </span>
+            )}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         }
