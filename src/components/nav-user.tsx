@@ -21,6 +21,7 @@ import {
 import { getInitials } from "@/utils/initials";
 import { MoreVertical, CircleUser, LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export function NavUser() {
   const { data: session, status } = useSession();
@@ -33,7 +34,7 @@ export function NavUser() {
   const { user } = session;
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="p-0">
       <SidebarGroupContent>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -53,7 +54,7 @@ export function NavUser() {
                       <span className="truncate font-medium">
                         {user.username}
                       </span>
-                      <span className="text-muted-foreground truncate text-xs">
+                      <span className="text-muted-foreground truncate">
                         {user.email}
                       </span>
                     </div>
@@ -76,10 +77,10 @@ export function NavUser() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-medium">
-                          {user.name}
+                        <span className="text-foreground truncate font-medium">
+                          {user.username}
                         </span>
-                        <span className="text-muted-foreground truncate text-xs">
+                        <span className="text-muted-foreground truncate">
                           {user.email}
                         </span>
                       </div>
@@ -88,9 +89,16 @@ export function NavUser() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <CircleUser />
+                  <DropdownMenuItem className="min-h-9 justify-between">
                     Account
+                    <CircleUser className="text-muted-foreground" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    closeOnClick={false}
+                    className="min-h-9 justify-between"
+                  >
+                    Theme
+                    <ThemeSwitcher />
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

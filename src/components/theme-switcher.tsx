@@ -1,62 +1,45 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { Laptop, MoonStar, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
-const ThemeCheckbox: React.FC<{
-  theme: 'dark' | 'light';
-  checked: boolean;
-  onChange: () => void;
-}> = ({ theme, checked, onChange }) => {
-  return (
-    <span className="h-full">
-      <input
-        id={`theme-switch-${theme}`}
-        aria-label={theme}
-        type="checkbox"
-        value={theme}
-        className="peer hidden"
-        checked={checked}
-        onChange={onChange}
-        disabled={checked}
-      />
-      <label
-        htmlFor={`theme-switch-${theme}`}
-        className={cn(
-          'rounded-full flex items-center justify-center bg-none size-8 m-0 cursor-pointer absolute top-0 text-foreground [&_svg]:size-4 [&_svg]:relative [&_svg]:z-10 peer-checked:border peer-checked:border-border peer-checked:text-primary hover:text-foreground',
-          { 'left-0': theme === 'light' },
-          { 'right-0': theme === 'dark' },
-          { 'bg-background': checked },
-          { 'text-muted-foreground': !checked }
-        )}
-      >
-        <span className="sr-only">{theme}</span>
-        {theme === 'dark' ? <Moon /> : <Sun />}
-      </label>
-    </span>
-  );
+const themes = {
+  system: Laptop,
+  light: Sun,
+  dark: MoonStar,
 };
 
-const ThemeSwitcher = () => {
+export const ThemeSwitcher: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
   return (
-    <div className="relative">
-      <fieldset className="flex rounded-full h-8 w-16 m-0 p-0 border border-border bg-muted">
-        <ThemeCheckbox
-          theme="light"
-          checked={theme === 'light'}
-          onChange={() => setTheme('light')}
-        />
-        <ThemeCheckbox
-          theme="dark"
-          checked={theme === 'dark'}
-          onChange={() => setTheme('dark')}
-        />
-      </fieldset>
+    <div
+      role="radiogroup"
+      className="flex w-fit items-center rounded-full border p-px"
+    >
+      {Object.entries(themes).map(([key, Icon]) => {
+        const value = key as "system" | "light" | "dark";
+        return (
+          <button
+            key={value}
+            role="radio"
+            aria-checked={mounted && theme === value}
+            onClick={() => setTheme(value)}
+            type="button"
+            aria-label={`Switch to ${value} theme`}
+            className="text-muted-foreground hover:text-foreground aria-checked:bg-background aria-checked:text-foreground flex size-6 items-center justify-center rounded-full aria-checked:border"
+          >
+            <Icon className="size-3" />
+          </button>
+        );
+      })}
     </div>
   );
 };
-
-export default ThemeSwitcher;
