@@ -16,7 +16,7 @@ const Star: React.FC<StarProps> = ({ title, isActive, onClick, onHover }) => {
   const isInteractive = !!onClick;
   return (
     <div
-      className={cn("h-5 w-5 text-gray-300 dark:text-gray-500", {
+      className={cn("h-5 w-5 shrink-0 text-gray-300 dark:text-gray-500", {
         "text-yellow-400 dark:text-yellow-600": isActive,
         "cursor-pointer hover:scale-110": isInteractive,
       })}
