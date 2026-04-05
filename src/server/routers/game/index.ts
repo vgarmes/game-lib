@@ -69,6 +69,42 @@ export const gameRouter = router({
         },
       }),
     ),
+  list: publicProcedure
+    .input(
+      z.object({
+        cursor: z.number().nonnegative().nullish(),
+        limit: z.number().positive().nullish(),
+        platformId: z.number().nullish(),
+        searchText: z.string().nullish(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const cursor = input.cursor ?? 0;
+      const limit = input.limit ? Math.min(input.limit, MAX_RESULTS) : 50;
+      const items = await ctx.prisma.game.findMany({
+        skip: cursor * limit,
+        take: limit + 1,
+        include: {
+          cover: { select: { id: true, secureUrl: true } },
+          platform: { select: { id: true, name: true } },
+        },
+        orderBy: { title: "asc" },
+        where: {
+          platformId: input.platformId
+            ? { equals: input.platformId }
+            : undefined,
+          title: input.searchText
+            ? { contains: input.searchText, mode: "insensitive" }
+            : undefined,
+        },
+      });
+      let nextPage: typeof input.cursor | undefined = undefined;
+      if (items.length > limit) {
+        items.pop();
+        nextPage = cursor + 1;
+      }
+      return { items, nextPage };
+    }),
   search: publicProcedure
     .input(
       z.object({

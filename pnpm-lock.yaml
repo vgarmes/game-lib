@@ -82,6 +82,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      nuqs:
+        specifier: ^2.8.9
+        version: 2.8.9(next@16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -2048,6 +2051,12 @@ packages:
         integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==,
       }
     engines: { node: ">=18" }
+
+  "@standard-schema/spec@1.0.0":
+    resolution:
+      {
+        integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==,
+      }
 
   "@standard-schema/utils@0.3.0":
     resolution:
@@ -5610,6 +5619,30 @@ packages:
       }
     engines: { node: ">=18" }
 
+  nuqs@2.8.9:
+    resolution:
+      {
+        integrity: sha512-8ou6AEwsxMWSYo2qkfZtYFVzngwbKmg4c00HVxC1fF6CEJv3Fwm6eoZmfVPALB+vw8Udo7KL5uy96PFcYe1BIQ==,
+      }
+    peerDependencies:
+      "@remix-run/react": ">=2"
+      "@tanstack/react-router": ^1
+      next: ">=14.2.0"
+      react: ">=18.2.0 || ^19.0.0-0"
+      react-router: ^5 || ^6 || ^7
+      react-router-dom: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      "@remix-run/react":
+        optional: true
+      "@tanstack/react-router":
+        optional: true
+      next:
+        optional: true
+      react-router:
+        optional: true
+      react-router-dom:
+        optional: true
+
   nwsapi@2.2.19:
     resolution:
       {
@@ -8675,6 +8708,8 @@ snapshots:
 
   "@sindresorhus/merge-streams@4.0.0": {}
 
+  "@standard-schema/spec@1.0.0": {}
+
   "@standard-schema/utils@0.3.0": {}
 
   "@swc/helpers@0.5.15":
@@ -10904,6 +10939,13 @@ snapshots:
     dependencies:
       path-key: 4.0.0
       unicorn-magic: 0.3.0
+
+  nuqs@2.8.9(next@16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+    dependencies:
+      "@standard-schema/spec": 1.0.0
+      react: 19.2.4
+    optionalDependencies:
+      next: 16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
   nwsapi@2.2.19: {}
 
