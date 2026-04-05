@@ -31,7 +31,7 @@ const mainItems = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="offcanvas" className="p-0" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -40,9 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               render={
                 <Link href="/">
                   <Gamepad2 className="size-5!" />
-                  <span className="text-base font-semibold">
-                    My Game Library
-                  </span>
+                  <span className="text-sm font-medium">My Game Library</span>
                 </Link>
               }
             />
