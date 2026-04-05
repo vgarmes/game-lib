@@ -47,9 +47,9 @@ export default function GamesPage() {
           {flatData.map((game) => (
             <div
               key={game.id}
-              className="bg-card/50 flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:flex-row md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
+              className="bg-card/50 flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
             >
-              <div className="flex min-w-80 flex-1 items-center gap-4 overflow-hidden">
+              <div className="flex items-center gap-4 overflow-hidden">
                 <div className="relative size-12 shrink-0 overflow-hidden rounded">
                   <Image
                     alt={game.title}
@@ -59,13 +59,15 @@ export default function GamesPage() {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-2 overflow-hidden">
+                  <div className="flex min-w-0 items-center gap-2">
                     <div className="truncate text-sm font-medium">
                       {game.title}
                     </div>
                     {game.edition && (
-                      <Badge variant="secondary">{game.edition}</Badge>
+                      <Badge variant="secondary" className="shrink">
+                        <span className="truncate">{game.edition}</span>
+                      </Badge>
                     )}
                   </div>
                   <div className="text-muted-foreground text-sm">
@@ -74,11 +76,11 @@ export default function GamesPage() {
                 </div>
               </div>
 
-              <div className="flex max-w-40 flex-1 flex-col">
+              <div className="flex w-full flex-col overflow-hidden md:items-end">
                 <Stars activeStar={game.rating ? game.rating - 1 : 0} />
               </div>
 
-              <div className="flex max-w-30 flex-[1_1_auto] flex-col gap-2 overflow-hidden">
+              <div className="flex w-full justify-between gap-2 overflow-hidden md:flex-col">
                 {game.completed ? (
                   <div className="text-muted-foreground flex min-w-px flex-col gap-1 overflow-hidden text-sm">
                     <div className="-ml-[3px] flex items-center gap-1">
