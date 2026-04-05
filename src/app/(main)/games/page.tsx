@@ -56,7 +56,7 @@ function Content() {
           <Search className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
         </div>
         <PlatformSelector
-          selectedId={query.platformId ?? undefined}
+          selectedId={query.platformId}
           onSelect={(value) =>
             setQuery({
               platformId: query.platformId === value ? null : value,
