@@ -1,19 +1,11 @@
 "use client";
 
 import { trpc } from "@/trpc/client";
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
 import { PageLayout } from "@/components/page-layout";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import {
-  formatDistance,
-  formatDistanceToNow,
-  formatDistanceToNowStrict,
-} from "date-fns";
 import { Stars } from "@/components/common";
 import { Search } from "lucide-react";
 import { PlatformSelector } from "@/components/platform-selector";
