@@ -45,7 +45,7 @@ function Content() {
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-4 lg:px-6">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center">
         <div className="relative flex-1">
           <Input
             className="h-10 pl-8"
@@ -62,7 +62,7 @@ function Content() {
               platformId: query.platformId === value ? null : value,
             })
           }
-          className="h-10"
+          className="h-10 w-full md:w-[200px]"
           placeholder="All platforms"
         />
       </div>
