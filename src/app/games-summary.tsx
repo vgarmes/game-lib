@@ -6,6 +6,12 @@ import { Game } from "@/types/trpc";
 import { Coins, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { Image as ImageIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   finishedGames: Game[];
@@ -29,7 +35,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
           {finishedGames.map((game) => (
             <div
               key={game.id}
-              className="bg-card/50 flex gap-4 overflow-hidden rounded-lg border p-4 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
+              className="bg-card flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:flex-row md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
             >
               <div className="flex flex-[1_1_auto] gap-4 overflow-hidden">
                 <div className="relative size-17 shrink-0 rounded">
@@ -55,22 +61,22 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
                   <div className="text-muted-foreground text-sm">
                     {game.platform?.name}
                   </div>
-                  <Stars activeStar={game.rating ? game.rating - 1 : 0} />
+                  <Stars activeStar={game.rating ? game.rating - 1 : null} />
                 </div>
               </div>
 
-              {game.completedDate && (
-                <div className="min-w-25 shrink-0">
-                  <div className="text-muted-foreground flex items-center gap-1 truncate text-sm">
-                    <span className="flex size-4 shrink-0 items-center justify-center">
-                      <span className="size-2 flex-none rounded-full bg-green-400" />
-                    </span>
-                    <span className="truncate font-mono">
-                      {game.completedDate.toLocaleDateString()}
-                    </span>
-                  </div>
+              <div className="flex flex-row-reverse items-center justify-between gap-2 md:flex-col md:items-start">
+                <Badge
+                  variant="outline"
+                  className="ml-auto cursor-default gap-1.5 pl-1.5 font-normal"
+                >
+                  <span className="size-2.5 flex-none rounded-full bg-green-400" />
+                  Completed
+                </Badge>
+                <div className="text-muted-foreground text-xs">
+                  Completed on {game.completedDate?.toLocaleDateString()}
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>
@@ -83,7 +89,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
           {addedGames.map((game) => (
             <div
               key={game.id}
-              className="bg-card/50 flex gap-4 overflow-hidden rounded-lg border p-4 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
+              className="bg-card flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:flex-row md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
             >
               <div className="flex flex-[1_1_auto] gap-4 overflow-hidden">
                 <div className="bg-muted relative size-17 shrink-0 rounded">
@@ -115,19 +121,20 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
                   <div className="text-muted-foreground text-sm">
                     {game.platform?.name}
                   </div>
+                  <Stars activeStar={game.rating ? game.rating - 1 : null} />
                 </div>
               </div>
 
-              <div className="flex min-w-25 shrink-0 flex-col justify-between gap-2">
-                <div className="flex items-center gap-2 truncate text-sm">
-                  <ShoppingBag className="text-muted-foreground size-4" />
-                  <span className="truncate font-mono">
+              <div className="flex min-w-25 shrink-0 gap-4 md:flex-col md:gap-2">
+                <div className="flex items-center gap-2 truncate">
+                  <ShoppingBag className="text-muted-foreground size-3" />
+                  <span className="truncate font-mono text-xs">
                     {game.buyDate?.toLocaleDateString() ?? "-"}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 truncate text-sm">
-                  <Coins className="text-muted-foreground size-4" />
-                  <span className="truncate font-mono">
+                  <Coins className="text-muted-foreground size-3" />
+                  <span className="truncate font-mono text-xs">
                     {game.buyPrice ? priceFormatter.format(game.buyPrice) : "-"}
                   </span>
                 </div>

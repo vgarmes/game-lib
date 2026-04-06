@@ -22,8 +22,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <NuqsAdapter>
             <TooltipProvider>
               <SidebarProvider>
-                <AppSidebar variant="inset" />
-                <SidebarInset className="border">{children}</SidebarInset>
+                <AppSidebar variant="sidebar" />
+                <SidebarInset>{children}</SidebarInset>
               </SidebarProvider>
             </TooltipProvider>
           </NuqsAdapter>
