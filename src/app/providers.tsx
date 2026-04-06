@@ -6,6 +6,8 @@ import { TRPCReactProvider } from "@/trpc/client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +20,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       >
         <TRPCReactProvider>
           <NuqsAdapter>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              <SidebarProvider>
+                <AppSidebar variant="inset" />
+                <SidebarInset className="border">{children}</SidebarInset>
+              </SidebarProvider>
+            </TooltipProvider>
           </NuqsAdapter>
           {process.env.NODE_ENV !== "production" && (
             <ReactQueryDevtools initialIsOpen={false} />

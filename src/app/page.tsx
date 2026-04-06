@@ -1,6 +1,10 @@
 import prisma from "@/server/prisma";
 import { GameCarousel } from "@/components/game-carousel";
 import { PageLayout } from "@/components/page-layout";
+import { Stars } from "@/components/stars";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import { GamesSummary } from "./games-summary";
 
 export default async function HomePage() {
   const [finishedGames, addedGames] = await prisma.$transaction([
@@ -29,18 +33,7 @@ export default async function HomePage() {
 
   return (
     <PageLayout breadcrumbs={undefined}>
-      <section>
-        <h2 className="px-4 pb-4 text-xl font-medium tracking-tight lg:px-6">
-          Recently completed
-        </h2>
-        <GameCarousel games={finishedGames} />
-      </section>
-      <section>
-        <h2 className="px-4 pb-4 text-xl font-medium tracking-tight lg:px-6">
-          Recently added
-        </h2>
-        <GameCarousel games={addedGames} />
-      </section>
+      <GamesSummary finishedGames={finishedGames} addedGames={addedGames} />
     </PageLayout>
   );
 }
