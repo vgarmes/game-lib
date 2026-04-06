@@ -3,11 +3,17 @@ import "@/styles/globals.css";
 import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { Analytics } from "@vercel/analytics/react";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { Toaster } from "sonner";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import {
+  GeistPixelSquare,
+  GeistPixelGrid,
+  GeistPixelCircle,
+  GeistPixelTriangle,
+  GeistPixelLine,
+} from "geist/font/pixel";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: siteConfig.name,
@@ -23,7 +29,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("font-sans", geist.variable)}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} ${GeistPixelCircle.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable}`}
     >
       <body className="bg-sidebar">
         <Providers>{children}</Providers>

@@ -34,16 +34,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="offcanvas" className="p-0" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
-              render={
-                <Link href="/">
-                  <Gamepad2 className="size-5!" />
-                  <span className="text-sm font-medium">My Game Library</span>
-                </Link>
-              }
-            />
+          <SidebarMenuItem className="flex items-center gap-2 p-2 font-(family-name:--font-geist-pixel-line) text-lg">
+            <Gamepad2 className="size-5!" />
+            <span className="font-(family-name:--font-geist-pixel-line) text-lg">
+              My Game Library
+            </span>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
