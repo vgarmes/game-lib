@@ -36,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2 p-2 font-(family-name:--font-geist-pixel-line) text-lg">
             <Gamepad2 className="size-5!" />
-            <span className="font-(family-name:--font-geist-pixel-line) text-lg">
+            <span className="font-(family-name:--font-geist-pixel-square) text-xl">
               My Game Library
             </span>
           </SidebarMenuItem>

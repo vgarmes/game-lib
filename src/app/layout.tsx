@@ -31,7 +31,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} ${GeistPixelCircle.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable}`}
     >
-      <body className="bg-sidebar">
+      <body className="bg-background">
         <Providers>{children}</Providers>
         <Toaster />
         <Analytics />

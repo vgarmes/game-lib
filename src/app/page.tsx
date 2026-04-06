@@ -1,9 +1,5 @@
 import prisma from "@/server/prisma";
-import { GameCarousel } from "@/components/game-carousel";
 import { PageLayout } from "@/components/page-layout";
-import { Stars } from "@/components/stars";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import { GamesSummary } from "./games-summary";
 
 export default async function HomePage() {
