@@ -63,13 +63,7 @@ export function LoginDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger
-        render={
-          <Button size="lg" className="w-full">
-            Log in
-          </Button>
-        }
-      />
+      <DialogTrigger render={<Button className="w-full">Log in</Button>} />
       <DialogContent
         className="sm:max-w-sm"
         render={<form onSubmit={form.handleSubmit(onSubmit)} />}
