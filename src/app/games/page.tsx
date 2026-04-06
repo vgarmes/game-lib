@@ -11,6 +11,7 @@ import { Search } from "lucide-react";
 import { PlatformSelector } from "@/components/platform-selector";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { Suspense } from "react";
+import { NewGame } from "@/components/new-game";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "long",
@@ -18,7 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 export default function GamesPage() {
   return (
-    <PageLayout breadcrumbs={undefined}>
+    <PageLayout breadcrumbs={undefined} actions={<NewGame />}>
       <Suspense>
         <Content />
       </Suspense>
