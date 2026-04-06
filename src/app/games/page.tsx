@@ -12,14 +12,16 @@ import { PlatformSelector } from "@/components/platform-selector";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { Suspense } from "react";
 import { NewGame } from "@/components/new-game";
+import { useIsAdmin } from "@/utils/hooks/use-is-admin";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "long",
 });
 
 export default function GamesPage() {
+  const isAdmin = useIsAdmin();
   return (
-    <PageLayout breadcrumbs={undefined} actions={<NewGame />}>
+    <PageLayout breadcrumbs={undefined} actions={isAdmin && <NewGame />}>
       <Suspense>
         <Content />
       </Suspense>
