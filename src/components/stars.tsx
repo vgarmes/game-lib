@@ -80,7 +80,7 @@ interface Props {
   value?: number | null;
 }
 
-const StarsInput = React.forwardRef<HTMLInputElement, Props>(
+export const StarsInput = React.forwardRef<HTMLInputElement, Props>(
   ({ onChange, value, ..._rest }, ref) => {
     const [hoveredStar, setHoveredStar] = useState<number | null>(null);
     const onClickHandler = (newRating: number) => {
@@ -114,5 +114,3 @@ const StarsInput = React.forwardRef<HTMLInputElement, Props>(
 );
 
 StarsInput.displayName = "StarsInput";
-
-export default StarsInput;

@@ -9,11 +9,9 @@ import {
   SheetTitle,
 } from "./ui/sheet";
 import Image from "next/image";
-import { Stars } from "./common";
+import { Stars } from "./stars";
 import { useIsAdmin } from "@/utils/hooks/use-is-admin";
-import { cn } from "@/lib/utils";
-import { Input } from "./ui/input";
-import { Editable, EditableInput, EditablePreview } from "./common/editable";
+import { Editable, EditableInput, EditablePreview } from "./editable";
 import { toast } from "sonner";
 import { trpc } from "@/trpc/client";
 import { ImageOff } from "lucide-react";

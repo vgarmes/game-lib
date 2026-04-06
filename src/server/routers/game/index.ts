@@ -85,7 +85,9 @@ export const gameRouter = router({
         skip: cursor * limit,
         take: limit + 1,
         include: {
-          cover: { select: { id: true, secureUrl: true } },
+          cover: {
+            select: { id: true, secureUrl: true, width: true, height: true },
+          },
           platform: { select: { id: true, name: true } },
         },
         orderBy: { title: "asc" },
@@ -96,37 +98,6 @@ export const gameRouter = router({
           title: input.searchText
             ? { contains: input.searchText, mode: "insensitive" }
             : undefined,
-        },
-      });
-      let nextPage: typeof input.cursor | undefined = undefined;
-      if (items.length > limit) {
-        items.pop();
-        nextPage = cursor + 1;
-      }
-      return { items, nextPage };
-    }),
-  search: publicProcedure
-    .input(
-      z.object({
-        cursor: z.number().nonnegative().nullish(),
-        limit: z.number().positive().nullish(),
-        query: z.string(),
-      }),
-    )
-    .query(async ({ input, ctx }) => {
-      const cursor = input.cursor ?? 0;
-      const limit = input.limit ? Math.min(input.limit, MAX_RESULTS) : 50;
-      const items = await ctx.prisma.game.findMany({
-        skip: cursor * limit,
-        take: limit + 1,
-        include: {
-          cover: {
-            select: { id: true, secureUrl: true, width: true, height: true },
-          },
-          platform: { select: { id: true, name: true } },
-        },
-        where: {
-          title: { contains: input.query, mode: "insensitive" },
         },
       });
       let nextPage: typeof input.cursor | undefined = undefined;

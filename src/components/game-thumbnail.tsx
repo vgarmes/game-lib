@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Stars } from "./common";
+import { Stars } from "./stars";
 import { Game } from "@/types/trpc";
 import { ImageOff, Shapes } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";

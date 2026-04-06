@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Stars } from "@/components/common";
+import { Stars } from "@/components/stars";
 import { Search } from "lucide-react";
 import { PlatformSelector } from "@/components/platform-selector";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
