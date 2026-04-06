@@ -53,7 +53,11 @@ export function PlatformSelector({
         onSelect(value?.value ?? null);
       }}
     >
-      <ComboboxInput className={className} placeholder={placeholder} />
+      <ComboboxInput
+        className={className}
+        placeholder={placeholder}
+        showClear={true}
+      />
       <ComboboxContent>
         <ComboboxEmpty>No platforms found.</ComboboxEmpty>
         <ComboboxList>

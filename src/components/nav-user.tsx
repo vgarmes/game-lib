@@ -20,15 +20,17 @@ import {
 } from "@/components/ui/sidebar";
 import { getInitials } from "@/utils/initials";
 import { MoreVertical, CircleUser, LogOut } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "./theme-switcher";
+import { Button } from "./ui/button";
+import { LoginDialog } from "./login-dialog";
 
 export function NavUser() {
   const { data: session, status } = useSession();
   const { isMobile } = useSidebar();
 
   if (status !== "authenticated" || !session) {
-    return null;
+    return <LoginDialog />;
   }
 
   const { user } = session;
@@ -102,7 +104,11 @@ export function NavUser() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
                   <LogOut />
                   Log out
                 </DropdownMenuItem>
