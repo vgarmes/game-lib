@@ -6,6 +6,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import { cn } from "@/lib/utils";
 
 import { trpc } from "@/trpc/client";
 
@@ -14,6 +15,7 @@ interface Props {
   selectedId: number | null;
   className?: string;
   placeholder?: string;
+  isInvalid?: boolean;
 }
 
 function select(
@@ -37,6 +39,7 @@ export function PlatformSelector({
   selectedId,
   className,
   placeholder = "Select a platform",
+  isInvalid,
 }: Props) {
   const { data: items = [] } = trpc.platform.all.useQuery(undefined, {
     staleTime: Infinity,
@@ -54,9 +57,10 @@ export function PlatformSelector({
       }}
     >
       <ComboboxInput
-        className={className}
+        className={cn("h-10", className)}
         placeholder={placeholder}
         showClear={true}
+        aria-invalid={isInvalid}
       />
       <ComboboxContent>
         <ComboboxEmpty>No platforms found.</ComboboxEmpty>

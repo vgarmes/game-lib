@@ -55,6 +55,18 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-spinner-fade: spinner-fade var(--animation-duration, 1000ms) linear
+    var(--animation-delay, 0ms) infinite;
+
+  @keyframes spinner-fade {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.15;
+    }
+  }
 }
 
 :root {
