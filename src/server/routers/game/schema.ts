@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const game = z.object({
   title: z.string().min(1),
@@ -12,7 +12,7 @@ const game = z.object({
   developerId: z.number().optional(),
   rating: z.number().optional(),
   comment: z.string().optional(),
-  platformId: z.number().optional(),
+  platformId: z.number({ error: "You need to select a platform" }),
   coverId: z.number().optional(),
 });
 

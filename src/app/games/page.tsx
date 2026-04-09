@@ -7,12 +7,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Stars } from "@/components/stars";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { PlatformSelector } from "@/components/platform-selector";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
-import { Suspense } from "react";
-import { NewGame } from "@/components/new-game";
+import { Suspense, useState } from "react";
 import { useIsAdmin } from "@/utils/hooks/use-is-admin";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "long",
@@ -21,7 +29,25 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 export default function GamesPage() {
   const isAdmin = useIsAdmin();
   return (
-    <PageLayout breadcrumbs={undefined} actions={isAdmin && <NewGame />}>
+    <PageLayout
+      breadcrumbs={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>New game</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      actions={
+        isAdmin && (
+          <Button render={<Link href="/games/new" />}>
+            <Plus />
+            New game
+          </Button>
+        )
+      }
+    >
       <Suspense>
         <Content />
       </Suspense>
@@ -65,7 +91,7 @@ function Content() {
               platformId: query.platformId === value ? null : value,
             })
           }
-          className="h-10 w-full md:w-[200px]"
+          className="w-full md:w-[200px]"
           placeholder="All platforms"
         />
       </div>
