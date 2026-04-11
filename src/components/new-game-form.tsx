@@ -1,7 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trpc } from "@/trpc/client";
@@ -25,6 +33,9 @@ import { Spinner } from "./ui/spinner";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Switch } from "./ui/switch";
+import { Collapsible, CollapsibleContent } from "./ui/collapsible";
+import { DatePicker } from "./ui/date-picker";
 
 const DEFAULT_VALUES = {
   title: "",
@@ -52,7 +63,7 @@ const schema = z.object({
   releaseDate: z.date().optional(),
   completedDate: z.date().optional(),
   buyDate: z.date().optional(),
-  buyPrice: z.number().optional(),
+  buyPrice: z.number().nonnegative().optional(),
   developerId: z.number().optional(),
   rating: z.number().optional(),
   comment: z.string().optional(),
@@ -248,9 +259,94 @@ export function NewGameForm() {
                 )}
               />
 
-              <div className="bg-card min-h-10 rounded-lg border p-2.5">
-                <h2 className="text-muted-foreground">Collection</h2>
-              </div>
+              <Controller
+                control={form.control}
+                name="inCollection"
+                render={({ field }) => (
+                  <div className="border-input flex flex-col rounded-sm border">
+                    <FieldLabel
+                      htmlFor="switch-in-collection"
+                      className="border-none"
+                    >
+                      <Field orientation="horizontal">
+                        <FieldContent>
+                          <FieldTitle>Owned</FieldTitle>
+                          <FieldDescription>
+                            This game is currently in my collection.
+                          </FieldDescription>
+                        </FieldContent>
+                        <Switch
+                          id="switch-in-collection"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </Field>
+                    </FieldLabel>
+                    <Collapsible open={field.value}>
+                      <CollapsibleContent className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
+                        <Controller
+                          control={form.control}
+                          name="buyDate"
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <Label htmlFor="buy-date">
+                                Buy date{" "}
+                                <span className="text-muted-foreground font-normal">
+                                  (optional)
+                                </span>
+                              </Label>
+                              <DatePicker
+                                id="buy-date"
+                                date={field.value}
+                                onDateChange={field.onChange}
+                              />
+                            </Field>
+                          )}
+                        />
+                        <Controller
+                          control={form.control}
+                          name="buyPrice"
+                          render={({ field, fieldState, formState }) => (
+                            <Field>
+                              <Label htmlFor="buy-price">
+                                Price{" "}
+                                <span className="text-muted-foreground font-normal">
+                                  (optional)
+                                </span>
+                              </Label>
+                              <div className="relative">
+                                <Input
+                                  id="buy-price"
+                                  type="number"
+                                  className="pr-14"
+                                  aria-invalid={fieldState.invalid}
+                                  value={field.value ?? ""}
+                                  onChange={(e) => {
+                                    const numberValue = Number(e.target.value);
+                                    field.onChange(
+                                      isNaN(numberValue) ||
+                                        e.target.value === ""
+                                        ? null
+                                        : numberValue,
+                                    );
+                                  }}
+                                />
+                                <div className="border-input text-muted-foreground absolute top-px right-px bottom-px flex w-12 items-center justify-center border-l">
+                                  EUR
+                                </div>
+                              </div>
+
+                              {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </div>
+                )}
+              />
             </FieldGroup>
             <Button
               type="submit"
