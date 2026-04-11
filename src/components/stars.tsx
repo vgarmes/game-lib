@@ -16,7 +16,7 @@ const Star: React.FC<StarProps> = ({ title, isActive, onClick, onHover }) => {
   const isInteractive = !!onClick;
   return (
     <div
-      className={cn("h-5 w-5 shrink-0 text-gray-300 dark:text-gray-500", {
+      className={cn("h-5 w-5 shrink-0 text-neutral-300 dark:text-neutral-500", {
         "text-yellow-400 dark:text-yellow-600": isActive,
         "cursor-pointer hover:scale-110": isInteractive,
       })}
@@ -104,7 +104,7 @@ export const StarsInput = React.forwardRef<HTMLInputElement, Props>(
           onMouseLeave={() => setHoveredStar(null)}
         />
         {ratingText && (
-          <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+          <p className="text-muted-foreground ml-2 text-sm font-medium">
             {ratingText}
           </p>
         )}

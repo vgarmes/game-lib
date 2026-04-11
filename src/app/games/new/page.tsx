@@ -19,7 +19,7 @@ export default function NewGame() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/games">All games</Link>} />
+                <BreadcrumbLink render={<Link href="/games">Games</Link>} />
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -31,7 +31,7 @@ export default function NewGame() {
       />
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 md:gap-6 lg:py-6">
+          <div className="flex flex-1 flex-col gap-4 md:gap-6 lg:py-6">
             <NewGameForm />
           </div>
         </div>
