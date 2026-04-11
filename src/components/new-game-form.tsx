@@ -160,7 +160,7 @@ export function NewGameForm() {
   }, [isSuccess]);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-1 justify-center lg:flex-none">
       <Card className="w-full rounded-none py-8 ring-0 lg:max-w-2xl lg:rounded-xl lg:ring-1">
         <CardHeader className="px-8">
           <CardTitle className="text-2xl">New Game</CardTitle>
@@ -208,6 +208,30 @@ export function NewGameForm() {
 
               <Controller
                 control={form.control}
+                name="edition"
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <Label htmlFor="edition">
+                      Edition{" "}
+                      <span className="text-muted-foreground font-normal">
+                        (optional)
+                      </span>
+                    </Label>
+                    <Input
+                      id="edition"
+                      placeholder="Deluxe Edition"
+                      aria-invalid={fieldState.invalid}
+                      {...field}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                control={form.control}
                 name="platformId"
                 render={({ field, fieldState }) => (
                   <Field>
@@ -223,6 +247,10 @@ export function NewGameForm() {
                   </Field>
                 )}
               />
+
+              <div className="bg-card min-h-10 rounded-lg border p-2.5">
+                <h2 className="text-muted-foreground">Collection</h2>
+              </div>
             </FieldGroup>
             <Button
               type="submit"
