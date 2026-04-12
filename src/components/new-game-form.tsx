@@ -347,6 +347,56 @@ export function NewGameForm() {
                   </div>
                 )}
               />
+
+              <Controller
+                control={form.control}
+                name="completed"
+                render={({ field }) => (
+                  <div className="border-input flex flex-col rounded-sm border">
+                    <FieldLabel
+                      htmlFor="switch-completed"
+                      className="border-none"
+                    >
+                      <Field orientation="horizontal">
+                        <FieldContent>
+                          <FieldTitle>Completed</FieldTitle>
+                          <FieldDescription>
+                            The game has been completed.
+                          </FieldDescription>
+                        </FieldContent>
+                        <Switch
+                          id="switch-completed"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </Field>
+                    </FieldLabel>
+                    <Collapsible open={field.value}>
+                      <CollapsibleContent className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
+                        <Controller
+                          control={form.control}
+                          name="completedDate"
+                          render={({ field }) => (
+                            <Field>
+                              <Label htmlFor="completed-date">
+                                Completion date{" "}
+                                <span className="text-muted-foreground font-normal">
+                                  (optional)
+                                </span>
+                              </Label>
+                              <DatePicker
+                                id="completed-date"
+                                date={field.value}
+                                onDateChange={field.onChange}
+                              />
+                            </Field>
+                          )}
+                        />
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </div>
+                )}
+              />
             </FieldGroup>
             <Button
               type="submit"
