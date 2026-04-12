@@ -20,7 +20,6 @@ interface Props {
 
 export function DatePicker({ id, date, onDateChange }: Props) {
   const isMobile = useIsMobile();
-
   const [open, setOpen] = useState(false);
 
   const trigger = (
@@ -33,13 +32,16 @@ export function DatePicker({ id, date, onDateChange }: Props) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger render={trigger} />
-        <DrawerContent>
+        <DrawerContent className="min-h-80">
           <Calendar
             mode="single"
             selected={date}
-            onSelect={onDateChange}
+            onSelect={(value) => {
+              onDateChange(value);
+              setOpen(false);
+            }}
             defaultMonth={date}
-            className="w-full bg-transparent"
+            className="w-full p-0"
           />
         </DrawerContent>
       </Drawer>
@@ -53,7 +55,10 @@ export function DatePicker({ id, date, onDateChange }: Props) {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={onDateChange}
+          onSelect={(value) => {
+            onDateChange(value);
+            setOpen(false);
+          }}
           defaultMonth={date}
         />
       </PopoverContent>

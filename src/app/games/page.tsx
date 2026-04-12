@@ -56,12 +56,6 @@ export default function GamesPage() {
   );
 }
 
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function RowSkeleton() {
   return (
     <div className="bg-card flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg">
@@ -72,15 +66,9 @@ function RowSkeleton() {
 
         <div className="flex flex-1 flex-col gap-4 overflow-hidden">
           <div className="flex min-w-0 items-center gap-2">
-            <Skeleton
-              className="h-3 w-full"
-              style={{ maxWidth: getRandomInt(100, 300) }}
-            />
+            <Skeleton className="h-3 w-full max-w-[200px]" />
           </div>
-          <Skeleton
-            className="h-3"
-            style={{ maxWidth: getRandomInt(50, 100) }}
-          />
+          <Skeleton className="h-3 w-full max-w-20" />
         </div>
       </div>
 

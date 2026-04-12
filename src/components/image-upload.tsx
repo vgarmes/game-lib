@@ -27,7 +27,7 @@ interface Props {
 const PreviewImage: React.FC<Props> = ({ src, isUploaded, onClick }) => {
   if (!src) {
     return (
-      <div className="bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-md border shadow-xs shadow-black/10">
+      <div className="bg-background-100 border-input relative flex size-20 items-center justify-center overflow-hidden rounded-md border shadow-xs shadow-black/10">
         <button
           type="button"
           className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
@@ -88,7 +88,7 @@ export function ImageField({
   };
 
   return (
-    <div className="flex flex-col items-center pt-5">
+    <div className="flex flex-col pt-5">
       <PreviewImage
         src={preview}
         isUploaded={false}
