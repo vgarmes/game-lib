@@ -1,7 +1,7 @@
 import { z } from "zod";
 import schema from "./schema";
 import { adminProcedure, publicProcedure, router } from "../../trpc";
-import { routes } from "@/constants";
+import { routes, GAME_STATUSES } from "@/constants";
 import { revalidatePath } from "next/cache";
 
 const MAX_RESULTS = 100;
@@ -76,6 +76,7 @@ export const gameRouter = router({
         limit: z.number().positive().nullish(),
         platformId: z.number().nullish(),
         searchText: z.string().nullish(),
+        status: z.array(z.enum(GAME_STATUSES)),
       }),
     )
     .query(async ({ input, ctx }) => {
@@ -98,6 +99,8 @@ export const gameRouter = router({
           title: input.searchText
             ? { contains: input.searchText, mode: "insensitive" }
             : undefined,
+          completed:
+            input.status.length === 1 ? status[0] === "completed" : undefined,
         },
       });
       let nextPage: typeof input.cursor | undefined = undefined;

@@ -9,7 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Stars } from "@/components/stars";
 import { Plus, Search } from "lucide-react";
 import { PlatformSelector } from "@/components/platform-selector";
-import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
+import {
+  parseAsArrayOf,
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from "nuqs";
 import { Suspense, useState } from "react";
 import { useIsAdmin } from "@/utils/hooks/use-is-admin";
 import {
@@ -22,6 +29,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { StatusSelector } from "@/components/status-selector";
+import { GAME_STATUSES } from "@/constants";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "long",
@@ -88,6 +97,7 @@ function Content() {
   const [query, setQuery] = useQueryStates({
     searchText: parseAsString.withDefault(""),
     platformId: parseAsInteger,
+    status: parseAsArrayOf(parseAsStringLiteral(GAME_STATUSES)).withDefault([]),
   });
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -122,6 +132,10 @@ function Content() {
           }
           className="w-full md:w-[200px]"
           placeholder="All platforms"
+        />
+        <StatusSelector
+          status={query.status.length === 0 ? [...GAME_STATUSES] : query.status}
+          onChange={(value) => setQuery({ status: value })}
         />
       </div>
       <div className="flex flex-col gap-2 md:gap-0">

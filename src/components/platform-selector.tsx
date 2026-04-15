@@ -72,7 +72,7 @@ export function PlatformSelector({
               <Button
                 variant="outline"
                 className={cn(
-                  "hover:bg-background-100 dark:hover:bg-background-100 w-full justify-between font-normal",
+                  "hover:bg-background-100 dark:hover:bg-background-100 w-full justify-between text-base font-normal md:text-sm",
                   {
                     "dark:text-muted-foreground text-muted-foreground":
                       !selectedItem,
@@ -88,7 +88,7 @@ export function PlatformSelector({
             <Button
               size="icon"
               variant="ghost"
-              className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
+              className="absolute top-1/2 right-1 -translate-y-1/2"
               onClick={() => {
                 onSelect(null);
               }}
@@ -121,7 +121,7 @@ export function PlatformSelector({
                   open={open}
                 >
                   <ComboboxPrimitive.Input
-                    className="bg-background-100 sticky top-0 z-10 h-12 w-full rounded-none border-0 border-b px-4 text-sm font-normal focus-visible:outline-none"
+                    className="bg-background-100 sticky top-0 z-10 h-12 w-full rounded-none border-0 border-b px-4 font-normal focus-visible:outline-none"
                     placeholder="Search..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -137,7 +137,7 @@ export function PlatformSelector({
                         <ComboboxItem
                           key={option.value}
                           value={option}
-                          className="min-h-9"
+                          className="text-md min-h-9"
                         >
                           {option.label}
                         </ComboboxItem>
