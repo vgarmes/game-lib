@@ -100,7 +100,9 @@ export const gameRouter = router({
             ? { contains: input.searchText, mode: "insensitive" }
             : undefined,
           completed:
-            input.status.length === 1 ? status[0] === "completed" : undefined,
+            input.status.length === 1
+              ? input.status[0] === "completed"
+              : undefined,
         },
       });
       let nextPage: typeof input.cursor | undefined = undefined;
