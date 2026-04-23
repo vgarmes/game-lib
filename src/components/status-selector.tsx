@@ -28,7 +28,7 @@ export function StatusSelector({ status, onChange }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="outline">
+          <Button variant="outline" className="gap-2 font-normal">
             <div className="w-5 shrink-0">
               <StatusDot
                 status="completed"
@@ -42,7 +42,7 @@ export function StatusSelector({ status, onChange }: Props) {
               />
             </div>
             Status
-            <Badge variant="secondary" className="tabular-nums">
+            <Badge variant="secondary" className="h-5 min-h-5 tabular-nums">
               {status.length} / {GAME_STATUSES.length}
             </Badge>
           </Button>
