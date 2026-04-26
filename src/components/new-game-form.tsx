@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { Switch } from "./ui/switch";
 import { Collapsible, CollapsibleContent } from "./ui/collapsible";
 import { DatePicker } from "./ui/date-picker";
+import { Textarea } from "./ui/textarea";
 
 const DEFAULT_VALUES = {
   title: "",
@@ -136,11 +137,18 @@ export function NewGameForm() {
   const form = useZodForm({
     schema,
     defaultValues: {
-      title: "",
-      platformId: undefined,
       cover: undefined,
-      completed: false,
+      title: "",
+      edition: "",
+      platformId: undefined,
       inCollection: true,
+      buyDate: undefined,
+      buyPrice: undefined,
+      completed: false,
+      completedDate: undefined,
+      releaseDate: undefined,
+      comment: "",
+      rating: undefined,
     },
   });
 
@@ -395,6 +403,42 @@ export function NewGameForm() {
                       </CollapsibleContent>
                     </Collapsible>
                   </div>
+                )}
+              />
+
+              <Controller
+                control={form.control}
+                name="releaseDate"
+                render={({ field }) => (
+                  <Field>
+                    <Label htmlFor="release-date">
+                      Release date{" "}
+                      <span className="text-muted-foreground font-normal">
+                        (optional)
+                      </span>
+                    </Label>
+                    <DatePicker
+                      id="release-date"
+                      date={field.value}
+                      onDateChange={field.onChange}
+                    />
+                  </Field>
+                )}
+              />
+
+              <Controller
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <Field>
+                    <Label htmlFor="comment">
+                      Comment{" "}
+                      <span className="text-muted-foreground font-normal">
+                        (optional)
+                      </span>
+                    </Label>
+                    <Textarea id="comment" {...field} />
+                  </Field>
                 )}
               />
             </FieldGroup>

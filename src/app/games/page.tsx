@@ -51,7 +51,7 @@ export default function GamesPage() {
       }
       actions={
         isAdmin && (
-          <Button render={<Link href="/games/new" />}>
+          <Button nativeButton={false} render={<Link href="/games/new" />}>
             <Plus />
             New game
           </Button>
