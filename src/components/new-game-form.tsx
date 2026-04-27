@@ -30,29 +30,14 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Spinner } from "./ui/spinner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Switch } from "./ui/switch";
 import { Collapsible, CollapsibleContent } from "./ui/collapsible";
 import { DatePicker } from "./ui/date-picker";
 import { Textarea } from "./ui/textarea";
-
-const DEFAULT_VALUES = {
-  title: "",
-  platformId: undefined,
-  cover: undefined,
-  inCollection: false,
-  completed: false,
-  edition: "",
-  releaseDate: undefined,
-  completedDate: undefined,
-  buyDate: undefined,
-  buyPrice: undefined,
-  developerId: undefined,
-  rating: undefined,
-  comment: "",
-};
+import { StarsInput } from "./stars";
 
 const schema = z.object({
   title: z.string().min(1),
@@ -65,7 +50,6 @@ const schema = z.object({
   completedDate: z.date().optional(),
   buyDate: z.date().optional(),
   buyPrice: z.number().nonnegative().optional(),
-  developerId: z.number().optional(),
   rating: z.number().optional(),
   comment: z.string().optional(),
 });
@@ -77,6 +61,7 @@ function useNewGameMutation() {
   const createGame = trpc.game.create.useMutation();
 
   return useMutation({
+    onError: () => toast.error("Failed to create game"),
     mutationFn: async (formValues: FormValues) => {
       let coverId: number | undefined = undefined;
 
@@ -176,7 +161,7 @@ export function NewGameForm() {
     return () => {
       clearTimeout(redirectTimeout);
     };
-  }, [isSuccess]);
+  }, [isSuccess, router]);
 
   return (
     <div className="flex flex-1 justify-center lg:flex-none">
@@ -184,15 +169,13 @@ export function NewGameForm() {
         <CardHeader className="px-8">
           <CardTitle className="text-2xl">New Game</CardTitle>
           <CardDescription className="sr-only">
-            Enter your the detail below to create a new game
+            Enter the details below to create a new game
           </CardDescription>
         </CardHeader>
 
         <CardContent className="px-8">
           <form
-            onSubmit={form.handleSubmit(onSubmit, (errors) =>
-              console.log(errors),
-            )}
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <FieldGroup>
               <Controller
@@ -203,6 +186,25 @@ export function NewGameForm() {
                     file={field.value}
                     onFileChange={field.onChange}
                   />
+                )}
+              />
+
+              <Controller
+                control={form.control}
+                name="rating"
+                render={({ field }) => (
+                  <Field>
+                    <Label>
+                      Rating{" "}
+                      <span className="text-muted-foreground font-normal">
+                        (optional)
+                      </span>
+                    </Label>
+                    <StarsInput
+                      value={field.value ?? null}
+                      onChange={field.onChange}
+                    />
+                  </Field>
                 )}
               />
 
@@ -254,10 +256,10 @@ export function NewGameForm() {
                 name="platformId"
                 render={({ field, fieldState }) => (
                   <Field>
-                    <Label htmlFor="title">Platform</Label>
+                    <Label htmlFor="platform">Platform</Label>
                     <PlatformSelector
                       selectedId={field.value}
-                      onSelect={(value) => field.onChange(value)}
+                      onSelect={field.onChange}
                       isInvalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
@@ -314,7 +316,7 @@ export function NewGameForm() {
                         <Controller
                           control={form.control}
                           name="buyPrice"
-                          render={({ field, fieldState, formState }) => (
+                          render={({ field, fieldState }) => (
                             <Field>
                               <Label htmlFor="buy-price">
                                 Price{" "}
@@ -448,7 +450,7 @@ export function NewGameForm() {
               className="mt-5 w-full"
             >
               {isPending && <Spinner />}
-              Save changes
+              Add game
             </Button>
           </form>
         </CardContent>
