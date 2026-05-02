@@ -18,7 +18,7 @@ import { ImageOff } from "lucide-react";
 
 interface Props {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
   game?: Game;
 }
 
@@ -42,7 +42,7 @@ const DEFAULT_VALUES = {
   coverId: undefined,
 };
 
-export function GameSheet({ open, onOpenChange, game }: Props) {
+export function GameSheet({ open, onClose, game }: Props) {
   const isAdmin = useIsAdmin();
 
   const { mutate, isPending } = trpc.game.update.useMutation({
@@ -56,7 +56,7 @@ export function GameSheet({ open, onOpenChange, game }: Props) {
     },
   });
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={(open) => !open && onClose()}>
       <SheetContent className="data-[side=right]:w-full">
         <SheetHeader className="h-12">
           <SheetTitle className="sr-only">{game?.title}</SheetTitle>
