@@ -23,7 +23,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
         </h2>
         <div className="flex flex-col gap-2 md:gap-0">
           {finishedGames.map((game) => (
-            <GameRow game={game} />
+            <GameRow key={game.id} game={game} />
           ))}
         </div>
       </section>
@@ -33,7 +33,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
         </h2>
         <div className="flex flex-col gap-2 md:gap-0">
           {addedGames.map((game) => (
-            <GameRow game={game} />
+            <GameRow key={game.id} game={game} />
           ))}
         </div>
       </section>

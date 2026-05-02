@@ -4,9 +4,18 @@ import { Stars } from "@/components/stars";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Game } from "@/types/trpc";
 
-export function GameRow({ game }: { game: Game }) {
+export function GameRow({
+  game,
+  onClick,
+}: {
+  game: Game;
+  onClick?: (gameId: number) => void;
+}) {
   return (
-    <div className="bg-background-100 flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg">
+    <div
+      onClick={() => onClick?.(game.id)}
+      className="bg-background-100 flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
+    >
       <div className="flex items-center gap-4 overflow-hidden">
         <div className="relative size-12 shrink-0 overflow-hidden rounded">
           <Image
