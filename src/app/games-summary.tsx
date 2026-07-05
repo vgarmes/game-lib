@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Game } from "@/types/trpc";
 import { GameRow } from "@/components/game-row";
-import { GameSheet } from "@/components/game-sheet";
+import { EditGameDrawer } from "@/components/edit-game-drawer";
+import { useIsAdmin } from "@/utils/hooks/use-is-admin";
 
 interface Props {
   finishedGames: Game[];
@@ -17,10 +18,11 @@ const priceFormatter = Intl.NumberFormat(undefined, {
 });
 
 export function GamesSummary({ finishedGames, addedGames }: Props) {
-  const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
+  const isAdmin = useIsAdmin();
+  const [editGameId, setEditGameId] = useState<number | null>(null);
 
-  const selectedGame = [...finishedGames, ...addedGames].find(
-    (game) => game.id === selectedGameId,
+  const editGame = [...finishedGames, ...addedGames].find(
+    (game) => game.id === editGameId,
   );
 
   return (
@@ -31,7 +33,11 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
         </h2>
         <div className="flex flex-col gap-2 md:gap-0">
           {finishedGames.map((game) => (
-            <GameRow key={game.id} game={game} onClick={setSelectedGameId} />
+            <GameRow
+              key={game.id}
+              game={game}
+              onEdit={isAdmin ? setEditGameId : undefined}
+            />
           ))}
         </div>
       </section>
@@ -41,14 +47,18 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
         </h2>
         <div className="flex flex-col gap-2 md:gap-0">
           {addedGames.map((game) => (
-            <GameRow key={game.id} game={game} onClick={setSelectedGameId} />
+            <GameRow
+              key={game.id}
+              game={game}
+              onEdit={isAdmin ? setEditGameId : undefined}
+            />
           ))}
         </div>
       </section>
-      <GameSheet
-        open={!!selectedGame}
-        game={selectedGame}
-        onClose={() => setSelectedGameId(null)}
+      <EditGameDrawer
+        open={!!editGame}
+        game={editGame}
+        onClose={() => setEditGameId(null)}
       />
     </div>
   );

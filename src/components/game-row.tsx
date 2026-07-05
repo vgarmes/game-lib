@@ -2,19 +2,26 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Stars } from "@/components/stars";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { Game } from "@/types/trpc";
+import { Pencil } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function GameRow({
   game,
-  onClick,
+  onEdit,
 }: {
   game: Game;
-  onClick?: (gameId: number) => void;
+  /** When provided (admin only), renders an edit button for the row. */
+  onEdit?: (gameId: number) => void;
 }) {
   return (
     <div
-      onClick={() => onClick?.(game.id)}
-      className="bg-background-100 flex cursor-pointer flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg"
+      className={cn(
+        "bg-background-100 relative flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg",
+        onEdit &&
+          "pr-14 md:grid-cols-[3fr_1fr_minmax(0,100px)_auto] md:pr-4",
+      )}
     >
       <div className="flex items-center gap-4 overflow-hidden">
         <div className="relative size-12 shrink-0 overflow-hidden rounded">
@@ -69,6 +76,19 @@ export function GameRow({
           </span>
         )}
       </div>
+
+      {onEdit && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          aria-label={`Edit ${game.title}`}
+          onClick={() => onEdit(game.id)}
+          className="absolute top-3 right-3 md:static md:self-center md:justify-self-end"
+        >
+          <Pencil className="size-4" />
+        </Button>
+      )}
     </div>
   );
 }

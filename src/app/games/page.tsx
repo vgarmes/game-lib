@@ -28,7 +28,7 @@ import {
 import Link from "next/link";
 import { StatusSelector } from "@/components/status-selector";
 import { GAME_STATUSES } from "@/constants";
-import { GameSheet } from "@/components/game-sheet";
+import { EditGameDrawer } from "@/components/edit-game-drawer";
 
 export default function GamesPage() {
   const isAdmin = useIsAdmin();
@@ -60,7 +60,8 @@ export default function GamesPage() {
 }
 
 function Content() {
-  const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
+  const isAdmin = useIsAdmin();
+  const [editGameId, setEditGameId] = useState<number | null>(null);
   const [query, setQuery] = useQueryStates({
     searchText: parseAsString.withDefault(""),
     platformId: parseAsInteger,
@@ -78,7 +79,7 @@ function Content() {
 
   const flatData = data?.pages.flatMap((page) => page.items) ?? [];
 
-  const selectedGame = flatData.find((game) => game.id === selectedGameId);
+  const editGame = flatData.find((game) => game.id === editGameId);
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-4 lg:px-6">
@@ -113,7 +114,11 @@ function Content() {
               <GameRowSkeleton key={index} />
             ))
           : flatData.map((game) => (
-              <GameRow key={game.id} game={game} onClick={setSelectedGameId} />
+              <GameRow
+                key={game.id}
+                game={game}
+                onEdit={isAdmin ? setEditGameId : undefined}
+              />
             ))}
       </div>
       {hasNextPage && (
@@ -128,10 +133,10 @@ function Content() {
           Load More
         </Button>
       )}
-      <GameSheet
-        open={!!selectedGame}
-        game={selectedGame}
-        onClose={() => setSelectedGameId(null)}
+      <EditGameDrawer
+        open={!!editGame}
+        game={editGame}
+        onClose={() => setEditGameId(null)}
       />
     </div>
   );
