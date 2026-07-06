@@ -1,16 +1,16 @@
 import { z } from 'zod';
 import schema from './schema';
-import { adminProcedure, publicProcedure, router } from '../../trpc';
+import { protectedProcedure, publicProcedure, router } from '../../trpc';
 import { revalidatePath } from 'next/cache';
 import { routes } from '@/constants';
 
 export const platformRouter = router({
-  create: adminProcedure.input(schema).mutation(async ({ input, ctx }) => {
+  create: protectedProcedure.input(schema).mutation(async ({ input, ctx }) => {
     const result = await ctx.prisma.platform.create({ data: input });
     revalidatePath(routes['Platforms']);
     return result;
   }),
-  update: adminProcedure
+  update: protectedProcedure
     .input(schema.partial().extend({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const { id, ...rest } = input;

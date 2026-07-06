@@ -21,12 +21,12 @@ export const middleware = t.middleware;
 export const publicProcedure = t.procedure;
 export const createCallerFactory = t.createCallerFactory;
 
-const isAdmin = middleware(async ({ ctx, next }) => {
-  if (!ctx.session || ctx.session.user.role !== 'ADMIN') {
+const isAuthed = middleware(async ({ ctx, next }) => {
+  if (!ctx.isAuthed) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  return next({ ctx: { ...ctx, session: ctx.session } });
+  return next({ ctx });
 });
 
-export const adminProcedure = publicProcedure.use(isAdmin);
+export const protectedProcedure = publicProcedure.use(isAuthed);

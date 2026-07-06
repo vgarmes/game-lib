@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Game } from "@/types/trpc";
 import { GameRow } from "@/components/game-row";
 import { EditGameDrawer } from "@/components/edit-game-drawer";
-import { useIsAdmin } from "@/utils/hooks/use-is-admin";
+import { useIsAuthed } from "@/utils/hooks/use-is-authed";
 
 interface Props {
   finishedGames: Game[];
@@ -18,7 +18,7 @@ const priceFormatter = Intl.NumberFormat(undefined, {
 });
 
 export function GamesSummary({ finishedGames, addedGames }: Props) {
-  const isAdmin = useIsAdmin();
+  const isAuthed = useIsAuthed();
   const [editGameId, setEditGameId] = useState<number | null>(null);
 
   const editGame = [...finishedGames, ...addedGames].find(
@@ -36,7 +36,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
             <GameRow
               key={game.id}
               game={game}
-              onEdit={isAdmin ? setEditGameId : undefined}
+              onEdit={isAuthed ? setEditGameId : undefined}
             />
           ))}
         </div>
@@ -50,7 +50,7 @@ export function GamesSummary({ finishedGames, addedGames }: Props) {
             <GameRow
               key={game.id}
               game={game}
-              onEdit={isAdmin ? setEditGameId : undefined}
+              onEdit={isAuthed ? setEditGameId : undefined}
             />
           ))}
         </div>

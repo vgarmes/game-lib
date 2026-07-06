@@ -16,7 +16,7 @@ import {
   useQueryStates,
 } from "nuqs";
 import { Suspense, useState } from "react";
-import { useIsAdmin } from "@/utils/hooks/use-is-admin";
+import { useIsAuthed } from "@/utils/hooks/use-is-authed";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,7 +31,7 @@ import { GAME_STATUSES } from "@/constants";
 import { EditGameDrawer } from "@/components/edit-game-drawer";
 
 export default function GamesPage() {
-  const isAdmin = useIsAdmin();
+  const isAuthed = useIsAuthed();
   return (
     <PageLayout
       breadcrumbs={
@@ -44,7 +44,7 @@ export default function GamesPage() {
         </Breadcrumb>
       }
       actions={
-        isAdmin && (
+        isAuthed && (
           <Button nativeButton={false} render={<Link href="/games/new" />}>
             <Plus />
             New game
@@ -60,7 +60,7 @@ export default function GamesPage() {
 }
 
 function Content() {
-  const isAdmin = useIsAdmin();
+  const isAuthed = useIsAuthed();
   const [editGameId, setEditGameId] = useState<number | null>(null);
   const [query, setQuery] = useQueryStates({
     searchText: parseAsString.withDefault(""),
@@ -117,7 +117,7 @@ function Content() {
               <GameRow
                 key={game.id}
                 game={game}
-                onEdit={isAdmin ? setEditGameId : undefined}
+                onEdit={isAuthed ? setEditGameId : undefined}
               />
             ))}
       </div>

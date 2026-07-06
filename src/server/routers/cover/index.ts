@@ -1,8 +1,8 @@
-import { adminProcedure, router } from '../../trpc';
+import { protectedProcedure, router } from '../../trpc';
 import { z } from 'zod';
 
 export const coverRouter = router({
-  create: adminProcedure
+  create: protectedProcedure
     .input(
       z.object({
         publicId: z.string(),
@@ -21,7 +21,7 @@ export const coverRouter = router({
         data: input,
       })
     ),
-  delete: adminProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.number(),

@@ -16,25 +16,25 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { trpc } from "@/trpc/client";
 import { useZodForm } from "@/utils/hooks/useZodForm";
-import { signIn } from "next-auth/react";
 import { useId, useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 const schema = z.object({
-  email: z.email("Not a valid email"),
-  password: z.string(),
+  password: z.string().min(1, "Password is required"),
 });
 
 export function LoginDialog() {
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const id = useId();
+  const utils = trpc.useUtils();
   const form = useZodForm({
     schema,
     defaultValues: {
-      email: "",
       password: "",
     },
   });
@@ -43,15 +43,21 @@ export function LoginDialog() {
     setIsLoading(true);
 
     try {
-      const response = await signIn<"credentials">("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: data.password }),
       });
 
-      if (!response?.ok) {
-        throw new Error(response?.error ?? "Login failed");
+      if (!response.ok) {
+        throw new Error(
+          response.status === 401 ? "Invalid password" : "Login failed",
+        );
       }
+
+      await utils.auth.me.invalidate();
+      form.reset();
+      setOpen(false);
     } catch (error) {
       toast.error("An error occurred while trying to log in", {
         description: error instanceof Error ? error.message : undefined,
@@ -62,7 +68,7 @@ export function LoginDialog() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button className="w-full">Log in</Button>} />
       <DialogContent
         className="sm:max-w-sm"
@@ -71,28 +77,10 @@ export function LoginDialog() {
         <DialogHeader>
           <DialogTitle>Log in</DialogTitle>
           <DialogDescription>
-            Enter your credentials to access your account.
+            Enter your password to enable editing.
           </DialogDescription>
         </DialogHeader>
         <FieldGroup>
-          <Controller
-            name="email"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={`email-${id}`}>Email</FieldLabel>
-                <Input
-                  {...field}
-                  id={`email-${id}`}
-                  aria-invalid={fieldState.invalid}
-                  placeholder="Email"
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
           <Controller
             name="password"
             control={form.control}
@@ -115,8 +103,10 @@ export function LoginDialog() {
         </FieldGroup>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit">Log in</Button>
-        </DialogFooter>{" "}
+          <Button type="submit" disabled={isLoading}>
+            Log in
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

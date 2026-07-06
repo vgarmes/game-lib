@@ -1,6 +1,6 @@
 import { z } from "zod";
 import schema from "./schema";
-import { adminProcedure, publicProcedure, router } from "../../trpc";
+import { protectedProcedure, publicProcedure, router } from "../../trpc";
 import { routes, GAME_STATUSES } from "@/constants";
 import { revalidatePath } from "next/cache";
 
@@ -12,7 +12,7 @@ const revalidateStaticPages = () => {
 };
 
 export const gameRouter = router({
-  create: adminProcedure.input(schema).mutation(async ({ input, ctx }) => {
+  create: protectedProcedure.input(schema).mutation(async ({ input, ctx }) => {
     const { coverId, ...rest } = input;
     await ctx.prisma.game.create({
       data: {
@@ -23,7 +23,7 @@ export const gameRouter = router({
     revalidateStaticPages();
     return { success: true };
   }),
-  update: adminProcedure
+  update: protectedProcedure
     .input(schema.partial().extend({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const { id, coverId, ...rest } = input;

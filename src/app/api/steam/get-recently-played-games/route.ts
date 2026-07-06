@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from '@/server/common/get-server-session';
+import { cookies } from 'next/headers';
+import { SESSION_COOKIE, verifySessionToken } from '@/server/session';
 
 export async function GET() {
-  const session = await getServerSession();
-  if (!session) {
+  const cookieStore = await cookies();
+  if (!verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value)) {
     return new NextResponse('Not authorized', { status: 401 });
   }
 

@@ -1,12 +1,10 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -18,22 +16,26 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getInitials } from "@/utils/initials";
+import { trpc } from "@/trpc/client";
 import { MoreVertical, CircleUser, LogOut } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "./theme-switcher";
-import { Button } from "./ui/button";
 import { LoginDialog } from "./login-dialog";
 
 export function NavUser() {
-  const { data: session, status } = useSession();
+  const { data } = trpc.auth.me.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000,
+  });
+  const utils = trpc.useUtils();
   const { isMobile } = useSidebar();
 
-  if (status !== "authenticated" || !session) {
+  const logout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    await utils.auth.me.invalidate();
+  };
+
+  if (!data?.isAuthed) {
     return <LoginDialog />;
   }
-
-  const { user } = session;
 
   return (
     <SidebarGroup className="p-0">
@@ -47,18 +49,9 @@ export function NavUser() {
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
-                    <Avatar className="grayscale">
-                      <AvatarFallback>
-                        {getInitials(user.username)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <CircleUser className="size-5" />
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">
-                        {user.username}
-                      </span>
-                      <span className="text-muted-foreground truncate">
-                        {user.email}
-                      </span>
+                      <span className="truncate font-medium">Account</span>
                     </div>
                     <MoreVertical className="ml-auto size-4" />
                   </SidebarMenuButton>
@@ -71,30 +64,6 @@ export function NavUser() {
                 sideOffset={4}
               >
                 <DropdownMenuGroup>
-                  <DropdownMenuLabel className="p-0 font-normal">
-                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                      <Avatar>
-                        <AvatarFallback>
-                          {getInitials(user.username)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="text-foreground truncate font-medium">
-                          {user.username}
-                        </span>
-                        <span className="text-muted-foreground truncate">
-                          {user.email}
-                        </span>
-                      </div>
-                    </div>
-                  </DropdownMenuLabel>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className="min-h-9 justify-between">
-                    Account
-                    <CircleUser className="text-muted-foreground" />
-                  </DropdownMenuItem>
                   <DropdownMenuItem
                     closeOnClick={false}
                     className="min-h-9 justify-between"
@@ -104,11 +73,7 @@ export function NavUser() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
+                <DropdownMenuItem onClick={logout}>
                   <LogOut />
                   Log out
                 </DropdownMenuItem>
