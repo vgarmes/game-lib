@@ -49,7 +49,7 @@ export function GameRow({
       </div>
 
       <div className="flex w-full flex-col overflow-hidden md:items-end">
-        <Stars activeStar={game.rating ? game.rating - 1 : 0} />
+        <Stars activeStar={game.rating ? game.rating - 1 : null} />
       </div>
 
       <div className="flex w-full justify-between gap-2 overflow-hidden md:flex-col">
