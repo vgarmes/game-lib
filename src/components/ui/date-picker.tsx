@@ -16,9 +16,19 @@ interface Props {
   id?: string;
   date: Date | undefined;
   onDateChange: (value: Date | undefined) => void;
+  /**
+   * Render as a popover even on mobile. Use when the picker lives inside
+   * another overlay (e.g. a Sheet), where a nested drawer stacks incorrectly.
+   */
+  disableMobileDrawer?: boolean;
 }
 
-export function DatePicker({ id, date, onDateChange }: Props) {
+export function DatePicker({
+  id,
+  date,
+  onDateChange,
+  disableMobileDrawer,
+}: Props) {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
 
@@ -28,7 +38,7 @@ export function DatePicker({ id, date, onDateChange }: Props) {
     </Button>
   );
 
-  if (isMobile) {
+  if (isMobile && !disableMobileDrawer) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger render={trigger} />

@@ -25,8 +25,8 @@ interface Props {
 export function EditGameDrawer({ open, onClose, game }: Props) {
   return (
     <Sheet open={open} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent className="data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
-        <SheetHeader>
+      <SheetContent className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
+        <SheetHeader className="border-b">
           <SheetTitle>Edit game</SheetTitle>
           <SheetDescription>
             Update the details for {game?.title ?? "this game"}.
@@ -114,6 +114,7 @@ function EditGameFormContent({
       isPending={isPending}
       defaultImageSrc={game.cover?.secureUrl}
       submitLabel="Save changes"
+      disableMobileDatePicker
     />
   );
 }
