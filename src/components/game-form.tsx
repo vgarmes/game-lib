@@ -49,11 +49,6 @@ interface Props {
   submitLabel: string;
   /** Existing cover url shown as a preview when editing. */
   defaultImageSrc?: string;
-  /**
-   * Render date pickers as popovers even on mobile. Set when the form lives
-   * inside a Sheet, where a nested drawer would stack behind it.
-   */
-  disableMobileDatePicker?: boolean;
 }
 
 export function GameForm({
@@ -63,7 +58,6 @@ export function GameForm({
   isSuccess,
   submitLabel,
   defaultImageSrc,
-  disableMobileDatePicker,
 }: Props) {
   const handleSubmit = form.handleSubmit((values) => {
     const { completedDate, buyDate, releaseDate } = values;
@@ -205,7 +199,6 @@ export function GameForm({
                           id="buy-date"
                           date={field.value}
                           onDateChange={field.onChange}
-                          disableMobileDrawer={disableMobileDatePicker}
                         />
                       </Field>
                     )}
@@ -291,7 +284,6 @@ export function GameForm({
                           id="completed-date"
                           date={field.value}
                           onDateChange={field.onChange}
-                          disableMobileDrawer={disableMobileDatePicker}
                         />
                       </Field>
                     )}
@@ -317,7 +309,6 @@ export function GameForm({
                 id="release-date"
                 date={field.value}
                 onDateChange={field.onChange}
-                disableMobileDrawer={disableMobileDatePicker}
               />
             </Field>
           )}

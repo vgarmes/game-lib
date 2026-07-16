@@ -114,7 +114,6 @@ function EditGameFormContent({
       isPending={isPending}
       defaultImageSrc={game.cover?.secureUrl}
       submitLabel="Save changes"
-      disableMobileDatePicker
     />
   );
 }
