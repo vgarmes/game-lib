@@ -5,7 +5,15 @@ import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GameRow, GameRowSkeleton } from "@/components/game-row";
-import { Plus, Search } from "lucide-react";
+import { ChevronDown, Plus, Search } from "lucide-react";
+import { ButtonGroup } from "@/components/ui/button-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { PlatformSelector } from "@/components/platform-selector";
 import {
   parseAsArrayOf,
@@ -45,10 +53,33 @@ export default function GamesPage() {
       }
       actions={
         isAuthed && (
-          <Button nativeButton={false} render={<Link href="/games/new" />}>
-            <Plus />
-            New game
-          </Button>
+          <ButtonGroup>
+            <Button nativeButton={false} render={<Link href="/games/new" />}>
+              <Plus />
+              New game
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    size="icon"
+                    className="size-10"
+                    aria-label="More options"
+                  >
+                    <ChevronDown />
+                  </Button>
+                }
+              />
+              <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem render={<Link href="/platforms/new" />}>
+                    <Plus />
+                    New platform
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </ButtonGroup>
         )
       }
     >
