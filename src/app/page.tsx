@@ -1,6 +1,7 @@
 import prisma from "@/server/prisma";
 import { PageLayout } from "@/components/page-layout";
 import { GamesSummary } from "./games-summary";
+import { AddGameButton } from "@/components/add-game-button";
 
 export default async function HomePage() {
   const [finishedGames, addedGames] = await prisma.$transaction([
@@ -28,7 +29,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <PageLayout breadcrumbs={undefined}>
+    <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
       <GamesSummary finishedGames={finishedGames} addedGames={addedGames} />
     </PageLayout>
   );

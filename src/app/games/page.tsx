@@ -5,19 +5,11 @@ import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GameRow, GameRowSkeleton } from "@/components/game-row";
-import { ChevronDown, Plus, Search } from "lucide-react";
-import { ButtonGroup } from "@/components/ui/button-group";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Search } from "lucide-react";
+import { AddGameButton } from "@/components/add-game-button";
 import { PlatformSelector } from "@/components/platform-selector";
 import {
   parseAsArrayOf,
-  parseAsBoolean,
   parseAsInteger,
   parseAsString,
   parseAsStringLiteral,
@@ -28,18 +20,14 @@ import { useIsAuthed } from "@/utils/hooks/use-is-authed";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
 import { StatusSelector } from "@/components/status-selector";
 import { GAME_STATUSES } from "@/constants";
 import { EditGameDrawer } from "@/components/edit-game-drawer";
 
 export default function GamesPage() {
-  const isAuthed = useIsAuthed();
   return (
     <PageLayout
       breadcrumbs={
@@ -51,37 +39,7 @@ export default function GamesPage() {
           </BreadcrumbList>
         </Breadcrumb>
       }
-      actions={
-        isAuthed && (
-          <ButtonGroup>
-            <Button nativeButton={false} render={<Link href="/games/new" />}>
-              <Plus />
-              New game
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button
-                    size="icon"
-                    className="size-10"
-                    aria-label="More options"
-                  >
-                    <ChevronDown />
-                  </Button>
-                }
-              />
-              <DropdownMenuContent align="end" className="w-40">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem render={<Link href="/platforms/new" />}>
-                    <Plus />
-                    New platform
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </ButtonGroup>
-        )
-      }
+      actions={<AddGameButton />}
     >
       <Suspense>
         <Content />
