@@ -18,7 +18,7 @@ export default async function HomePage() {
         platform: { select: { id: true, name: true } },
       },
       orderBy: { completedDate: "desc" },
-      take: 10,
+      take: 20,
     }),
     prisma.game.findMany({
       include: {
