@@ -2,9 +2,11 @@ import prisma from "@/server/prisma";
 import { PageLayout } from "@/components/page-layout";
 import { GamesSummary } from "./games-summary";
 import { AddGameButton } from "@/components/add-game-button";
+import { SnippetGrid } from "@/components/snippets/snippet-grid";
+import { RecentlyBoughtCard } from "@/components/snippets/recently-bought-card";
 
 export default async function HomePage() {
-  const [finishedGames, addedGames] = await prisma.$transaction([
+  const [finishedGames, addedGames, boughtGames] = await prisma.$transaction([
     prisma.game.findMany({
       where: { completed: true },
       include: {
@@ -26,10 +28,25 @@ export default async function HomePage() {
       orderBy: { createdAt: "desc" },
       take: 10,
     }),
+    prisma.game.findMany({
+      where: { buyDate: { not: null }, cover: { isNot: null } },
+      select: {
+        id: true,
+        title: true,
+        buyDate: true,
+        cover: { select: { secureUrl: true, width: true, height: true } },
+        platform: { select: { name: true } },
+      },
+      orderBy: [{ buyDate: "desc" }, { createdAt: "desc" }],
+      take: 6,
+    }),
   ]);
 
   return (
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
+      <SnippetGrid className="px-4 lg:px-6">
+        <RecentlyBoughtCard games={boughtGames} />
+      </SnippetGrid>
       <GamesSummary finishedGames={finishedGames} addedGames={addedGames} />
     </PageLayout>
   );
