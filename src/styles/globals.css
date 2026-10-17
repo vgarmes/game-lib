@@ -165,3 +165,17 @@
     display: none;
   }
 }
+
+/* Home snippet layout. Place a card in a cell with `[grid-area:<name>]`. */
+@utility home-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "bought"
+    "completed";
+
+  /* Same breakpoint as @5xl/main (64rem) on the PageLayout container. */
+  @container main (min-width: 64rem) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-areas: "bought completed";
+  }
+}

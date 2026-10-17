@@ -43,7 +43,7 @@ export default async function HomePage() {
 
   return (
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
-      <SnippetGrid className="grid-cols-1 px-4 [grid-template-areas:'bought'_'completed'] lg:px-6 @5xl/main:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] @5xl/main:[grid-template-areas:'bought_completed']">
+      <SnippetGrid className="home-grid px-4 lg:px-6">
         <div className="[grid-area:bought]">
           <RecentlyBoughtCard games={boughtGames} />
         </div>
