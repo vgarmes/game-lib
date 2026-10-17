@@ -5,14 +5,16 @@ import { Game } from "@/types/trpc";
 import { GameRow } from "@/components/game-row";
 import { EditGameDrawer } from "@/components/edit-game-drawer";
 import { useIsAuthed } from "@/utils/hooks/use-is-authed";
+import { cn } from "@/lib/utils";
 
 interface Props {
   games: Game[];
+  className?: string;
   rowClassName?: string;
 }
 
 // List of game rows with an edit drawer for authed users.
-export function EditableGameList({ games, rowClassName }: Props) {
+export function EditableGameList({ games, className, rowClassName }: Props) {
   const isAuthed = useIsAuthed();
   const [editGameId, setEditGameId] = useState<number | null>(null);
 
@@ -20,7 +22,7 @@ export function EditableGameList({ games, rowClassName }: Props) {
 
   return (
     <>
-      <div className="flex flex-col gap-2 md:gap-0">
+      <div className={cn("flex flex-col gap-2 md:gap-0", className)}>
         {games.map((game) => (
           <GameRow
             key={game.id}

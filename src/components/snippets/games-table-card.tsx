@@ -17,11 +17,12 @@ export function GamesTableCard({ title, games, fitRow = false }: Props) {
       {/* With fitRow, once the grid has columns (@3xl/main, see home-grid) the
           list is taken out of flow, so the card never grows taller than its row. */}
       <div className="relative min-h-0 flex-1">
-        {/* The frame carries the table outline, so rows drop their own. Its
+        {/* The frame carries the table outline at every size, so rows drop
+            their own (no separate row cards on small screens). Its
             background matches the rows so the fades below blend into it. */}
         <div
           className={cn(
-            "md:bg-background-100 md:overflow-hidden md:rounded-lg md:border",
+            "bg-background-100 overflow-hidden rounded-lg border",
             fitRow && "@3xl/main:absolute @3xl/main:inset-0",
           )}
         >
@@ -35,7 +36,8 @@ export function GamesTableCard({ title, games, fitRow = false }: Props) {
           >
             <EditableGameList
               games={games}
-              rowClassName="md:rounded-none md:border-x-0 md:first:rounded-none md:first:border-t-0 md:last:rounded-none md:last:border-b-0"
+              className="gap-0"
+              rowClassName="rounded-none border-x-0 not-last:border-b-0 first:border-t-0 last:border-b-0 md:first:rounded-none md:last:rounded-none"
             />
           </div>
         </div>
