@@ -6,14 +6,21 @@ import { SnippetCard } from "./snippet-card";
 interface Props {
   title: string;
   games: Game[];
+  /** Rendered on the right of the card header, e.g. a "view all" link. */
+  action?: React.ReactNode;
   /** Match the height of the grid row (set by sibling cards) and scroll the
    *  rows inside, instead of growing to fit them. */
   fitRow?: boolean;
 }
 
-export function GamesTableCard({ title, games, fitRow = false }: Props) {
+export function GamesTableCard({
+  title,
+  games,
+  action,
+  fitRow = false,
+}: Props) {
   return (
-    <SnippetCard title={title}>
+    <SnippetCard title={title} action={action}>
       {/* With fitRow, once the grid has columns (@3xl/main, see home-grid) the
           list is taken out of flow, so the card never grows taller than its row. */}
       <div className="relative min-h-0 flex-1">

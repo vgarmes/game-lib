@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import prisma from "@/server/prisma";
 import { PageLayout } from "@/components/page-layout";
 import { AddGameButton } from "@/components/add-game-button";
@@ -51,8 +53,17 @@ export default async function HomePage() {
         </div>
         <div className="[grid-area:completed]">
           <GamesTableCard
-            title="Recently completed"
+            title="Completion log"
             games={finishedGames}
+            action={
+              <Link
+                href="/games?status=completed"
+                aria-label="View all completed games"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ArrowRight className="size-4" />
+              </Link>
+            }
             fitRow
           />
         </div>
