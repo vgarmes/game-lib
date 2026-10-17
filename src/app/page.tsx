@@ -33,9 +33,7 @@ export default async function HomePage() {
       select: {
         id: true,
         title: true,
-        buyDate: true,
         cover: { select: { secureUrl: true, width: true, height: true } },
-        platform: { select: { name: true } },
       },
       orderBy: [{ buyDate: "desc" }, { createdAt: "desc" }],
       take: 6,

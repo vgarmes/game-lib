@@ -10,22 +10,12 @@ const SLIDE_DURATION_MS = 5000;
 export interface RecentlyBoughtGame {
   id: number;
   title: string;
-  buyDate: Date | null;
-  platform: { name: string } | null;
   cover: { secureUrl: string; width: number; height: number } | null;
 }
 
 interface Props {
   games: RecentlyBoughtGame[];
 }
-
-const dateFormatter = new Intl.DateTimeFormat(undefined, {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-  // buyDate is a plain DB date stored as UTC midnight
-  timeZone: "UTC",
-});
 
 // Camera-roll style carousel of the most recently bought games.
 export function RecentlyBoughtCard({ games }: Props) {
@@ -134,19 +124,6 @@ export function RecentlyBoughtCard({ games }: Props) {
                 className="object-cover object-center"
               />
             )}
-            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent p-4 pt-12 text-white">
-              <p className="line-clamp-2 font-medium tracking-tight">
-                {game.title}
-              </p>
-              <p className="text-xs text-white/70">
-                {[
-                  game.platform?.name,
-                  game.buyDate && dateFormatter.format(game.buyDate),
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </p>
-            </div>
           </div>
         ))}
       </div>
