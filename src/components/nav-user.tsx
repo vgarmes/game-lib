@@ -3,9 +3,7 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -18,7 +16,6 @@ import {
 } from "@/components/ui/sidebar";
 import { trpc } from "@/trpc/client";
 import { MoreVertical, CircleUser, LogOut } from "lucide-react";
-import { ThemeSwitcher } from "./theme-switcher";
 import { LoginDialog } from "./login-dialog";
 
 export function NavUser() {
@@ -63,16 +60,6 @@ export function NavUser() {
                 align="end"
                 sideOffset={4}
               >
-                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    closeOnClick={false}
-                    className="min-h-9 justify-between"
-                  >
-                    Theme
-                    <ThemeSwitcher />
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout}>
                   <LogOut />
                   Log out

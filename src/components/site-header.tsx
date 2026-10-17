@@ -3,6 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import { ThemeSwitcher } from "./theme-switcher";
 
 interface Props {
   breadcrumbs?: React.ReactNode;
@@ -24,7 +25,10 @@ export function SiteHeader({ breadcrumbs, actions }: Props) {
             {breadcrumbs}
           </>
         )}
-        <div className="ml-auto flex items-center gap-2">{actions}</div>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeSwitcher />
+          {actions}
+        </div>
       </div>
     </header>
   );
