@@ -8,10 +8,11 @@ import { useIsAuthed } from "@/utils/hooks/use-is-authed";
 
 interface Props {
   games: Game[];
+  rowClassName?: string;
 }
 
 // List of game rows with an edit drawer for authed users.
-export function EditableGameList({ games }: Props) {
+export function EditableGameList({ games, rowClassName }: Props) {
   const isAuthed = useIsAuthed();
   const [editGameId, setEditGameId] = useState<number | null>(null);
 
@@ -24,6 +25,7 @@ export function EditableGameList({ games }: Props) {
           <GameRow
             key={game.id}
             game={game}
+            className={rowClassName}
             onEdit={isAuthed ? setEditGameId : undefined}
           />
         ))}

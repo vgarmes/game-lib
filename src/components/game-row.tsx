@@ -10,17 +10,19 @@ import { cn } from "@/lib/utils";
 export function GameRow({
   game,
   onEdit,
+  className,
 }: {
   game: Game;
   /** When provided (admin only), renders an edit button for the row. */
   onEdit?: (gameId: number) => void;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
         "bg-background-100 relative flex flex-col gap-4 overflow-hidden rounded-lg border p-4 md:grid md:grid-cols-[3fr_1fr_minmax(0,100px)] md:gap-8 md:rounded-none md:not-last:border-b-0 md:first:rounded-t-lg md:last:rounded-b-lg",
-        onEdit &&
-          "pr-14 md:grid-cols-[3fr_1fr_minmax(0,100px)_auto] md:pr-4",
+        onEdit && "pr-14 md:grid-cols-[3fr_1fr_minmax(0,100px)_auto] md:pr-4",
+        className,
       )}
     >
       <div className="flex items-center gap-4 overflow-hidden">
