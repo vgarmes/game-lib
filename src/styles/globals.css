@@ -173,8 +173,8 @@
     "bought"
     "completed";
 
-  /* Same breakpoint as @5xl/main (64rem) on the PageLayout container. */
-  @container main (min-width: 64rem) {
+  /* Same breakpoint as @3xl/main (48rem) on the PageLayout container. */
+  @container main (min-width: 48rem) {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-areas: "bought completed";
   }
