@@ -1,10 +1,9 @@
 import prisma from "@/server/prisma";
 import { PageLayout } from "@/components/page-layout";
-import { GamesSummary } from "./games-summary";
 import { AddGameButton } from "@/components/add-game-button";
 import { SnippetGrid } from "@/components/snippets/snippet-grid";
 import { RecentlyBoughtCard } from "@/components/snippets/recently-bought-card";
-import { CompletedGamesCard } from "@/components/snippets/completed-games-card";
+import { GamesTableCard } from "@/components/snippets/games-table-card";
 
 export default async function HomePage() {
   const [finishedGames, addedGames, boughtGames] = await prisma.$transaction([
@@ -48,10 +47,16 @@ export default async function HomePage() {
           <RecentlyBoughtCard games={boughtGames} />
         </div>
         <div className="[grid-area:completed]">
-          <CompletedGamesCard games={finishedGames} />
+          <GamesTableCard
+            title="Recently completed"
+            games={finishedGames}
+            fitRow
+          />
+        </div>
+        <div className="[grid-area:added]">
+          <GamesTableCard title="Recently added" games={addedGames} />
         </div>
       </SnippetGrid>
-      <GamesSummary addedGames={addedGames} />
     </PageLayout>
   );
 }
