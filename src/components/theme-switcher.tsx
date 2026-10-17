@@ -34,9 +34,9 @@ export const ThemeSwitcher: React.FC = () => {
             onClick={() => setTheme(value)}
             type="button"
             aria-label={`Switch to ${value} theme`}
-            className="text-muted-foreground hover:text-foreground aria-checked:bg-background aria-checked:text-foreground flex size-6 items-center justify-center rounded-full aria-checked:border"
+            className="text-muted-foreground hover:text-foreground aria-checked:bg-background aria-checked:text-foreground flex size-9 items-center justify-center rounded-full aria-checked:border"
           >
-            <Icon className="size-3" />
+            <Icon className="size-4.5" />
           </button>
         );
       })}
