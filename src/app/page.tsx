@@ -47,7 +47,7 @@ export default async function HomePage() {
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
       <SnippetGrid className="home-grid px-4 lg:px-6">
         <div className="[grid-area:roll]">
-          <GameRollCard title="Recently completed" games={rollGames} />
+          <GameRollCard title="Just finished" games={rollGames} />
         </div>
         <div className="[grid-area:completed]">
           <GamesTableCard
