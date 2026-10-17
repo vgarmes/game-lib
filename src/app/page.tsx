@@ -2,11 +2,11 @@ import prisma from "@/server/prisma";
 import { PageLayout } from "@/components/page-layout";
 import { AddGameButton } from "@/components/add-game-button";
 import { SnippetGrid } from "@/components/snippets/snippet-grid";
-import { RecentlyBoughtCard } from "@/components/snippets/recently-bought-card";
+import { GameRollCard } from "@/components/snippets/game-roll-card";
 import { GamesTableCard } from "@/components/snippets/games-table-card";
 
 export default async function HomePage() {
-  const [finishedGames, addedGames, boughtGames] = await prisma.$transaction([
+  const [finishedGames, addedGames, rollGames] = await prisma.$transaction([
     prisma.game.findMany({
       where: { completed: true },
       include: {
@@ -29,13 +29,16 @@ export default async function HomePage() {
       take: 10,
     }),
     prisma.game.findMany({
-      where: { buyDate: { not: null }, cover: { isNot: null } },
+      where: { completed: true, cover: { isNot: null } },
       select: {
         id: true,
         title: true,
         cover: { select: { secureUrl: true, width: true, height: true } },
       },
-      orderBy: [{ buyDate: "desc" }, { createdAt: "desc" }],
+      orderBy: [
+        { completedDate: { sort: "desc", nulls: "last" } },
+        { createdAt: "desc" },
+      ],
       take: 6,
     }),
   ]);
@@ -43,8 +46,8 @@ export default async function HomePage() {
   return (
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
       <SnippetGrid className="home-grid px-4 lg:px-6">
-        <div className="[grid-area:bought]">
-          <RecentlyBoughtCard games={boughtGames} />
+        <div className="[grid-area:roll]">
+          <GameRollCard title="Recently completed" games={rollGames} />
         </div>
         <div className="[grid-area:completed]">
           <GamesTableCard

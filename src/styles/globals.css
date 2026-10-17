@@ -170,7 +170,7 @@
 @utility home-grid {
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "bought"
+    "roll"
     "completed"
     "added";
 
@@ -178,7 +178,7 @@
   @container main (min-width: 48rem) {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-areas:
-      "bought completed"
+      "roll completed"
       "added added";
   }
 }

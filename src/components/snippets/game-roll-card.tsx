@@ -7,18 +7,19 @@ import { SnippetCard } from "./snippet-card";
 
 const SLIDE_DURATION_MS = 5000;
 
-export interface RecentlyBoughtGame {
+export interface GameRollItem {
   id: number;
   title: string;
   cover: { secureUrl: string; width: number; height: number } | null;
 }
 
 interface Props {
-  games: RecentlyBoughtGame[];
+  title: string;
+  games: GameRollItem[];
 }
 
-// Camera-roll style carousel of the most recently bought games.
-export function RecentlyBoughtCard({ games }: Props) {
+// Camera-roll style carousel of game covers.
+export function GameRollCard({ title, games }: Props) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -68,15 +69,15 @@ export function RecentlyBoughtCard({ games }: Props) {
 
   if (games.length === 0) {
     return (
-      <SnippetCard title="Recently bought">
-        <p className="text-muted-foreground text-sm">No purchases yet.</p>
+      <SnippetCard title={title}>
+        <p className="text-muted-foreground text-sm">No games yet.</p>
       </SnippetCard>
     );
   }
 
   return (
     <SnippetCard
-      title="Recently bought"
+      title={title}
       action={
         games.length > 1 && (
           <div className="flex items-center gap-1.5">
