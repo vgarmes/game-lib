@@ -39,3 +39,6 @@ next-env.d.ts
 # database dumps
 data
 dumps
+
+# claude code (local settings, worktrees)
+.claude/
