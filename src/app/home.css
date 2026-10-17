@@ -1,0 +1,15 @@
+/* Home snippet layout. Place a card in a cell with `[grid-area:<name>]`. */
+.home-snippets {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "bought"
+    "completed";
+}
+
+/* Matches Tailwind's @5xl/main (64rem) on the PageLayout container. */
+@container main (min-width: 64rem) {
+  .home-snippets {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-areas: "bought completed";
+  }
+}

@@ -5,17 +5,8 @@ interface Props {
   children?: React.ReactNode;
 }
 
-// Responsive bento grid for snippet cards. Children can span cells with
-// `md:col-span-2` / `md:row-span-2` to build up a layout as more cards land.
+// Grid for snippet cards. The page owns the layout (columns and named
+// grid-template-areas); each card picks its cell with `[grid-area:<name>]`.
 export function SnippetGrid({ className, children }: Props) {
-  return (
-    <div
-      className={cn(
-        "grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn("grid gap-4", className)}>{children}</div>;
 }

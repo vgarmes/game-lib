@@ -4,6 +4,8 @@ import { GamesSummary } from "./games-summary";
 import { AddGameButton } from "@/components/add-game-button";
 import { SnippetGrid } from "@/components/snippets/snippet-grid";
 import { RecentlyBoughtCard } from "@/components/snippets/recently-bought-card";
+import { CompletedGamesCard } from "@/components/snippets/completed-games-card";
+import "./home.css";
 
 export default async function HomePage() {
   const [finishedGames, addedGames, boughtGames] = await prisma.$transaction([
@@ -42,10 +44,15 @@ export default async function HomePage() {
 
   return (
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
-      <SnippetGrid className="px-4 lg:px-6">
-        <RecentlyBoughtCard games={boughtGames} />
+      <SnippetGrid className="home-snippets px-4 lg:px-6">
+        <div className="[grid-area:bought]">
+          <RecentlyBoughtCard games={boughtGames} />
+        </div>
+        <div className="[grid-area:completed]">
+          <CompletedGamesCard games={finishedGames} />
+        </div>
       </SnippetGrid>
-      <GamesSummary finishedGames={finishedGames} addedGames={addedGames} />
+      <GamesSummary addedGames={addedGames} />
     </PageLayout>
   );
 }
