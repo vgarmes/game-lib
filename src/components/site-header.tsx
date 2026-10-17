@@ -25,7 +25,7 @@ export function SiteHeader({ breadcrumbs, actions }: Props) {
             {breadcrumbs}
           </>
         )}
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-4">
           <ThemeSwitcher />
           {actions}
         </div>
