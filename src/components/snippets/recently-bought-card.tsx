@@ -111,7 +111,7 @@ export function RecentlyBoughtCard({ games }: Props) {
     >
       <div
         ref={scrollAreaRef}
-        className="no-scrollbar relative flex aspect-3/4 w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-lg"
+        className="no-scrollbar relative flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-lg"
         onPointerEnter={() => setPaused(true)}
         onPointerLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
@@ -126,21 +126,13 @@ export function RecentlyBoughtCard({ games }: Props) {
             className="bg-muted relative h-full w-full shrink-0 snap-start overflow-hidden rounded-lg"
           >
             {game.cover && (
-              <>
-                <Image
-                  alt=""
-                  src={game.cover.secureUrl}
-                  fill
-                  className="pointer-events-none scale-110 object-cover opacity-40 blur-xl"
-                />
-                <Image
-                  alt={`${game.title} cover`}
-                  src={game.cover.secureUrl}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                  className="object-contain p-6 pb-20 drop-shadow-xl"
-                />
-              </>
+              <Image
+                alt={`${game.title} cover`}
+                src={game.cover.secureUrl}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                className="object-cover object-center"
+              />
             )}
             <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent p-4 pt-12 text-white">
               <p className="line-clamp-2 font-medium tracking-tight">
