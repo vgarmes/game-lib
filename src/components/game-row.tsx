@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Game } from "@/types/trpc";
 import { Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { StatusDot } from "./status-dot";
+import { STATUS_LABELS } from "@/constants";
 
 export function GameRow({
   game,
@@ -55,24 +57,16 @@ export function GameRow({
       </div>
 
       <div className="flex w-full justify-between gap-2 overflow-hidden md:flex-col">
-        {game.completed ? (
-          <div className="text-muted-foreground flex min-w-px flex-col gap-1 overflow-hidden text-sm">
-            <div className="-ml-[3px] flex items-center gap-1">
-              <span className="flex size-4 shrink-0 items-center justify-center">
-                <span className="size-2 flex-none rounded-full bg-green-400" />
-              </span>
-              <span className="truncate">Completed</span>
-            </div>
-          </div>
-        ) : (
-          <div className="text-muted-foreground -ml-[3px] flex items-center gap-1 text-sm">
-            <span className="flex size-4 shrink-0 items-center justify-center">
-              <span className="size-2 flex-none rounded-full bg-neutral-400" />
-            </span>
-            <span className="truncate">Backlog</span>
-          </div>
-        )}
-        {game.completed && game.completedDate && (
+        <div className="text-muted-foreground -ml-[3px] flex items-center gap-1 text-sm">
+          <span className="flex size-4 shrink-0 items-center justify-center">
+            <StatusDot
+              status={game.status}
+              className="h-2 w-2 rounded-full ring-0"
+            />
+          </span>
+          <span className="truncate">{STATUS_LABELS[game.status]}</span>
+        </div>
+        {game.status === "completed" && game.completedDate && (
           <span className="text-muted-foreground truncate text-sm">
             {game.completedDate.toLocaleDateString()}
           </span>

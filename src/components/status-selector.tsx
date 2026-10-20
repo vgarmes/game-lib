@@ -11,7 +11,7 @@ import {
 import { StatusDot } from "./status-dot";
 import { Status } from "@/types";
 import { Badge } from "./ui/badge";
-import { GAME_STATUSES } from "@/constants";
+import { GAME_STATUSES, STATUS_LABELS } from "@/constants";
 
 interface Props {
   status: Status[];
@@ -29,17 +29,10 @@ export function StatusSelector({ status, onChange }: Props) {
       <DropdownMenuTrigger
         render={
           <Button variant="outline" className="gap-2 font-normal">
-            <div className="w-5 shrink-0">
-              <StatusDot
-                status="completed"
-                checked={status.includes("completed")}
-                style={{ left: 0 }}
-              />
-              <StatusDot
-                status="backlog"
-                checked={status.includes("backlog")}
-                style={{ left: -4 }}
-              />
+            <div className="flex shrink-0 -space-x-1">
+              {GAME_STATUSES.map((s) => (
+                <StatusDot key={s} status={s} checked={status.includes(s)} />
+              ))}
             </div>
             Status
             <Badge variant="secondary" className="h-5 min-h-5 tabular-nums">
@@ -50,22 +43,17 @@ export function StatusSelector({ status, onChange }: Props) {
       />
       <DropdownMenuContent className="w-40">
         <DropdownMenuGroup>
-          <DropdownMenuCheckboxItem
-            checked={status.includes("completed")}
-            onCheckedChange={() => {
-              handleToggleStatus("completed");
-            }}
-          >
-            Completed
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={status.includes("backlog")}
-            onCheckedChange={() => {
-              handleToggleStatus("backlog");
-            }}
-          >
-            Backlog
-          </DropdownMenuCheckboxItem>
+          {GAME_STATUSES.map((s) => (
+            <DropdownMenuCheckboxItem
+              key={s}
+              checked={status.includes(s)}
+              onCheckedChange={() => {
+                handleToggleStatus(s);
+              }}
+            >
+              {STATUS_LABELS[s]}
+            </DropdownMenuCheckboxItem>
+          ))}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

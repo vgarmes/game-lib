@@ -26,11 +26,17 @@ model Cover {
   @@index([gameId])
 }
 
+enum GameStatus {
+  backlog
+  in_progress
+  completed
+}
+
 model Game {
   id            Int        @id @default(autoincrement())
   title         String
   inCollection  Boolean?   @default(true)
-  completed     Boolean?   @default(false)
+  status        GameStatus @default(backlog)
   edition       String?
   releaseDate   DateTime?  @db.Date
   completedDate DateTime?  @db.Date
@@ -47,8 +53,7 @@ model Game {
   updatedAt     DateTime   @updatedAt
 
   @@index([platformId, title])
-  @@index([developerId, title])
-  @@index([completed, completedDate(sort: Desc)])
+  @@index([status, completedDate(sort: Desc)])
 }
 
 model Platform {

@@ -10,14 +10,14 @@ import { GamesTableCard } from "@/components/snippets/games-table-card";
 export default async function HomePage() {
   const [finishedGames, addedGames, rollGames] = await prisma.$transaction([
     prisma.game.findMany({
-      where: { completed: true },
+      where: { status: "completed" },
       include: {
         cover: {
           select: { id: true, secureUrl: true, width: true, height: true },
         },
         platform: { select: { id: true, name: true } },
       },
-      orderBy: { completedDate: "desc" },
+      orderBy: { completedDate: { sort: "desc", nulls: "last" } },
       take: 20,
     }),
     prisma.game.findMany({
@@ -31,7 +31,7 @@ export default async function HomePage() {
       take: 10,
     }),
     prisma.game.findMany({
-      where: { completed: true, cover: { isNot: null } },
+      where: { status: "completed", cover: { isNot: null } },
       select: {
         id: true,
         title: true,

@@ -97,7 +97,7 @@ function EditGameFormContent({
       inCollection: game.inCollection ?? false,
       buyDate: game.buyDate ?? undefined,
       buyPrice: game.buyPrice ?? undefined,
-      completed: game.completed ?? false,
+      status: game.status,
       completedDate: game.completedDate ?? undefined,
       releaseDate: game.releaseDate ?? undefined,
       comment: game.comment ?? "",

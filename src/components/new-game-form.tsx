@@ -13,11 +13,7 @@ import {
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import {
-  GameForm,
-  gameFormSchema,
-  type GameFormValues,
-} from "./game-form";
+import { GameForm, gameFormSchema, type GameFormValues } from "./game-form";
 import { useUploadCover } from "@/utils/hooks/use-upload-cover";
 
 function useNewGameMutation() {
@@ -51,7 +47,7 @@ export function NewGameForm() {
       inCollection: true,
       buyDate: undefined,
       buyPrice: undefined,
-      completed: false,
+      status: "backlog",
       completedDate: undefined,
       releaseDate: undefined,
       comment: "",

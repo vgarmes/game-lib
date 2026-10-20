@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { ComponentProps } from "react";
+import { Status } from "@/types";
 
 interface Props extends ComponentProps<"span"> {
-  status: "completed" | "backlog";
+  status: Status;
   checked?: boolean;
 }
 
@@ -13,6 +14,7 @@ const variants = cva(
     variants: {
       status: {
         completed: "bg-green-400",
+        in_progress: "bg-amber-400",
         backlog: "bg-neutral-400",
       },
     },

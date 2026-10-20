@@ -54,8 +54,8 @@ export const gameRouter = router({
           cover: { select: { id: true, secureUrl: true } },
           platform: { select: { id: true, name: true } },
         },
-        orderBy: { completedDate: "desc" },
-        where: { completed: true },
+        orderBy: { completedDate: { sort: "desc", nulls: "last" } },
+        where: { status: "completed" },
       });
     }),
   byId: publicProcedure
@@ -99,10 +99,7 @@ export const gameRouter = router({
           title: input.searchText
             ? { contains: input.searchText, mode: "insensitive" }
             : undefined,
-          completed:
-            input.status.length === 1
-              ? input.status[0] === "completed"
-              : undefined,
+          status: input.status.length > 0 ? { in: input.status } : undefined,
         },
       });
       let nextPage: typeof input.cursor | undefined = undefined;

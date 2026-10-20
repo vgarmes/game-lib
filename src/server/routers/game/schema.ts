@@ -1,9 +1,10 @@
 import { z } from "zod";
+import { GAME_STATUSES } from "@/constants";
 
 const game = z.object({
   title: z.string().min(1),
   inCollection: z.boolean(),
-  completed: z.boolean(),
+  status: z.enum(GAME_STATUSES),
   edition: z.string().optional(),
   releaseDate: z.date().optional(),
   completedDate: z.date().optional(),

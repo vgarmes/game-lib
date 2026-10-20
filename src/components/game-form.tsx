@@ -23,13 +23,23 @@ import { Collapsible, CollapsibleContent } from "./ui/collapsible";
 import { DatePicker } from "./ui/date-picker";
 import { Textarea } from "./ui/textarea";
 import { StarsInput } from "./stars";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { StatusDot } from "./status-dot";
+import { GAME_STATUSES, STATUS_LABELS } from "@/constants";
+import { Status } from "@/types";
 
 export const gameFormSchema = z.object({
   title: z.string().min(1),
   platformId: z.number({ error: "You need to select a platform" }),
   cover: z.file().optional(),
   inCollection: z.boolean(),
-  completed: z.boolean(),
+  status: z.enum(GAME_STATUSES),
   edition: z.string().optional(),
   releaseDate: z.date().optional(),
   completedDate: z.date().optional(),
@@ -167,7 +177,10 @@ export function GameForm({
           name="inCollection"
           render={({ field }) => (
             <div className="border-input flex flex-col rounded-sm border">
-              <FieldLabel htmlFor="switch-in-collection" className="border-none">
+              <FieldLabel
+                htmlFor="switch-in-collection"
+                className="border-none"
+              >
                 <Field orientation="horizontal">
                   <FieldContent>
                     <FieldTitle>Owned</FieldTitle>
@@ -249,25 +262,41 @@ export function GameForm({
 
         <Controller
           control={form.control}
-          name="completed"
+          name="status"
           render={({ field }) => (
             <div className="border-input flex flex-col rounded-sm border">
-              <FieldLabel htmlFor="switch-completed" className="border-none">
-                <Field orientation="horizontal">
-                  <FieldContent>
-                    <FieldTitle>Completed</FieldTitle>
-                    <FieldDescription>
-                      The game has been completed.
-                    </FieldDescription>
-                  </FieldContent>
-                  <Switch
-                    id="switch-completed"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </Field>
-              </FieldLabel>
-              <Collapsible open={field.value}>
+              <Field orientation="horizontal" className="p-3">
+                <FieldContent>
+                  <FieldTitle>Status</FieldTitle>
+                  <FieldDescription>
+                    Where you are with this game.
+                  </FieldDescription>
+                </FieldContent>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => value && field.onChange(value)}
+                >
+                  <SelectTrigger id="select-status" className="w-36">
+                    <SelectValue>
+                      {(value: Status) => (
+                        <>
+                          <StatusDot status={value} />
+                          {STATUS_LABELS[value]}
+                        </>
+                      )}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {GAME_STATUSES.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        <StatusDot status={status} />
+                        {STATUS_LABELS[status]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Collapsible open={field.value === "completed"}>
                 <CollapsibleContent className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
                   <Controller
                     control={form.control}
