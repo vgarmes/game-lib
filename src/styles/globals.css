@@ -170,14 +170,17 @@
 @utility home-grid {
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
+    "playing"
     "roll"
     "completed"
     "added";
 
-  /* Same breakpoint as @3xl/main (48rem) on the PageLayout container. */
+  /* Same breakpoint as @3xl/main (48rem) on the PageLayout container.
+     "completed" spans both stacked left cards, so their heights set its own. */
   @container main (min-width: 48rem) {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-areas:
+      "playing completed"
       "roll completed"
       "added added";
   }

@@ -5,49 +5,65 @@ import { PageLayout } from "@/components/page-layout";
 import { AddGameButton } from "@/components/add-game-button";
 import { SnippetGrid } from "@/components/snippets/snippet-grid";
 import { GameRollCard } from "@/components/snippets/game-roll-card";
+import { NowPlayingCard } from "@/components/snippets/now-playing-card";
 import { GamesTableCard } from "@/components/snippets/games-table-card";
 
 export default async function HomePage() {
-  const [finishedGames, addedGames, rollGames] = await prisma.$transaction([
-    prisma.game.findMany({
-      where: { status: "completed" },
-      include: {
-        cover: {
-          select: { id: true, secureUrl: true, width: true, height: true },
+  const [finishedGames, addedGames, rollGames, playingGames] =
+    await prisma.$transaction([
+      prisma.game.findMany({
+        where: { status: "completed" },
+        include: {
+          cover: {
+            select: { id: true, secureUrl: true, width: true, height: true },
+          },
+          platform: { select: { id: true, name: true } },
         },
-        platform: { select: { id: true, name: true } },
-      },
-      orderBy: { completedDate: { sort: "desc", nulls: "last" } },
-      take: 20,
-    }),
-    prisma.game.findMany({
-      include: {
-        cover: {
-          select: { id: true, secureUrl: true, width: true, height: true },
+        orderBy: { completedDate: { sort: "desc", nulls: "last" } },
+        take: 20,
+      }),
+      prisma.game.findMany({
+        include: {
+          cover: {
+            select: { id: true, secureUrl: true, width: true, height: true },
+          },
+          platform: { select: { id: true, name: true } },
         },
-        platform: { select: { id: true, name: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-    }),
-    prisma.game.findMany({
-      where: { status: "completed", cover: { isNot: null } },
-      select: {
-        id: true,
-        title: true,
-        cover: { select: { secureUrl: true, width: true, height: true } },
-      },
-      orderBy: [
-        { completedDate: { sort: "desc", nulls: "last" } },
-        { createdAt: "desc" },
-      ],
-      take: 6,
-    }),
-  ]);
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      }),
+      prisma.game.findMany({
+        where: { status: "completed", cover: { isNot: null } },
+        select: {
+          id: true,
+          title: true,
+          cover: { select: { secureUrl: true, width: true, height: true } },
+        },
+        orderBy: [
+          { completedDate: { sort: "desc", nulls: "last" } },
+          { createdAt: "desc" },
+        ],
+        take: 6,
+      }),
+      prisma.game.findMany({
+        where: { status: "in_progress" },
+        select: {
+          id: true,
+          title: true,
+          platform: { select: { name: true } },
+          cover: { select: { secureUrl: true } },
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 1,
+      }),
+    ]);
 
   return (
     <PageLayout breadcrumbs={undefined} actions={<AddGameButton />}>
       <SnippetGrid className="home-grid px-4 lg:px-6">
+        <div className="[grid-area:playing]">
+          <NowPlayingCard game={playingGames[0] ?? null} />
+        </div>
         <div className="[grid-area:roll]">
           <GameRollCard title="Just finished" games={rollGames} />
         </div>
