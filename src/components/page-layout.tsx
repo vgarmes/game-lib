@@ -10,7 +10,7 @@ export function PageLayout({ children, breadcrumbs, actions }: Props) {
     <>
       <SiteHeader breadcrumbs={breadcrumbs} actions={actions} />
       <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
+        <div className="@container/main mx-auto flex w-full max-w-7xl flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             {children}
           </div>

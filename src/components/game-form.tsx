@@ -289,8 +289,10 @@ export function GameForm({
                   <SelectContent>
                     {GAME_STATUSES.map((status) => (
                       <SelectItem key={status} value={status}>
-                        <StatusDot status={status} />
-                        {STATUS_LABELS[status]}
+                        <span className="flex items-center gap-2">
+                          <StatusDot status={status} />
+                          {STATUS_LABELS[status]}
+                        </span>
                       </SelectItem>
                     ))}
                   </SelectContent>
