@@ -65,7 +65,13 @@ export function PlatformSelector({
 
   if (isMobile) {
     return (
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer
+        open={open}
+        onOpenChange={(nextOpen) => {
+          setOpen(nextOpen);
+          if (!nextOpen) setInputValue("");
+        }}
+      >
         <div className="relative">
           <DrawerTrigger
             render={
@@ -79,7 +85,7 @@ export function PlatformSelector({
                   },
                 )}
               >
-                {selectedItem?.label ?? "All platforms"}
+                {selectedItem?.label ?? placeholder}
                 {!selectedItem && <ChevronDown />}
               </Button>
             }
@@ -99,7 +105,7 @@ export function PlatformSelector({
         </div>
         <DrawerPortal data-slot="drawer-portal">
           <DrawerBackdrop />
-          <DrawerPrimitive.Viewport className="fixed inset-0 flex items-end justify-center">
+          <DrawerPrimitive.Viewport className="fixed inset-0 z-[60] flex items-end justify-center">
             <DrawerPrimitive.Popup
               data-slot="drawer-popup"
               className="bg-background-100 -mb-12 h-[calc(80vh+3rem)] w-full transform-[translateY(var(--drawer-swipe-movement-y))] touch-auto overflow-y-auto overscroll-contain rounded-t-md border-t pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:transform-[translateY(calc(100%-3rem+2px))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] data-starting-style:transform-[translateY(calc(100%-3rem+2px))] data-swiping:select-none"
@@ -127,7 +133,7 @@ export function PlatformSelector({
                     onChange={(e) => setInputValue(e.target.value)}
                     aria-invalid={isInvalid}
                   />
-                  <div className="flex-flex-col py-2">
+                  <div className="flex flex-col py-2">
                     <ComboboxPrimitive.Empty className="text-muted-foreground px-4 text-sm">
                       No results
                     </ComboboxPrimitive.Empty>
