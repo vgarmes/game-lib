@@ -27,6 +27,10 @@ interface Props {
   className?: string;
   placeholder?: string;
   isInvalid?: boolean;
+  /** Id of the focusable control, so a `<label htmlFor>` can point at it. */
+  id?: string;
+  /** Receives the focusable control (react-hook-form focuses it on error). */
+  ref?: React.Ref<HTMLElement>;
 }
 
 function isIOS() {
@@ -74,13 +78,15 @@ export function PlatformSelector({
   onSelect,
   selectedId,
   className,
-  placeholder = "Select a platform",
+  placeholder = "Select a platform…",
   isInvalid,
+  id,
+  ref,
 }: Props) {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const keyboardProxyRef = useRef<HTMLInputElement>(null);
 
@@ -104,7 +110,14 @@ export function PlatformSelector({
           <DrawerTrigger
             render={
               <Button
-                ref={triggerRef}
+                id={id}
+                ref={(node: HTMLButtonElement | null) => {
+                  triggerRef.current = node;
+                  if (typeof ref === "function") ref(node);
+                  else if (ref)
+                    (ref as React.MutableRefObject<HTMLElement | null>).current = node;
+                }}
+                aria-invalid={isInvalid}
                 onClick={() => {
                   // iOS only opens the keyboard for focus() calls made inside
                   // the tap itself. The search input doesn't exist yet, so
@@ -131,6 +144,7 @@ export function PlatformSelector({
               size="icon"
               variant="ghost"
               className="absolute top-1/2 right-1 -translate-y-1/2"
+              aria-label="Clear platform"
               onClick={() => {
                 onSelect(null);
               }}
@@ -175,7 +189,7 @@ export function PlatformSelector({
                   <ComboboxPrimitive.Input
                     ref={searchInputRef}
                     className="bg-background-100 sticky top-0 z-10 h-12 w-full rounded-none border-0 border-b px-4 text-base font-normal focus-visible:outline-none"
-                    placeholder="Search..."
+                    placeholder="Search…"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onTouchEnd={focusWithoutScrollOnIOS}
@@ -216,6 +230,8 @@ export function PlatformSelector({
       }}
     >
       <ComboboxInput
+        id={id}
+        ref={ref as React.Ref<HTMLInputElement>}
         className={cn("h-10", className)}
         placeholder={placeholder}
         showClear={true}

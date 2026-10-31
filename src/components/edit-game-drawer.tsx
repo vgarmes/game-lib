@@ -13,7 +13,17 @@ import {
   SheetTitle,
 } from "./ui/sheet";
 import { ScrollArea } from "./ui/scroll-area";
-import { GameForm, gameFormSchema, type GameFormValues } from "./game-form";
+import { GameForm, gameFormSchema, type GameFormPayload } from "./game-form";
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
 import { useUploadCover } from "@/utils/hooks/use-upload-cover";
 
 interface Props {
@@ -23,29 +33,68 @@ interface Props {
 }
 
 export function EditGameDrawer({ open, onClose, game }: Props) {
+  const [isDirty, setIsDirty] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const close = () => {
+    setIsDirty(false);
+    setConfirmOpen(false);
+    onClose();
+  };
+
   return (
-    <Sheet open={open} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
-        <SheetHeader className="border-b">
-          <SheetTitle>Edit game</SheetTitle>
-          <SheetDescription>
-            Update the details for {game?.title ?? "this game"}.
-          </SheetDescription>
-        </SheetHeader>
-        <ScrollArea className="min-h-0 flex-1">
-          <div className="px-4 pb-8">
-            {game && (
-              // Re-mount the form per game so its default values reset.
-              <EditGameFormContent
-                key={game.id}
-                game={game}
-                onSuccess={onClose}
-              />
-            )}
-          </div>
-        </ScrollArea>
-      </SheetContent>
-    </Sheet>
+    <>
+      <Sheet
+        open={open}
+        onOpenChange={(nextOpen) => {
+          if (nextOpen) return;
+          // Dismissing (Esc, backdrop, close button) with edits asks first.
+          if (isDirty) setConfirmOpen(true);
+          else close();
+        }}
+      >
+        <SheetContent className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
+          <SheetHeader className="border-b">
+            <SheetTitle>Edit game</SheetTitle>
+            <SheetDescription>
+              Update the details for {game?.title ?? "this game"}.
+            </SheetDescription>
+          </SheetHeader>
+          <ScrollArea className="min-h-0 flex-1">
+            <div className="px-4 pb-8">
+              {game && (
+                // Re-mount the form per game so its default values reset.
+                <EditGameFormContent
+                  key={game.id}
+                  game={game}
+                  onSuccess={close}
+                  onDirtyChange={setIsDirty}
+                />
+              )}
+            </div>
+          </ScrollArea>
+        </SheetContent>
+      </Sheet>
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Discard changes?</DialogTitle>
+            <DialogDescription>
+              Your edits to {game?.title ?? "this game"} haven&apos;t been
+              saved.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmOpen(false)}>
+              Keep editing
+            </Button>
+            <Button variant="destructive" onClick={close}>
+              Discard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
@@ -64,7 +113,7 @@ function useEditGameMutation(onSuccess: () => void) {
       values,
     }: {
       id: number;
-      values: GameFormValues;
+      values: GameFormPayload;
     }) => {
       const { cover, ...rest } = values;
       // Only upload when the admin picked a new file; otherwise keep the
@@ -83,9 +132,11 @@ function useEditGameMutation(onSuccess: () => void) {
 function EditGameFormContent({
   game,
   onSuccess,
+  onDirtyChange,
 }: {
   game: Game;
   onSuccess: () => void;
+  onDirtyChange: (isDirty: boolean) => void;
 }) {
   const form = useZodForm({
     schema: gameFormSchema,
@@ -106,6 +157,11 @@ function EditGameFormContent({
   });
 
   const { mutate, isPending } = useEditGameMutation(onSuccess);
+  const { isDirty } = form.formState;
+
+  useEffect(() => {
+    onDirtyChange(isDirty);
+  }, [isDirty, onDirtyChange]);
 
   return (
     <GameForm

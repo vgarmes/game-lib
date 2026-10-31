@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 
 const RATINGS = ["Bad", "Meh", "Good", "Very Good", "Masterpiece"];
 
@@ -76,42 +76,65 @@ export const Stars: React.FC<StarsProps> = ({
   );
 };
 
-interface Props {
-  onChange?: (n: number) => void;
+interface StarsInputProps {
   value?: number | null;
+  onChange?: (n: number) => void;
+  /** Id of the element that names the group (the field label). */
+  "aria-labelledby"?: string;
 }
 
-export const StarsInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ onChange, value, ..._rest }, ref) => {
-    const [hoveredStar, setHoveredStar] = useState<number | null>(null);
-    const onClickHandler = (newRating: number) => {
-      onChange && onChange(newRating);
-    };
+/**
+ * Rating picker built on native radios: Tab reaches the group, arrow keys
+ * move between ratings, and each option announces its label ("3 – Good").
+ */
+export function StarsInput({
+  value,
+  onChange,
+  "aria-labelledby": labelledBy,
+}: StarsInputProps) {
+  const name = useId();
+  const [hoveredStar, setHoveredStar] = useState<number | null>(null);
+  const shownStar = hoveredStar ?? (value ? value - 1 : null);
+  const ratingText = shownStar !== null ? RATINGS[shownStar] : "";
 
-    let ratingText: string = "";
-    if (hoveredStar || hoveredStar === 0) {
-      ratingText = RATINGS[hoveredStar];
-    } else if (value) {
-      ratingText = RATINGS[value - 1] ?? "";
-    }
-
-    return (
-      <div className="flex items-center" ref={ref}>
-        <Stars
-          activeStar={value ? value - 1 : null}
-          onClickStar={(index) => onClickHandler(index + 1)}
-          hoverStar={hoveredStar}
-          onHoverStar={setHoveredStar}
-          onMouseLeave={() => setHoveredStar(null)}
-        />
-        {ratingText && (
-          <p className="text-muted-foreground ml-2 text-sm font-medium">
-            {ratingText}
-          </p>
-        )}
+  return (
+    <div className="flex items-center">
+      <div
+        role="radiogroup"
+        aria-labelledby={labelledBy}
+        className="flex items-center"
+        onMouseLeave={() => setHoveredStar(null)}
+      >
+        {RATINGS.map((text, index) => (
+          <label
+            key={text}
+            className="has-focus-visible:ring-ring/50 relative cursor-pointer rounded-sm p-0.5 transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110 active:scale-95 has-focus-visible:ring-[3px] motion-reduce:transition-none"
+            onMouseEnter={() => setHoveredStar(index)}
+          >
+            <input
+              type="radio"
+              name={name}
+              value={index + 1}
+              checked={value === index + 1}
+              onChange={() => onChange?.(index + 1)}
+              aria-label={`${index + 1} – ${text}`}
+              className="sr-only"
+            />
+            <Star
+              title={text}
+              isActive={shownStar !== null && shownStar >= index}
+            />
+          </label>
+        ))}
       </div>
-    );
-  },
-);
-
-StarsInput.displayName = "StarsInput";
+      {ratingText && (
+        <p
+          aria-hidden="true"
+          className="text-muted-foreground ml-2 text-sm font-medium"
+        >
+          {ratingText}
+        </p>
+      )}
+    </div>
+  );
+}

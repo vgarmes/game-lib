@@ -13,7 +13,7 @@ import {
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { GameForm, gameFormSchema, type GameFormValues } from "./game-form";
+import { GameForm, gameFormSchema, type GameFormPayload } from "./game-form";
 import { useUploadCover } from "@/utils/hooks/use-upload-cover";
 
 function useNewGameMutation() {
@@ -22,7 +22,7 @@ function useNewGameMutation() {
 
   return useMutation({
     onError: () => toast.error("Failed to create game"),
-    mutationFn: async (formValues: GameFormValues) => {
+    mutationFn: async (formValues: GameFormPayload) => {
       const { cover, ...rest } = formValues;
       const coverId = cover ? await uploadCover(cover) : undefined;
 
@@ -56,6 +56,15 @@ export function NewGameForm() {
   });
 
   const { mutate, isPending, isSuccess } = useNewGameMutation();
+  const { isDirty } = form.formState;
+
+  // Warn before a reload/tab close throws away a half-filled form.
+  useEffect(() => {
+    if (!isDirty || isSuccess) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [isDirty, isSuccess]);
 
   useEffect(() => {
     if (!isSuccess) return;
