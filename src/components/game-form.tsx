@@ -33,6 +33,61 @@ import {
 import { StatusDot } from "./status-dot";
 import { GAME_STATUSES, STATUS_LABELS } from "@/constants";
 import { Status } from "@/types";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
+
+const EASE_OUT = "ease-[cubic-bezier(0.23,1,0.32,1)]";
+
+/**
+ * Conditional sub-section (e.g. buy date/price under "Owned") that grows
+ * open instead of shoving the rest of the form down in one frame.
+ * Padding lives on the inner div so the panel itself can reach height 0.
+ */
+function RevealPanel({
+  open,
+  children,
+}: {
+  open: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Collapsible open={open}>
+      <CollapsibleContent
+        className={cn(
+          "h-(--collapsible-panel-height) overflow-hidden transition-[height,opacity] duration-200",
+          EASE_OUT,
+          "data-ending-style:h-0 data-ending-style:opacity-0 data-starting-style:h-0 data-starting-style:opacity-0",
+          // Reduced motion: keep the fade, drop the height change.
+          "motion-reduce:transition-opacity",
+        )}
+      >
+        <div className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
+          {children}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function SubmitIcon({
+  visible,
+  children,
+}: {
+  visible: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <span
+      className={cn(
+        "absolute inset-0 flex items-center justify-center transition-[opacity,scale,filter] duration-200",
+        EASE_OUT,
+        !visible && "opacity-0 motion-safe:scale-50 motion-safe:blur-[2px]",
+      )}
+    >
+      {children}
+    </span>
+  );
+}
 
 export const gameFormSchema = z.object({
   title: z.string().min(1),
@@ -195,67 +250,65 @@ export function GameForm({
                   />
                 </Field>
               </FieldLabel>
-              <Collapsible open={field.value}>
-                <CollapsibleContent className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
-                  <Controller
-                    control={form.control}
-                    name="buyDate"
-                    render={({ field }) => (
-                      <Field>
-                        <Label htmlFor="buy-date">
-                          Buy date{" "}
-                          <span className="text-muted-foreground font-normal">
-                            (optional)
-                          </span>
-                        </Label>
-                        <DatePicker
-                          id="buy-date"
-                          date={field.value}
-                          onDateChange={field.onChange}
+              <RevealPanel open={field.value}>
+                <Controller
+                  control={form.control}
+                  name="buyDate"
+                  render={({ field }) => (
+                    <Field>
+                      <Label htmlFor="buy-date">
+                        Buy date{" "}
+                        <span className="text-muted-foreground font-normal">
+                          (optional)
+                        </span>
+                      </Label>
+                      <DatePicker
+                        id="buy-date"
+                        date={field.value}
+                        onDateChange={field.onChange}
+                      />
+                    </Field>
+                  )}
+                />
+                <Controller
+                  control={form.control}
+                  name="buyPrice"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <Label htmlFor="buy-price">
+                        Price{" "}
+                        <span className="text-muted-foreground font-normal">
+                          (optional)
+                        </span>
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="buy-price"
+                          type="number"
+                          className="pr-14"
+                          aria-invalid={fieldState.invalid}
+                          value={field.value ?? ""}
+                          onChange={(e) => {
+                            const numberValue = Number(e.target.value);
+                            field.onChange(
+                              isNaN(numberValue) || e.target.value === ""
+                                ? null
+                                : numberValue,
+                            );
+                          }}
                         />
-                      </Field>
-                    )}
-                  />
-                  <Controller
-                    control={form.control}
-                    name="buyPrice"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <Label htmlFor="buy-price">
-                          Price{" "}
-                          <span className="text-muted-foreground font-normal">
-                            (optional)
-                          </span>
-                        </Label>
-                        <div className="relative">
-                          <Input
-                            id="buy-price"
-                            type="number"
-                            className="pr-14"
-                            aria-invalid={fieldState.invalid}
-                            value={field.value ?? ""}
-                            onChange={(e) => {
-                              const numberValue = Number(e.target.value);
-                              field.onChange(
-                                isNaN(numberValue) || e.target.value === ""
-                                  ? null
-                                  : numberValue,
-                              );
-                            }}
-                          />
-                          <div className="border-input text-muted-foreground absolute top-px right-px bottom-px flex w-12 items-center justify-center border-l">
-                            EUR
-                          </div>
+                        <div className="border-input text-muted-foreground absolute top-px right-px bottom-px flex w-12 items-center justify-center border-l">
+                          EUR
                         </div>
+                      </div>
 
-                        {fieldState.invalid && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </CollapsibleContent>
-              </Collapsible>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </RevealPanel>
             </div>
           )}
         />
@@ -298,29 +351,27 @@ export function GameForm({
                   </SelectContent>
                 </Select>
               </Field>
-              <Collapsible open={field.value === "completed"}>
-                <CollapsibleContent className="flex flex-col items-start gap-5 border-t px-3 py-5 md:flex-row">
-                  <Controller
-                    control={form.control}
-                    name="completedDate"
-                    render={({ field }) => (
-                      <Field>
-                        <Label htmlFor="completed-date">
-                          Completion date{" "}
-                          <span className="text-muted-foreground font-normal">
-                            (optional)
-                          </span>
-                        </Label>
-                        <DatePicker
-                          id="completed-date"
-                          date={field.value}
-                          onDateChange={field.onChange}
-                        />
-                      </Field>
-                    )}
-                  />
-                </CollapsibleContent>
-              </Collapsible>
+              <RevealPanel open={field.value === "completed"}>
+                <Controller
+                  control={form.control}
+                  name="completedDate"
+                  render={({ field }) => (
+                    <Field>
+                      <Label htmlFor="completed-date">
+                        Completion date{" "}
+                        <span className="text-muted-foreground font-normal">
+                          (optional)
+                        </span>
+                      </Label>
+                      <DatePicker
+                        id="completed-date"
+                        date={field.value}
+                        onDateChange={field.onChange}
+                      />
+                    </Field>
+                  )}
+                />
+              </RevealPanel>
             </div>
           )}
         />
@@ -364,10 +415,23 @@ export function GameForm({
       <Button
         type="submit"
         disabled={isPending || isSuccess}
-        className="mt-5 w-full"
+        // Keep the "Saved" state at full strength instead of the faded
+        // disabled look while we wait for the redirect.
+        className={cn("mt-5 w-full", isSuccess && "disabled:opacity-100")}
       >
-        {isPending && <Spinner />}
-        {submitLabel}
+        {(isPending || isSuccess) && (
+          // Both icons share one slot so pending -> success cross-fades in
+          // place instead of swapping.
+          <span className="relative size-5">
+            <SubmitIcon visible={!isSuccess}>
+              <Spinner color="currentColor" />
+            </SubmitIcon>
+            <SubmitIcon visible={!!isSuccess}>
+              <Check />
+            </SubmitIcon>
+          </span>
+        )}
+        {isSuccess ? "Saved" : submitLabel}
       </Button>
     </form>
   );

@@ -41,10 +41,23 @@ const PreviewImage: React.FC<Props> = ({ src, isUploaded, onClick }) => {
   return (
     <div className="bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-md border shadow-xs shadow-black/10">
       <img
+        // Remount per image so each new pick starts hidden and fades in.
+        key={src}
         src={src}
         alt="Cover preview"
-        className="size-full object-cover"
-        onLoad={() => URL.revokeObjectURL(src)}
+        className="size-full object-cover opacity-0 transition-opacity duration-200 ease-out data-loaded:opacity-100"
+        // A cached image can finish loading before React attaches onLoad
+        // (e.g. the existing cover on hydration), so check on mount too.
+        ref={(img) => {
+          if (img?.complete) img.dataset.loaded = "";
+        }}
+        onLoad={(e) => {
+          e.currentTarget.dataset.loaded = "";
+          URL.revokeObjectURL(src);
+        }}
+        onError={(e) => {
+          e.currentTarget.dataset.loaded = "";
+        }}
       />
       <button
         type="button"

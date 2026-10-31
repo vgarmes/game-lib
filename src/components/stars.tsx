@@ -18,7 +18,8 @@ const Star: React.FC<StarProps> = ({ title, isActive, onClick, onHover }) => {
     <div
       className={cn("h-5 w-5 shrink-0 text-neutral-300 dark:text-neutral-500", {
         "text-yellow-400 dark:text-yellow-600": isActive,
-        "cursor-pointer hover:scale-110": isInteractive,
+        "cursor-pointer transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110 active:scale-95 motion-reduce:transition-none":
+          isInteractive,
       })}
       onClick={onClick}
       onMouseEnter={onHover}
