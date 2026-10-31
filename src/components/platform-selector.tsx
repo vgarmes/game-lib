@@ -9,7 +9,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { trpc } from "@/trpc/client";
-import { useState } from "react";
+import { useRef, useState, type TouchEvent } from "react";
 import {
   Drawer,
   DrawerBackdrop,
@@ -27,6 +27,31 @@ interface Props {
   className?: string;
   placeholder?: string;
   isInvalid?: boolean;
+}
+
+function isIOS() {
+  if (typeof navigator === "undefined") return false;
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    // iPadOS reports itself as a Mac; touch support gives it away.
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
+
+// iOS Safari scrolls/pans the page to bring a focused input into view when
+// the keyboard opens, which shoves the drawer around. Moving the input far
+// off-screen for the instant it receives focus makes Safari skip that
+// adjustment; the input is put back on the next tick.
+function focusWithoutScrollOnIOS(e: TouchEvent<HTMLInputElement>) {
+  if (!isIOS()) return;
+  const input = e.currentTarget;
+  if (document.activeElement === input) return;
+  e.preventDefault();
+  input.style.transform = "translateY(-10000px)";
+  input.focus();
+  setTimeout(() => {
+    input.style.transform = "";
+  }, 50);
 }
 
 function select(
@@ -55,6 +80,9 @@ export function PlatformSelector({
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const keyboardProxyRef = useRef<HTMLInputElement>(null);
 
   const { data: items = [] } = trpc.platform.all.useQuery(undefined, {
     staleTime: Infinity,
@@ -76,6 +104,14 @@ export function PlatformSelector({
           <DrawerTrigger
             render={
               <Button
+                ref={triggerRef}
+                onClick={() => {
+                  // iOS only opens the keyboard for focus() calls made inside
+                  // the tap itself. The search input doesn't exist yet, so
+                  // focus a hidden proxy now; when the drawer moves focus to
+                  // the real input, iOS keeps the keyboard open.
+                  if (isIOS()) keyboardProxyRef.current?.focus();
+                }}
                 variant="outline"
                 className={cn(
                   "hover:bg-background-100 dark:hover:bg-background-100 w-full justify-between text-base font-normal md:text-sm",
@@ -102,13 +138,23 @@ export function PlatformSelector({
               <X />
             </Button>
           )}
+          <input
+            ref={keyboardProxyRef}
+            aria-hidden
+            tabIndex={-1}
+            className="pointer-events-none fixed top-0 left-0 size-px text-base opacity-0"
+          />
         </div>
         <DrawerPortal data-slot="drawer-portal">
           <DrawerBackdrop />
           <DrawerPrimitive.Viewport className="fixed inset-0 z-[60] flex items-end justify-center">
             <DrawerPrimitive.Popup
+              initialFocus={searchInputRef}
+              // Return focus to the trigger, never the keyboard proxy (which
+              // would re-open the iOS keyboard on close).
+              finalFocus={triggerRef}
               data-slot="drawer-popup"
-              className="bg-background-100 -mb-12 h-[calc(80vh+3rem)] w-full transform-[translateY(var(--drawer-swipe-movement-y))] touch-auto overflow-y-auto overscroll-contain rounded-t-md border-t pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:transform-[translateY(calc(100%-3rem+2px))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] data-starting-style:transform-[translateY(calc(100%-3rem+2px))] data-swiping:select-none"
+              className="bg-background-100 -mb-12 h-[calc(80dvh+3rem)] w-full transform-[translateY(var(--drawer-swipe-movement-y))] touch-auto overflow-y-auto overscroll-contain rounded-t-md border-t pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:transform-[translateY(calc(100%-3rem+2px))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] data-starting-style:transform-[translateY(calc(100%-3rem+2px))] data-swiping:select-none"
             >
               <DrawerPrimitive.Content
                 data-slot="drawer-content"
@@ -127,10 +173,12 @@ export function PlatformSelector({
                   open={open}
                 >
                   <ComboboxPrimitive.Input
-                    className="bg-background-100 sticky top-0 z-10 h-12 w-full rounded-none border-0 border-b px-4 font-normal focus-visible:outline-none"
+                    ref={searchInputRef}
+                    className="bg-background-100 sticky top-0 z-10 h-12 w-full rounded-none border-0 border-b px-4 text-base font-normal focus-visible:outline-none"
                     placeholder="Search..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
+                    onTouchEnd={focusWithoutScrollOnIOS}
                     aria-invalid={isInvalid}
                   />
                   <div className="flex flex-col py-2">

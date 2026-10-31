@@ -56,7 +56,7 @@ function DrawerContent({
       <DrawerPrimitive.Viewport className="fixed inset-0 z-[60] flex items-end justify-center">
         <DrawerPrimitive.Popup
           data-slot="drawer-popup"
-          className="bg-background-100 -mb-12 max-h-[calc(80vh+3rem)] w-full transform-[translateY(var(--drawer-swipe-movement-y))] touch-auto overflow-y-auto overscroll-contain rounded-t-md border-t px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:transform-[translateY(calc(100%-3rem+2px))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] data-starting-style:transform-[translateY(calc(100%-3rem+2px))] data-swiping:select-none"
+          className="bg-background-100 -mb-12 max-h-[calc(80dvh+3rem)] w-full transform-[translateY(var(--drawer-swipe-movement-y))] touch-auto overflow-y-auto overscroll-contain rounded-t-md border-t px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:transform-[translateY(calc(100%-3rem+2px))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] data-starting-style:transform-[translateY(calc(100%-3rem+2px))] data-swiping:select-none"
         >
           <div className="bg-muted mx-auto mb-4 h-1 w-12 rounded-full" />
           <DrawerPrimitive.Content
