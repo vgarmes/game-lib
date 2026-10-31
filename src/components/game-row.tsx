@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CoverFallback } from "./cover-fallback";
 import { Badge } from "@/components/ui/badge";
 import { Stars } from "@/components/stars";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,12 +30,17 @@ export function GameRow({
     >
       <div className="flex items-center gap-4 overflow-hidden">
         <div className="relative size-12 shrink-0 overflow-hidden rounded">
-          <Image
-            alt={game.title}
-            src={game.cover?.secureUrl ?? "/placeholder.png"}
-            fill
-            className="h-full w-full rounded object-cover"
-          />
+          {game.cover ? (
+            <Image
+              alt={game.title}
+              src={game.cover.secureUrl}
+              fill
+              sizes="48px"
+              className="h-full w-full rounded object-cover"
+            />
+          ) : (
+            <CoverFallback title={game.title} />
+          )}
         </div>
 
         <div className="flex flex-col gap-2 overflow-hidden">

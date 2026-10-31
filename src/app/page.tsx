@@ -7,6 +7,7 @@ import { SnippetGrid } from "@/components/snippets/snippet-grid";
 import { GameRollCard } from "@/components/snippets/game-roll-card";
 import { NowPlayingCard } from "@/components/snippets/now-playing-card";
 import { GamesTableCard } from "@/components/snippets/games-table-card";
+import { CoverStripCard } from "@/components/snippets/cover-strip-card";
 
 export default async function HomePage() {
   const [finishedGames, addedGames, rollGames, playingGames] =
@@ -23,11 +24,10 @@ export default async function HomePage() {
         take: 20,
       }),
       prisma.game.findMany({
-        include: {
-          cover: {
-            select: { id: true, secureUrl: true, width: true, height: true },
-          },
-          platform: { select: { id: true, name: true } },
+        select: {
+          id: true,
+          title: true,
+          cover: { select: { secureUrl: true } },
         },
         orderBy: { createdAt: "desc" },
         take: 10,
@@ -84,7 +84,7 @@ export default async function HomePage() {
           />
         </div>
         <div className="[grid-area:added]">
-          <GamesTableCard title="Recently added" games={addedGames} />
+          <CoverStripCard title="Recently added" games={addedGames} />
         </div>
       </SnippetGrid>
     </PageLayout>
